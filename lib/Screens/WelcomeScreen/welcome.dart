@@ -1,6 +1,6 @@
 import 'package:demo3/AddOn/outline_button.dart';
-import 'package:demo3/Screens/WelcomeScreen//buttons.dart';
-import 'package:demo3/Screens/WelcomeScreen/form.dart';
+import 'package:demo3/Screens/WelcomeScreen/Widgets/buttons.dart';
+import 'package:demo3/Screens/WelcomeScreen/Widgets/form.dart';
 import 'package:demo3/Screens/WelcomeScreen/login.dart';
 import 'package:demo3/Screens/WelcomeScreen/signup.dart';
 import 'package:flutter/cupertino.dart';

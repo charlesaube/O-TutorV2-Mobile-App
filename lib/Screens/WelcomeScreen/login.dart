@@ -2,7 +2,7 @@ import 'package:demo3/Screens/WelcomeScreen/signup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
-import 'form.dart';
+import 'Widgets/form.dart';
 
 class LoginPage extends StatefulWidget {
   @override

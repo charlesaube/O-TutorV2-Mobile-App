@@ -1,4 +1,4 @@
-import 'package:demo3/Screens/WelcomeScreen/buttons.dart';
+import 'package:demo3/Screens/WelcomeScreen/Widgets/buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +24,6 @@ class LoginFormState extends State<LoginForm> {
         children: <Widget>[
           Padding(
             child: TextFormField(
-
               decoration: new InputDecoration(
                 suffixIcon: IconButton(
                   onPressed: () => {},
@@ -56,6 +55,9 @@ class LoginFormState extends State<LoginForm> {
           ),
           Padding(
             child: TextFormField(
+              obscureText: true,
+              enableSuggestions: false,
+              autocorrect: false,
               decoration: new InputDecoration(
                 suffixIcon: IconButton(
                   onPressed: () => {},
@@ -166,7 +168,9 @@ class SignupFormState extends State<SignupForm> {
           ),
           Padding(
             child: TextFormField(
-
+              obscureText: true,
+              enableSuggestions: false,
+              autocorrect: false,
               controller: passWordController,
               decoration: new InputDecoration(
                 suffixIcon: IconButton(
@@ -200,6 +204,9 @@ class SignupFormState extends State<SignupForm> {
           ),
           Padding(
             child: TextFormField(
+              obscureText: true,
+              enableSuggestions: false,
+              autocorrect: false,
               decoration: new InputDecoration(
                 suffixIcon: IconButton(
                   onPressed: () => {},
