@@ -1,5 +1,4 @@
-import 'package:demo3/Screens/DashBoardScreen/dashboard.dart';
-import 'package:demo3/Screens/WelcomeScreen/login.dart';
+import 'package:demo3/screens/dashboard_screen/dashboard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

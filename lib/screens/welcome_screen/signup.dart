@@ -1,8 +1,8 @@
-import 'package:demo3/Screens/WelcomeScreen/login.dart';
+import 'package:demo3/screens/welcome_screen/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
-import 'Widgets/form.dart';
+import 'widgets/form.dart';
 import 'dart:math' as math;
 
 class SignupPage extends StatefulWidget {

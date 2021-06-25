@@ -1,4 +1,4 @@
-import 'package:demo3/Screens/WelcomeScreen/Widgets/buttons.dart';
+import 'package:demo3/screens/welcome_screen/widgets/buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

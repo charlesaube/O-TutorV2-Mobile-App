@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.demo3">
    <application
-        android:label="demo3"
+        android:label="O_TutorV2"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

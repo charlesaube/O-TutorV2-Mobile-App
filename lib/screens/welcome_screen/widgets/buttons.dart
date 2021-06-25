@@ -1,8 +1,8 @@
-import 'package:demo3/AddOn/outline_button.dart';
-import 'package:demo3/Screens/WelcomeScreen/login.dart';
-import 'package:demo3/Screens/WelcomeScreen/signup.dart';
+import 'package:demo3/add_on/outline_button.dart';
+import 'package:demo3/localization/app_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../signup.dart';
 
 class LoginButton extends StatelessWidget {
   final VoidCallback _callback;
@@ -50,7 +50,7 @@ class SignupButton extends StatelessWidget {
         radius: 24,
         gradient: LinearGradient(
             colors: [Color(0xffff5050), Colors.orange, Colors.orangeAccent]),
-        child: Text('Sign Up', style: TextStyle(fontSize: 13)),
+        child: Text(AppLocalizations.of(context)!.translate('Sign up').toString(), style: TextStyle(fontSize: 13)),
         onPressed: () {
           Navigator.push(
             context,

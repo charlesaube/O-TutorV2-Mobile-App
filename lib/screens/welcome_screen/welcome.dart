@@ -1,12 +1,11 @@
-import 'package:demo3/AddOn/outline_button.dart';
-import 'package:demo3/Screens/WelcomeScreen/Widgets/buttons.dart';
-import 'package:demo3/Screens/WelcomeScreen/Widgets/form.dart';
-import 'package:demo3/Screens/WelcomeScreen/login.dart';
-import 'package:demo3/Screens/WelcomeScreen/signup.dart';
+import 'package:demo3/localization/app_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 import 'dart:math' as math;
+
+import 'widgets/buttons.dart';
+import 'login.dart';
 
 class WelcomePage extends StatefulWidget {
   @override
@@ -50,7 +49,7 @@ class _WelcomePageState extends State<WelcomePage> {
                           height: 150, width: 250),
                     ),
                     LoginButton(
-                        text: "Login",
+                        text:  AppLocalizations.of(context)!.translate('Login').toString(),
                         onPressed: () {
                           Navigator.push(
                             context,
