@@ -1,5 +1,11 @@
 {
   "Login": "Login",
   "Sign up": "Sign up",
-  "Already have an Account": "Already have an Account?"
+  "Already have an account": "Already have an Account? ",
+  "Don't have an account": "Don't have an Account? ",
+  "Username": "Username",
+  "Password": "Password",
+  "Confirm Password": "Confirm Password",
+  "Is required": "is required",
+  "Passwords do not match": "Passwords do not Match"
 }

@@ -1,3 +1,4 @@
+import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/screens/welcome_screen/widgets/buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ class LoginFormState extends State<LoginForm> {
                   onPressed: () => {},
                   icon: Icon(Icons.account_circle_sharp),
                 ),
-                labelText: "Username",
+                labelText: AppLocalizations.of(context)!.translate("Username").toString(),
                 enabledBorder: const OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.orange, width: 2.0),
                 ),
@@ -45,7 +46,7 @@ class LoginFormState extends State<LoginForm> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Username Is Required';
+                  return AppLocalizations.of(context)!.translate("Username").toString() + AppLocalizations.of(context)!.translate("Is required").toString();
                 }
                 return null;
               },
@@ -63,7 +64,7 @@ class LoginFormState extends State<LoginForm> {
                   onPressed: () => {},
                   icon: Icon(Icons.lock),
                 ),
-                labelText: "Password",
+                labelText: AppLocalizations.of(context)!.translate("Password").toString(),
                 enabledBorder: const OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.orange, width: 2.0),
                 ),
@@ -80,7 +81,7 @@ class LoginFormState extends State<LoginForm> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Password Is Required';
+                  return AppLocalizations.of(context)!.translate("Password").toString() + AppLocalizations.of(context)!.translate("Is required").toString();
                 }
                 return null;
               },
@@ -92,7 +93,7 @@ class LoginFormState extends State<LoginForm> {
             padding:
                 const EdgeInsets.symmetric(vertical: 16.0, horizontal: 15.0),
             child: LoginButton(
-              text: "Login",
+              text:  AppLocalizations.of(context)!.translate("Login").toString(),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   ScaffoldMessenger.of(context)
@@ -142,7 +143,7 @@ class SignupFormState extends State<SignupForm> {
                   onPressed: () => {},
                   icon: Icon(Icons.account_circle_sharp),
                 ),
-                labelText: "Username",
+                labelText:AppLocalizations.of(context)!.translate("Username").toString(),
                 enabledBorder: const OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.orange, width: 2.0),
                 ),
@@ -158,7 +159,7 @@ class SignupFormState extends State<SignupForm> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Username Is Required';
+                  return AppLocalizations.of(context)!.translate("Username").toString() + AppLocalizations.of(context)!.translate("Is required").toString();
                 }
                 return null;
               },
@@ -177,7 +178,7 @@ class SignupFormState extends State<SignupForm> {
                   onPressed: () => {},
                   icon: Icon(Icons.lock),
                 ),
-                labelText: "Password",
+                labelText: AppLocalizations.of(context)!.translate("Password").toString(),
                 enabledBorder: const OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.orange, width: 2.0),
                 ),
@@ -194,7 +195,7 @@ class SignupFormState extends State<SignupForm> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Password Is Required';
+                  return AppLocalizations.of(context)!.translate("Password").toString() + AppLocalizations.of(context)!.translate("Is required").toString();
                 }
                 return null;
               },
@@ -212,7 +213,7 @@ class SignupFormState extends State<SignupForm> {
                   onPressed: () => {},
                   icon: Icon(Icons.lock),
                 ),
-                labelText: "Confirm Password",
+                labelText: AppLocalizations.of(context)!.translate("Confirm Password").toString(),
                 enabledBorder: const OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.orange, width: 2.0),
                 ),
@@ -229,9 +230,9 @@ class SignupFormState extends State<SignupForm> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Password Is Required';
+                  return AppLocalizations.of(context)!.translate("Password").toString() + AppLocalizations.of(context)!.translate("Is required").toString();
                 }else if(value !=  passWordController.text){
-                  return 'Password do not match';
+                  return AppLocalizations.of(context)!.translate("Passwords do not match").toString();
                 }
                 return null;
               },
@@ -243,7 +244,7 @@ class SignupFormState extends State<SignupForm> {
             padding:
             const EdgeInsets.symmetric(vertical: 16.0, horizontal: 15.0),
             child: LoginButton(
-              text: "Sign up",
+              text: AppLocalizations.of(context)!.translate("Login").toString(),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   ScaffoldMessenger.of(context)

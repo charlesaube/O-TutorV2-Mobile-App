@@ -1,3 +1,4 @@
+import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/screens/welcome_screen/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +53,7 @@ class _SignupPageState extends State<SignupPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Text("Already Have an Account? "),
+                      Text(AppLocalizations.of(context)!.translate('Already have an account').toString()) ,
                       new InkWell(
                         onTap: () {
                           Navigator.push(
@@ -63,7 +64,7 @@ class _SignupPageState extends State<SignupPage> {
                         child: Padding(
                             padding: EdgeInsets.all(0.0),
                             child: new Text(
-                              "Login!",
+                              AppLocalizations.of(context)!.translate('Login').toString() + " !",
                               style: TextStyle(color: Colors.deepOrangeAccent),
                             )),
                       ),

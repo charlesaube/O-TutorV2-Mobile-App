@@ -1,4 +1,11 @@
 {
   "Login": "Se connecter",
-  "Sign up": "S'inscrire"
+  "Sign up": "S'inscrire",
+  "Already have an account": "Vous avez déja un compte? ",
+  "Don't have an account": "Vous n'avez pas de compte? ",
+  "Username": "Utilisateur",
+  "Password": "Mot de passe",
+  "Confirm Password": "Confirmez mot de passe",
+  "Is required": " invalide",
+  "Passwords do not match": "Les mots de passes sont différents"
 }
