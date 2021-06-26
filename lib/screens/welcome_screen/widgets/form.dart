@@ -244,7 +244,7 @@ class SignupFormState extends State<SignupForm> {
             padding:
             const EdgeInsets.symmetric(vertical: 16.0, horizontal: 15.0),
             child: LoginButton(
-              text: AppLocalizations.of(context)!.translate("Login").toString(),
+              text: AppLocalizations.of(context)!.translate("Sign up").toString(),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   ScaffoldMessenger.of(context)
