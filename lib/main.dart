@@ -1,3 +1,4 @@
+import 'package:demo3/services/authentication_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -5,6 +6,8 @@ import 'Screens/welcome_screen/welcome.dart';
 import 'localization/app_localizations.dart';
 
 void main() {
+  final authenticationService = AuthenticationService();
+  print(authenticationService.authentication("s", "password"));
   runApp(MyApp());
 }
 
