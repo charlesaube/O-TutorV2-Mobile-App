@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import '../globals.dart' as globals;
 
 class AuthenticationService {
-  String url = "https://jsonplaceholder.typicode.com/albums/1";
-
+  String url = globals.Globals.ApiUrl;
 
   Future<http.Response> authentication(String username, String password ) async{
     final response = await http.get(Uri.parse(url),
