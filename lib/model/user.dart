@@ -1,25 +1,25 @@
 class User {
-  final String browser;
-  final int Id;
-  final String username;
-  final String Password;
-  final String firstName;
-  final String LastName;
-  final String email;
-  final String picture;
-  final String folder;
-  final int registrationDate;
-  final int lastLogin;
-  final String affiliation;
-  final String country;
-  final String provState;
-  final String city;
-  final int nbConnect;
-  final String ip_address;
-  final String profile;
-  final String logStatus;
-  final int idCategory;
-  final String office;
+   String browser;
+   int Id;
+   String username;
+   String Password;
+   String firstName;
+   String LastName;
+   String email;
+   String picture;
+   String folder;
+   int registrationDate;
+   int lastLogin;
+   String affiliation;
+   String country;
+   String provState;
+   String city;
+   int nbConnect;
+   String ip_address;
+   String profile;
+   String logStatus;
+   int idCategory;
+   String office;
 
   User({
     required this.browser,
@@ -70,5 +70,4 @@ class User {
       office: json['office'] as String,
     );
   }
-
 }
