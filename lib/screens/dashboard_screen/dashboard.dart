@@ -1,12 +1,12 @@
 import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/screens/dashboard_screen/widgets/custom_container.dart';
+import 'package:demo3/screens/dashboard_screen/widgets/dashboard_quiz_list.dart';
 import 'package:demo3/screens/dashboard_screen/widgets/dashboard_title.dart';
 import 'package:demo3/screens/dashboard_screen/widgets/header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DashboardPage extends StatefulWidget {
-
   @override
   DashboardSate createState() {
     return DashboardSate();
@@ -14,7 +14,6 @@ class DashboardPage extends StatefulWidget {
 }
 
 class DashboardSate extends State<DashboardPage> {
-  List<String> litems = ["1", "2", "Third", "4","5"];
 
   @override
   Widget build(BuildContext context) {
@@ -40,25 +39,7 @@ class DashboardSate extends State<DashboardPage> {
                           left: 0,
                           right: 0.0,
                           bottom: 0.0,
-                          child: (Container(
-
-                            child: MediaQuery.removePadding(
-                              context: context,
-                              removeTop: true,
-                              child: ListView.builder(
-                                itemCount: litems.length,
-                                itemBuilder: (
-                                  BuildContext context,
-                                  int index,
-                                ) {
-                                  return Container(
-                                      height: 20,
-                                      color: Colors.amber,
-                                      child: Text(litems[index]));
-                                },
-                              ),
-                            ),
-                          )),
+                          child: (DashboardQuizList())
                         ),
                       ],
                     ),

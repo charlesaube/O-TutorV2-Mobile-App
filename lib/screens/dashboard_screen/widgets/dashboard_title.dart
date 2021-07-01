@@ -13,7 +13,7 @@ class DashboardTitle extends StatelessWidget {
         margin: EdgeInsets.all(10),
         child: Text(
       _text,
-      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+      style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold, color: Colors.white),
     ));
   }
 }

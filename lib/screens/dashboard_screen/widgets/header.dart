@@ -13,7 +13,12 @@ class Header extends StatelessWidget {
         ),
         ClipRRect(
           borderRadius: BorderRadius.circular(100),
-          child: Image.asset('assets/pdp.jpg', height: 50, width: 50,fit: BoxFit.fill,),
+          child: Image.asset(
+            'assets/pdp.jpg',
+            height: 50,
+            width: 50,
+            fit: BoxFit.fill,
+          ),
         ),
       ]),
     );
