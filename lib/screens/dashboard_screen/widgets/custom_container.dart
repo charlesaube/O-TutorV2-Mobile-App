@@ -12,10 +12,10 @@ class CustomContainer extends StatelessWidget {
     return Container(
       margin: EdgeInsets.all(15),
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height/6,
+      height: MediaQuery.of(context).size.height/5,
 
       decoration: BoxDecoration(
-          color: Colors.lightBlue.shade100,
+          color: Colors.lightBlue.shade200,
         borderRadius: BorderRadius.circular(10),
       ),
       child: _child,
