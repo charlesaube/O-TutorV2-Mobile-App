@@ -7,5 +7,10 @@
   "Password": "Password",
   "Confirm Password": "Confirm Password",
   "Is required": "is required",
-  "Passwords do not match": "Passwords do not Match"
+  "Passwords do not match": "Passwords do not Match",
+  "Navbar Dashboard": "Dashboard",
+  "Navbar Settings": "Settings",
+  "Navbar Forum": "Forum",
+  "Navbar Quizzes": "Quizzes"
+
 }

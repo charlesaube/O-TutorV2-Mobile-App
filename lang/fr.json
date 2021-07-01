@@ -7,5 +7,9 @@
   "Password": "Mot de passe",
   "Confirm Password": "Confirmez mot de passe",
   "Is required": " invalide",
-  "Passwords do not match": "Les mots de passes sont différents"
+  "Passwords do not match": "Les mots de passes sont différents",
+  "Navbar Dashboard": "Home",
+  "Navbar Settings": "Paramètres",
+  "Navbar Forum": "Forum",
+  "Navbar Quizzes": "Quiz"
 }

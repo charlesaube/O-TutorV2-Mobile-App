@@ -1,4 +1,8 @@
+import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/screens/dashboard_screen/dashboard.dart';
+import 'package:demo3/screens/forum/forum.dart';
+import 'package:demo3/screens/quiz/quiz.dart';
+import 'package:demo3/screens/settings/settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +18,9 @@ class NavBarState extends State<NavBar> {
 
   final tabs = [
     Center(child: DashboardPage()),
-    Center(child: Text("allo3")),
+    Center(child: QuizPage()),
+    Center(child: ForumPage()),
+    Center(child: SettingsPage()),
   ];
 
   void _onItemTapped(int index) {
@@ -28,19 +34,25 @@ class NavBarState extends State<NavBar> {
     return Scaffold(
       body: tabs[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        type: BottomNavigationBarType.fixed,
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Browse',
+            label: AppLocalizations.of(context)!.translate("Navbar Dashboard").toString(),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.school),
-            label: 'My Quizzes',
+            label: AppLocalizations.of(context)!.translate("Navbar Quizzes").toString(),
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people),
+            label: AppLocalizations.of(context)!.translate("Navbar Forum").toString(),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: AppLocalizations.of(context)!.translate("Navbar Settings").toString(),
+          ),
+
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800],

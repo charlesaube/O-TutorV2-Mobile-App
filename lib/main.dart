@@ -1,4 +1,5 @@
-import 'package:demo3/services/authentication_service.dart';
+import 'package:demo3/screens/navigation/navbar.dart';
+import 'package:demo3/services/Impl/authentication_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
 
         primarySwatch: Colors.blue,
       ),
-      home: WelcomePage(),
+      home: NavBar(),
       debugShowCheckedModeBanner: false,
     );
   }
