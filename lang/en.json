@@ -13,5 +13,7 @@
   "Navbar Forum": "Forum",
   "Quizzes": "Quizzes",
   "Dashboard Statistics": "Statistics",
-  "Weekly Goal": "Weekly Goal"
+  "Weekly Goal": "Weekly Goal",
+  "Weekly Goal Sentence1": "You have accomplished ",
+  "Weekly Goal Sentence2": "quiz of "
 }
