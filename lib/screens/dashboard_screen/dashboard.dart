@@ -93,12 +93,15 @@ class DashboardSate extends State<DashboardPage> {
                                 left: 190,
                                 right: 0,
                                 bottom: 0.0,
-                                child: Text(AppLocalizations.of(context)!
-                                        .translate('Weekly Goal Sentence1')
-                                        .toString() +
-                                    AppLocalizations.of(context)!
-                                        .translate('Weekly Goal Sentence2')
-                                        .toString()),
+                                child: Text(
+                                  AppLocalizations.of(context)!
+                                          .translate('Weekly Goal Sentence1')
+                                          .toString() + "4 " +
+                                      AppLocalizations.of(context)!
+                                          .translate('Weekly Goal Sentence2')
+                                          .toString() + "6",
+                                  style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
+                                ),
                               )
                             ],
                           ),

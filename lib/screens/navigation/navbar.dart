@@ -1,6 +1,7 @@
 import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/screens/dashboard_screen/dashboard.dart';
 import 'package:demo3/screens/forum/forum.dart';
+import 'package:demo3/screens/quiz/browse_category.dart';
 import 'package:demo3/screens/quiz/quiz.dart';
 import 'package:demo3/screens/settings/settings.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,7 +19,7 @@ class NavBarState extends State<NavBar> {
 
   final tabs = [
     Center(child: DashboardPage()),
-    Center(child: QuizPage()),
+    Center(child: BrowseCategoryPage()),
     Center(child: ForumPage()),
     Center(child: SettingsPage()),
   ];
