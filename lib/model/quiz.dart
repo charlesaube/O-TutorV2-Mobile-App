@@ -20,7 +20,7 @@ class Quiz {
   late int modified;
   late String difficulty;
 
-  Quiz.basic(this.title, this.difficulty);
+  Quiz.basic(this.title, this.difficulty, this.id);
 
   Quiz(
       {required this.id,

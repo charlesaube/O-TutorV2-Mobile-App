@@ -24,9 +24,11 @@ class CategoryListContainer extends StatelessWidget {
             children: <Widget>[
               Text(
                 _icon,
-                style: TextStyle(fontFamily: 'MaterialIcons', fontSize: 32, color: Colors.white),
+                style: TextStyle(
+                    fontFamily: 'MaterialIcons',
+                    fontSize: 32,
+                    color: Colors.white),
               ),
-
               Text(" " + _title,
                   style: TextStyle(color: Colors.white, fontSize: 20)),
             ],
@@ -103,8 +105,8 @@ class BaseContainer extends StatelessWidget {
               bottomRight: Radius.circular(10)),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 5,
+              color: Colors.indigo.withOpacity(0.5),
+              spreadRadius: 2,
               blurRadius: 7,
               offset: Offset(0, 3), // changes position of shadow
             ),

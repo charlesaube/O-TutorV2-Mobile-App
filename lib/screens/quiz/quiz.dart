@@ -1,14 +1,15 @@
+import 'package:demo3/model/quiz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class QuizPage extends StatefulWidget {
-  @override
-  _QuizState createState() {
-    return _QuizState();
-  }
-}
+class QuizPage extends StatelessWidget {
+  final Quiz quiz;
 
-class _QuizState extends State<QuizPage> {
+  QuizPage({
+    Key? key,
+    required this.quiz,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,4 +18,5 @@ class _QuizState extends State<QuizPage> {
       ),
     );
   }
+
 }

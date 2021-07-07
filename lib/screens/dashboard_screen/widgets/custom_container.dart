@@ -17,6 +17,14 @@ class CustomContainer extends StatelessWidget {
       decoration: BoxDecoration(
           color: Colors.lightBlue.shade200,
         borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.indigo.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 7,
+            offset: Offset(0, 3), // changes position of shadow
+          ),
+        ],
       ),
       child: _child,
 
