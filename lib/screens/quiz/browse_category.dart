@@ -45,7 +45,9 @@ class _BrowseCategoryState extends State<BrowseCategoryPage> {
                             );
                           },
                           child: CategoryListContainer(
-                              categoryService.getAllCategory()[index].name));
+                              categoryService.getAllCategory()[index].name, categoryService.getAllCategory()[index].icon),
+
+                      );
                     },
                   ),
                 ],

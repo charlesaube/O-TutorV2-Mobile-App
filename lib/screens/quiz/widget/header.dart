@@ -23,8 +23,8 @@ class HeaderCategory extends StatelessWidget {
         if (_title == "Quiz")
           TextButton(
             child: Text(
-              'Back',
-              style: TextStyle(color: Colors.black, fontSize: 17),
+              AppLocalizations.of(context)!.translate("Back").toString(),
+              style: TextStyle(color: Colors.grey, fontSize: 17),
             ),
             onPressed: () {
               Navigator.pop(context);

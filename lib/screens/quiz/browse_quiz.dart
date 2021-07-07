@@ -37,9 +37,10 @@ class BrowseQuizPage extends StatelessWidget {
                             print(_quizService.getQuizByCategory(
                                 category.name)[index].title);
                           },
-                          child: CategoryListContainer(
+                          child: QuizListContainer(_quizService.getQuizByCategory(
+                              category.name)[index].title,
                               _quizService.getQuizByCategory(
-                                  category.name)[index].title)
+                                  category.name)[index].difficulty)
                       );
                     },
                   ),

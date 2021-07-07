@@ -32,77 +32,88 @@ class DashboardSate extends State<DashboardPage> {
             Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.93,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Header(),
-                  CustomContainer(
-                    Stack(
-                      children: <Widget>[
+              child: Stack(
+                children: <Widget>[
+                  Container(width: 300.0,
+                    height: 300.0,
+                    decoration: new BoxDecoration(
+                      color: Colors.blue,
+                      shape: BoxShape.circle,
+                    ),),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Header(),
+                      CustomContainer(
+                        Stack(
+                          children: <Widget>[
+                            DashboardTitle(AppLocalizations.of(context)!
+                                .translate('Quizzes')
+                                .toString()),
+                            Positioned(
+                                top: 50.0,
+                                left: 0,
+                                right: 0.0,
+                                bottom: 0.0,
+                                child: (DashboardQuizList())),
+                          ],
+                        ),
+                      ),
+                      CustomContainer(
                         DashboardTitle(AppLocalizations.of(context)!
-                            .translate('Quizzes')
+                            .translate('Dashboard Statistics')
                             .toString()),
-                        Positioned(
-                            top: 50.0,
-                            left: 0,
-                            right: 0.0,
-                            bottom: 0.0,
-                            child: (DashboardQuizList())),
-                      ],
-                    ),
-                  ),
-                  CustomContainer(
-                    DashboardTitle(AppLocalizations.of(context)!
-                        .translate('Dashboard Statistics')
-                        .toString()),
-                  ),
-                  CustomContainer(
-                    Stack(
-                      children: <Widget>[
-                        DashboardTitle(AppLocalizations.of(context)!
-                            .translate('Weekly Goal')
-                            .toString()),
-                        Container(
-                          margin: EdgeInsets.only(top: 50, right: 15, left: 15),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              CircularPercentIndicator(
-                                radius: 80.0,
-                                lineWidth: 8.0,
-                                percent: userService.getWeeklyGoal(),
-                                backgroundColor: Colors.lightBlue.shade500,
-                                center: new Text(
-                                  (userService.getWeeklyGoal() * 100)
+                      ),
+                      CustomContainer(
+                        Stack(
+                          children: <Widget>[
+                            DashboardTitle(AppLocalizations.of(context)!
+                                .translate('Weekly Goal')
+                                .toString()),
+                            Container(
+                              margin: EdgeInsets.only(top: 50, right: 15, left: 15),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  CircularPercentIndicator(
+                                    radius: 80.0,
+                                    lineWidth: 8.0,
+                                    percent: userService.getWeeklyGoal(),
+                                    backgroundColor: Colors.lightBlue.shade500,
+                                    center: new Text(
+                                      (userService.getWeeklyGoal() * 100)
                                           .toString() +
-                                      "%",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                progressColor: Colors.orangeAccent,
-                              ),
-                              Text(
-                                AppLocalizations.of(context)!
+                                          "%",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    progressColor: Colors.orangeAccent,
+                                  ),
+                                  Text(
+                                    AppLocalizations.of(context)!
                                         .translate('Weekly Goal Sentence1')
                                         .toString() +
-                                    "4 " +
-                                    AppLocalizations.of(context)!
-                                        .translate('Weekly Goal Sentence2')
-                                        .toString() +
-                                    "6",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold),
+                                        "4 " +
+                                        AppLocalizations.of(context)!
+                                            .translate('Weekly Goal Sentence2')
+                                            .toString() +
+                                        "6",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
+
               ),
             ),
           ],

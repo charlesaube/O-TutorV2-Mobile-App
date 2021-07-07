@@ -4,13 +4,13 @@ class CategoryService {
   CategoryService();
 
   List<Category> getAllCategory() {
-    Category c1 = new Category.basic("Physique");
-    Category c2 = new Category.basic("Mathématique");
-    Category c3 = new Category.basic("Science");
-    Category c4 = new Category.basic("Histoire");
-    Category c5 = new Category.basic("Art");
-    Category c6 = new Category.basic("Chimie");
-    Category c7 = new Category.basic("Informatique");
+    Category c1 = new Category.basic("Psychologie", "psychology_sharp");
+    Category c2 = new Category.basic("Mathématique", "moving_sharp");
+    Category c3 = new Category.basic("Science","biotech");
+    Category c4 = new Category.basic("Histoire","public");
+    Category c5 = new Category.basic("Art","theater_comedy_rounded");
+    Category c6 = new Category.basic("Chimie","science");
+    Category c7 = new Category.basic("Informatique","laptop");
 
     List<Category> courseList = [];
     courseList.add(c1);

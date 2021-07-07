@@ -18,8 +18,9 @@ class Quiz {
   late int addedBy;
   late int created;
   late int modified;
+  late String difficulty;
 
-  Quiz.basic(this.title);
+  Quiz.basic(this.title, this.difficulty);
 
   Quiz(
       {required this.id,
@@ -40,7 +41,8 @@ class Quiz {
       required this.status,
       required this.addedBy,
       required this.created,
-      required this.modified});
+      required this.modified,
+      required this.difficulty});
 
   factory Quiz.fromJson(Map<String, dynamic> json) {
     return Quiz(
@@ -63,6 +65,7 @@ class Quiz {
       addedBy: json["added_by"],
       created: json["created"],
       modified: json["modified"],
+      difficulty: json["difficulty"]
     );
   }
 }
