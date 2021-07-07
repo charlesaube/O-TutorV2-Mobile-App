@@ -53,19 +53,18 @@ class BrowseQuizPage extends StatelessWidget {
                             ) {
                               return GestureDetector(
                                   onTap: () {
-                                    print(_quizService
-                                        .getQuizByCategory(category.name)[index]
-                                        .title);
                                     Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => QuizPage(
-                                                quiz: _quizService.getQuizById(
-                                                    _quizService
-                                                        .getQuizByCategory(
-                                                            category
-                                                                .name)[index]
-                                                        .id))));
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => QuizPage(
+                                          quiz: _quizService.getQuizById(
+                                              _quizService
+                                                  .getQuizByCategory(
+                                                      category.name)[index]
+                                                  .id),
+                                        ),
+                                      ),
+                                    );
                                   },
                                   child: QuizListContainer(
                                       _quizService

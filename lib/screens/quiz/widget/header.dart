@@ -15,22 +15,28 @@ class HeaderCategory extends StatelessWidget {
         right: 17,
         left: 17,
       ),
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(
-          AppLocalizations.of(context)!.translate(_title).toString(),
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.white),
-        ),
-        if (_title == "Quiz")
-          TextButton(
-            child: Text(
-              AppLocalizations.of(context)!.translate("Back").toString(),
-              style: TextStyle(color: Colors.blueAccent.shade700, fontSize: 17),
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              AppLocalizations.of(context)!.translate(_title).toString(),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
+                  color: Colors.white),
             ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-      ]),
+            if (_title == "Quiz")
+              TextButton(
+                child: Text(
+                  AppLocalizations.of(context)!.translate("Back").toString(),
+                  style: TextStyle(
+                      color: Colors.blueAccent.shade700, fontSize: 17),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+          ]),
     );
   }
 }
