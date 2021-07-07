@@ -2,7 +2,7 @@ import 'package:demo3/model/user.dart';
 
 class UserService{
 
-  UserService(){}
+  UserService();
     getWeeklyGoal(){
       return 0.8;
     }

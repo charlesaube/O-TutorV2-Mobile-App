@@ -67,42 +67,35 @@ class DashboardSate extends State<DashboardPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Positioned(
-                                top: 35.0,
-                                left: 0,
-                                right: 260.0,
-                                bottom: 0.0,
-                                child: CircularPercentIndicator(
-                                  radius: 80.0,
-                                  lineWidth: 8.0,
-                                  percent: userService.getWeeklyGoal(),
-                                  backgroundColor: Colors.lightBlue.shade500,
-                                  center: new Text(
-                                    (userService.getWeeklyGoal() * 100)
-                                            .toString() +
-                                        "%",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  progressColor: Colors.orangeAccent,
+                              CircularPercentIndicator(
+                                radius: 80.0,
+                                lineWidth: 8.0,
+                                percent: userService.getWeeklyGoal(),
+                                backgroundColor: Colors.lightBlue.shade500,
+                                center: new Text(
+                                  (userService.getWeeklyGoal() * 100)
+                                          .toString() +
+                                      "%",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
                                 ),
+                                progressColor: Colors.orangeAccent,
                               ),
-                              Positioned(
-                                top: 57.0,
-                                left: 190,
-                                right: 0,
-                                bottom: 0.0,
-                                child: Text(
-                                  AppLocalizations.of(context)!
-                                          .translate('Weekly Goal Sentence1')
-                                          .toString() + "4 " +
-                                      AppLocalizations.of(context)!
-                                          .translate('Weekly Goal Sentence2')
-                                          .toString() + "6",
-                                  style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
-                                ),
-                              )
+                              Text(
+                                AppLocalizations.of(context)!
+                                        .translate('Weekly Goal Sentence1')
+                                        .toString() +
+                                    "4 " +
+                                    AppLocalizations.of(context)!
+                                        .translate('Weekly Goal Sentence2')
+                                        .toString() +
+                                    "6",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ],
                           ),
                         ),

@@ -1,23 +1,25 @@
 class Quiz {
-  int id;
-  String title;
-  int type;
-  int courseId;
-  String courseName;
-  int questionPage;
-  int attemptsCount;
-  bool randomQuestions;
-  bool randomChoices;
-  bool showGrade;
-  bool showCorrection;
-  int timelimit;
-  bool isQuizbank;
-  int noOfQuestions;
-  String instructions;
-  String status;
-  int addedBy;
-  int created;
-  int modified;
+  late int id;
+  late String title;
+  late int type;
+  late int courseId;
+  late String courseName;
+  late int questionPage;
+  late int attemptsCount;
+  late bool randomQuestions;
+  late bool randomChoices;
+  late bool showGrade;
+  late bool showCorrection;
+  late int timelimit;
+  late bool isQuizbank;
+  late int noOfQuestions;
+  late String instructions;
+  late String status;
+  late int addedBy;
+  late int created;
+  late int modified;
+
+  Quiz.basic(this.title);
 
   Quiz(
       {required this.id,
@@ -63,6 +65,4 @@ class Quiz {
       modified: json["modified"],
     );
   }
-
-
 }
