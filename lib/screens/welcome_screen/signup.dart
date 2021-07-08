@@ -56,10 +56,10 @@ class _SignupPageState extends State<SignupPage> {
                       Text(AppLocalizations.of(context)!.translate('Already have an account').toString()) ,
                       new InkWell(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginPage()));
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => LoginPage()));
                         },
                         child: Padding(
                             padding: EdgeInsets.all(0.0),
