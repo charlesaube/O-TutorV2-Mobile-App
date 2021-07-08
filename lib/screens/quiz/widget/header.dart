@@ -30,7 +30,7 @@ class HeaderCategory extends StatelessWidget {
                 child: Text(
                   AppLocalizations.of(context)!.translate("Back").toString(),
                   style: TextStyle(
-                      color: Colors.blueAccent.shade700, fontSize: 17),
+                      color: Colors.white, fontSize: 17),
                 ),
                 onPressed: () {
                   Navigator.pop(context);
