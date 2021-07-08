@@ -70,7 +70,7 @@ class _QuizState extends State<QuizPage> {
               Row(
                 children: [
                   IconButton(
-                    padding: EdgeInsets.only(top: 40),
+                    padding: EdgeInsets.only(top: 40, left: 20),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -103,9 +103,10 @@ class _QuizState extends State<QuizPage> {
                             BuildContext context,
                             int index,
                           ) {
+                            //Change la couleur du container Clické ------------------------
                             print(_clicked);
-                            _colorContainer = Colors.white;
-                            if(index == _clicked)
+                            _colorContainer = Colors.grey.shade200;
+                            if (index == _clicked)
                               _colorContainer = Colors.lightBlue;
 
                             return Container(
@@ -113,7 +114,8 @@ class _QuizState extends State<QuizPage> {
                               margin: EdgeInsets.all(15),
                               child: Card(
                                 shape: RoundedRectangleBorder(
-                                  side: BorderSide(color: _colorContainer, width: 1),
+                                  side: BorderSide(
+                                      color: _colorContainer, width: 2),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 elevation: 6,
@@ -140,9 +142,7 @@ class _QuizState extends State<QuizPage> {
                                   ),
                                 ),
                               ),
-
                             );
-
                           },
                         ),
                       ),
@@ -154,13 +154,15 @@ class _QuizState extends State<QuizPage> {
                 decoration: BoxDecoration(
                   color: Colors.lightBlue,
                   borderRadius: BorderRadius.all(Radius.circular(90)),
-
                 ),
-
                 margin: EdgeInsets.all(40),
                 padding: EdgeInsets.only(left: 40, right: 40),
                 child: TextButton(
-                  child: Text("Next", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 17)),
+                  child: Text("Next",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 17)),
                   onPressed: () {
                     _clicked = -1;
                     _answerQuestion();
@@ -168,7 +170,6 @@ class _QuizState extends State<QuizPage> {
                 ),
               ),
               Spacer(flex: 3),
-              
             ],
           ),
         ],
