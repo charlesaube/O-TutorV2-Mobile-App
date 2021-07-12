@@ -1,9 +1,10 @@
+import 'package:demo3/network/services/Impl/category_service.dart';
+import 'package:demo3/network/services/service_providers/service_provider.dart';
 import 'package:demo3/screens/quiz/browse_quiz.dart';
 import 'package:demo3/custom_painter/bg_circles.dart';
 import 'package:demo3/screens/quiz/widget/header.dart';
 import 'package:demo3/screens/quiz/widget/list_container.dart';
-import 'package:demo3/services/Impl/category_service.dart';
-import 'package:demo3/services/service_providers/service_provider.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

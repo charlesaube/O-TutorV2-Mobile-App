@@ -1,11 +1,12 @@
 import 'package:demo3/localization/app_localizations.dart';
+import 'package:demo3/network/services/Impl/user_service.dart';
+import 'package:demo3/network/services/service_providers/service_provider.dart';
 import 'package:demo3/screens/dashboard_screen/widgets/custom_container.dart';
 import 'package:demo3/screens/dashboard_screen/widgets/dashboard_quiz_list.dart';
 import 'package:demo3/screens/dashboard_screen/widgets/dashboard_title.dart';
 import 'package:demo3/screens/dashboard_screen/widgets/header.dart';
 import 'package:demo3/custom_painter/bg_circles.dart';
-import 'package:demo3/services/Impl/user_service.dart';
-import 'package:demo3/services/service_providers/service_provider.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';

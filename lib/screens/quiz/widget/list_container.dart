@@ -1,10 +1,8 @@
-import 'package:demo3/model/quiz.dart';
-import 'package:demo3/services/Impl/category_service.dart';
-import 'package:demo3/services/Impl/quiz_service.dart';
-import 'package:demo3/services/service_providers/service_provider.dart';
+import 'package:demo3/network/services/Impl/category_service.dart';
+import 'package:demo3/network/services/Impl/quiz_service.dart';
+import 'package:demo3/network/services/service_providers/service_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CategoryListContainer extends StatelessWidget {
   final String _title;

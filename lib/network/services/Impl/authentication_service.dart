@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import '../../globals.dart' as globals;
+import '/../../globals.dart' as globals;
 
 class AuthenticationService {
   String url = globals.Globals.ApiUrl;

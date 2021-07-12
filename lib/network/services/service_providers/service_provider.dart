@@ -1,8 +1,10 @@
-import 'package:demo3/services/Impl/answer_service.dart';
-import 'package:demo3/services/Impl/auth_service.dart';
-import 'package:demo3/services/Impl/category_service.dart';
-import 'package:demo3/services/Impl/quiz_service.dart';
-import 'package:demo3/services/Impl/user_service.dart';
+
+
+import 'package:demo3/network/services/Impl/answer_service.dart';
+import 'package:demo3/network/services/Impl/auth_service.dart';
+import 'package:demo3/network/services/Impl/category_service.dart';
+import 'package:demo3/network/services/Impl/quiz_service.dart';
+import 'package:demo3/network/services/Impl/user_service.dart';
 
 class ServiceProvider{
 
