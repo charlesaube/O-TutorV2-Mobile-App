@@ -3,6 +3,7 @@ import 'package:demo3/custom_painter/bg_circles.dart';
 import 'package:demo3/screens/quiz/widget/header.dart';
 import 'package:demo3/screens/quiz/widget/list_container.dart';
 import 'package:demo3/services/Impl/category_service.dart';
+import 'package:demo3/services/service_providers/service_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,12 @@ class BrowseCategoryPage extends StatefulWidget {
 }
 
 class _BrowseCategoryState extends State<BrowseCategoryPage> {
-  final CategoryService categoryService = new CategoryService();
+  final ServiceProvider _serviceProvider = new ServiceProvider();
+  late final CategoryService _categoryService;
+  
+  _BrowseCategoryState(){
+    this._categoryService = _serviceProvider.getCategoryService();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +47,7 @@ class _BrowseCategoryState extends State<BrowseCategoryPage> {
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         physics: BouncingScrollPhysics(),
-                        itemCount: categoryService.getAllCategory().length,
+                        itemCount: _categoryService.getAllCategory().length,
                         itemBuilder: (
                           BuildContext context,
                           int index,
@@ -49,19 +55,18 @@ class _BrowseCategoryState extends State<BrowseCategoryPage> {
                           return GestureDetector(
                             onTap: () {
                               print(
-                                  categoryService.getAllCategory()[index].name);
+                                  _categoryService.getAllCategory()[index].name);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => BrowseQuizPage(
-                                      category: categoryService
-                                          .getAllCategory()[index]),
+                                      category: _categoryService.getAllCategory()[index]),
                                 ),
                               );
                             },
                             child: CategoryListContainer(
-                                categoryService.getAllCategory()[index].name,
-                                categoryService.getAllCategory()[index].icon),
+                                _categoryService.getAllCategory()[index].name,
+                                _categoryService.getAllCategory()[index].icon),
                           );
                         },
                       ),

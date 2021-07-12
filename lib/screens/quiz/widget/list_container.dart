@@ -1,6 +1,7 @@
 import 'package:demo3/model/quiz.dart';
 import 'package:demo3/services/Impl/category_service.dart';
 import 'package:demo3/services/Impl/quiz_service.dart';
+import 'package:demo3/services/service_providers/service_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,10 +9,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class CategoryListContainer extends StatelessWidget {
   final String _title;
   final String _icon;
-  final CategoryService _categoryService = new CategoryService();
-  final QuizService _quizService = new QuizService();
+  final ServiceProvider _serviceProvider = new ServiceProvider();
+  late final QuizService _quizService;
 
-  CategoryListContainer(this._title, this._icon);
+  CategoryListContainer(this._title, this._icon){
+    this._quizService = _serviceProvider.getQuizService();
+  }
 
   @override
   Widget build(BuildContext context) {
