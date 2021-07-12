@@ -1,10 +1,10 @@
 import 'package:demo3/model/Answer.dart';
 import 'package:demo3/model/question.dart';
 import 'package:demo3/model/quiz.dart';
+import 'package:demo3/network/services/Impl/answer_service.dart';
+import 'package:demo3/network/services/Impl/question_service.dart';
 import 'package:demo3/screens/quiz/quiz_process/widgets/quiz_card.dart';
 import 'package:demo3/custom_painter/bg_circles.dart';
-import 'package:demo3/services/Impl/answer_service.dart';
-import 'package:demo3/services/Impl/question_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';

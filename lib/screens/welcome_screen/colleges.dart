@@ -1,9 +1,9 @@
 import 'package:demo3/custom_painter/corner_wave.dart';
 import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/model/college.dart';
+import 'package:demo3/network/services/Impl/college_service.dart';
 import 'package:demo3/screens/welcome_screen/welcome.dart';
 import 'package:demo3/screens/welcome_screen/widgets/buttons.dart';
-import 'package:demo3/services/Impl/college_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

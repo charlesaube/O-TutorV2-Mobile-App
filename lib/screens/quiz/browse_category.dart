@@ -37,7 +37,8 @@ class _BrowseCategoryState extends State<BrowseCategoryPage> {
               painter: RPSCustomPainter180(),
             ),
           ),
-          SingleChildScrollView(
+          RefreshIndicator(
+            onRefresh: () => _categoryService.getAllCategory(),
             child: Column(
               children: <Widget>[
                 Container(

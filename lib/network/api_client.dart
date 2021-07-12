@@ -1,12 +1,18 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:demo3/secure_storage.dart';
+import 'package:http/http.dart' as http;
 
-class ApiClient{
+import 'api_exceptions.dart';
+
+class ApiClient {
+  //final String _baseUrl = SecureStorage.apiUrl;
   final String _baseUrl = "http://api.themoviedb.org/3/";
 
   Future<dynamic> get(String url) async {
     var responseJson;
     try {
-      final response = await http.get(_baseUrl + url);
+      final response = await http.get(Uri.parse(_baseUrl + url));
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet connection');
@@ -30,5 +36,5 @@ class ApiClient{
         throw FetchDataException(
             'Error occured while Communication with Server with StatusCode : ${response.statusCode}');
     }
-
+  }
 }
