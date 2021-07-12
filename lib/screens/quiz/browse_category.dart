@@ -1,5 +1,6 @@
 import 'package:demo3/network/services/Impl/category_service.dart';
 import 'package:demo3/network/services/service_providers/service_provider.dart';
+import 'package:demo3/screens/quiz/blocs/category_bloc.dart';
 import 'package:demo3/screens/quiz/browse_quiz.dart';
 import 'package:demo3/custom_painter/bg_circles.dart';
 import 'package:demo3/screens/quiz/widget/header.dart';
@@ -16,10 +17,11 @@ class BrowseCategoryPage extends StatefulWidget {
 }
 
 class _BrowseCategoryState extends State<BrowseCategoryPage> {
+  late CategoryBloc _bloc;
   final ServiceProvider _serviceProvider = new ServiceProvider();
   late final CategoryService _categoryService;
-  
-  _BrowseCategoryState(){
+
+  _BrowseCategoryState() {
     this._categoryService = _serviceProvider.getCategoryService();
   }
 
@@ -38,44 +40,50 @@ class _BrowseCategoryState extends State<BrowseCategoryPage> {
             ),
           ),
           RefreshIndicator(
-            onRefresh: () => _categoryService.getAllCategory(),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  child: Column(
-                    children: <Widget>[
-                      HeaderCategory("Category"),
-                      ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        physics: BouncingScrollPhysics(),
-                        itemCount: _categoryService.getAllCategory().length,
-                        itemBuilder: (
-                          BuildContext context,
-                          int index,
-                        ) {
-                          return GestureDetector(
-                            onTap: () {
-                              print(
-                                  _categoryService.getAllCategory()[index].name);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => BrowseQuizPage(
-                                      category: _categoryService.getAllCategory()[index]),
-                                ),
-                              );
-                            },
-                            child: CategoryListContainer(
-                                _categoryService.getAllCategory()[index].name,
-                                _categoryService.getAllCategory()[index].icon),
-                          );
-                        },
-                      ),
-                    ],
+            onRefresh: () => _bloc.getCategories(),
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    child: Column(
+                      children: <Widget>[
+                        HeaderCategory("Category"),
+                        ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          itemCount: _categoryService.getAllCategory().length,
+                          itemBuilder: (
+                            BuildContext context,
+                            int index,
+                          ) {
+                            return GestureDetector(
+                              onTap: () {
+                                print(_categoryService
+                                    .getAllCategory()[index]
+                                    .name);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => BrowseQuizPage(
+                                        category: _categoryService
+                                            .getAllCategory()[index]),
+                                  ),
+                                );
+                              },
+                              child: CategoryListContainer(
+                                  _categoryService.getAllCategory()[index].name,
+                                  _categoryService
+                                      .getAllCategory()[index]
+                                      .icon),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
