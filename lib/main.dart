@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
 
         primarySwatch: Colors.blue,
       ),
-      home: MovieScreen(),
+      home: NavBar(),
       debugShowCheckedModeBanner: false,
     );
   }

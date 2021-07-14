@@ -7,8 +7,8 @@ class SecureStorage{
 
   static const _keyUsername = 'username';
   static const _keyLoginToken = 'authtoken';
-  static final apiUrl = "";
-  static final apiSecret ="";
+  static final apiUrl = "https://otutor-f456.restdb.io/rest/";
+  static final apiSecret ="4072e8fd15acedb8caa1e50c72c3821b25d39";
 
   
   static Future setUsername(String username) async =>

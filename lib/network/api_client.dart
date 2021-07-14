@@ -1,17 +1,18 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 import 'api_exceptions.dart';
 
 class ApiClient {
-  //final String _baseUrl = SecureStorage.apiUrl;
-  final String _baseUrl = "http://api.themoviedb.org/3/";
+  final String _baseUrl = SecureStorage.apiUrl;
+  //final String _baseUrl = "http://api.themoviedb.org/3/";
   //final String _baseUrl = "https://otutor-f456.restdb.io/rest/";
 
   Map<String, String> get headers => {
-    "x-apiKey": "4072e8fd15acedb8caa1e50c72c3821b25d39",
+    "x-apiKey": SecureStorage.apiSecret,
   };
 
   Future<dynamic> get(String url) async {
@@ -21,7 +22,7 @@ class ApiClient {
       headers: headers);
       responseJson = _returnResponse(response);
     } on SocketException {
-      throw FetchDataException('No Internet connection');
+      throw FetchDataException('No internet');
     }
     return responseJson;
   }

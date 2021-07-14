@@ -10,7 +10,6 @@ class CategoryRepository{
   Future<List<Category>> getCategories() async {
     final response = await _helper.get("/category");
     print("results:");
-    print(CategoryResponse.fromJson(response).results);
     return CategoryResponse.fromJson(response).results;
   }
 
