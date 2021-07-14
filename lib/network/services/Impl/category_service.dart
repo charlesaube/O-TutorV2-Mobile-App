@@ -2,7 +2,6 @@ import 'package:demo3/model/Category.dart';
 import 'package:demo3/network/services/ICategory_repository.dart';
 
 class CategoryService implements ICategoryRepository {
-  CategoryService();
 
   @override
   List<Category> fetchAllCategories() {

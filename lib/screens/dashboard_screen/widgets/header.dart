@@ -10,7 +10,7 @@ class Header extends StatelessWidget {
       margin: EdgeInsets.only(top: 50, right: 17, left: 17, bottom: 20),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text(
-          userService.getUserById(1).firstName,
+          userService.fetchUserById(1).firstName,
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
         ),
         ClipRRect(

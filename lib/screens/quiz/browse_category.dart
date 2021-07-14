@@ -25,12 +25,7 @@ class BrowseCategoryPage extends StatefulWidget {
 
 class _BrowseCategoryState extends State<BrowseCategoryPage> {
   CategoryBloc? _bloc;
-  final ServiceProvider _serviceProvider = new ServiceProvider();
-  late  ICategoryRepository _categoryService;
-
-  _BrowseCategoryState() {
-    this._categoryService = _serviceProvider.getCategoryService();
-  }
+  final ICategoryRepository _categoryService = ServiceProvider().getCategoryService();
 
   @override
   void initState() {
@@ -70,59 +65,60 @@ class _BrowseCategoryState extends State<BrowseCategoryPage> {
                             color: Colors.lightBlue.shade100);
                         break;
                       case Status.COMPLETED:
-                        // return SingleChildScrollView(
-                        //   child: Column(
-                        //     children: <Widget>[
-                        //       Container(
-                        //         child: Column(
-                        //           children: <Widget>[
-                        //             HeaderCategory("Category"),
-                        //             ListView.builder(
-                        //               scrollDirection: Axis.vertical,
-                        //               shrinkWrap: true,
-                        //               physics: BouncingScrollPhysics(),
-                        //               itemCount: _categoryService
-                        //                   .fetchAllCategories()
-                        //                   .length,
-                        //               itemBuilder: (
-                        //                 BuildContext context,
-                        //                 int index,
-                        //               ) {
-                        //                 return GestureDetector(
-                        //                   onTap: () {
-                        //                     print(_categoryService
-                        //                         .fetchAllCategories()[index]
-                        //                         .name);
-                        //                     Navigator.push(
-                        //                       context,
-                        //                       MaterialPageRoute(
-                        //                         builder: (context) =>
-                        //                             BrowseQuizPage(
-                        //                                 category: _categoryService
-                        //                                     .fetchAllCategories()[
-                        //                                     index]),
-                        //                       ),
-                        //                     );
-                        //                   },
-                        //                   child: CategoryListContainer(
-                        //                       _categoryService
-                        //                           .fetchAllCategories()[index]
-                        //                           .name,
-                        //                       _categoryService
-                        //                           .fetchAllCategories()[index]
-                        //                           .icon),
-                        //                 );
-                        //               },
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // );
-                        // break;
+
                       case Status.ERROR:
-                        return ErrorPopUp(snapshot, refresh);
+                      return SingleChildScrollView(
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              child: Column(
+                                children: <Widget>[
+                                  HeaderCategory("Category"),
+                                  ListView.builder(
+                                    scrollDirection: Axis.vertical,
+                                    shrinkWrap: true,
+                                    physics: BouncingScrollPhysics(),
+                                    itemCount: _categoryService
+                                        .fetchAllCategories()
+                                        .length,
+                                    itemBuilder: (
+                                        BuildContext context,
+                                        int index,
+                                        ) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          print(_categoryService
+                                              .fetchAllCategories()[index]
+                                              .name);
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  BrowseQuizPage(
+                                                      category: _categoryService
+                                                          .fetchAllCategories()[
+                                                      index]),
+                                            ),
+                                          );
+                                        },
+                                        child: CategoryListContainer(
+                                            _categoryService
+                                                .fetchAllCategories()[index]
+                                                .name,
+                                            _categoryService
+                                                .fetchAllCategories()[index]
+                                                .icon),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                      break;
+                        //return ErrorPopUp(snapshot, refresh);
                         break;
                     }
                   }

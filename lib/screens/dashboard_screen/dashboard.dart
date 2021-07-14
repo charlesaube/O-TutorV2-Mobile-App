@@ -89,10 +89,10 @@ class DashboardSate extends State<DashboardPage> {
                                         CircularPercentIndicator(
                                           radius: 80.0,
                                           lineWidth: 8.0,
-                                          percent: _userService.getWeeklyGoal(),
+                                          percent: _userService.fetchWeeklyGoal(),
                                           backgroundColor: Colors.lightBlue.shade500,
                                           center: new Text(
-                                            (_userService.getWeeklyGoal() * 100)
+                                            (_userService.fetchWeeklyGoal() * 100)
                                                 .toString() +
                                                 "%",
                                             style: TextStyle(

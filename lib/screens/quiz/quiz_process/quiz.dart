@@ -17,7 +17,7 @@ class QuizPage extends StatefulWidget {
   List<Question> _questions = [];
 
   QuizPage({Key? key, required this.quiz}) : super(key: key) {
-    this._questions = _questionService.getQuestionByQuizId(quiz.id);
+    this._questions = _questionService.fetchQuestionByQuizId(quiz.id);
   }
 
   @override
@@ -47,7 +47,7 @@ class _QuizState extends State<QuizPage> {
   }
 
   List<Answer> getAnswers(int id) {
-    return widget._answerService.getAnswerByQuestionId(id);
+    return widget._answerService.fetchAnswerByQuestionId(id);
   }
 
   @override

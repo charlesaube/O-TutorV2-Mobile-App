@@ -1,7 +1,9 @@
 import 'package:demo3/model/Answer.dart';
+import 'package:demo3/network/services/IAnswer_repository.dart';
 
-class AnswerService{
-  List<Answer> getAnswerByQuestionId(int id){
+class AnswerService extends IAnswerRepository{
+
+  List<Answer> fetchAnswerByQuestionId(int id){
     Answer a1 = new Answer(1, "Gazeux", true);
     Answer a2 = new Answer(1, "Liquide", false);
     Answer a3 = new Answer(1, "Solide", false);

@@ -1,4 +1,5 @@
 import 'package:demo3/model/Category.dart';
+import 'package:demo3/network/services/IQuiz_repository.dart';
 import 'package:demo3/network/services/Impl/quiz_service.dart';
 import 'package:demo3/network/services/service_providers/service_provider.dart';
 import 'package:demo3/screens/quiz/quiz_process/quiz.dart';
@@ -10,16 +11,13 @@ import 'package:flutter/material.dart';
 
 class BrowseQuizPage extends StatelessWidget {
   final Category category;
-  late final QuizService _quizService;
-  final ServiceProvider _serviceProvider = new ServiceProvider();
+
+  final IQuizRepository _quizService = ServiceProvider().getQuizService();
 
   BrowseQuizPage({
     Key? key,
     required this.category,
-  }) : super(key: key) {
-    this._quizService = _serviceProvider.getQuizService();
-  }
-
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +47,7 @@ class BrowseQuizPage extends StatelessWidget {
                             shrinkWrap: true,
                             physics: BouncingScrollPhysics(),
                             itemCount: _quizService
-                                .getQuizByCategory(category.name)
+                                .fetchQuizByCategory(category.name)
                                 .length,
                             itemBuilder: (
                               BuildContext context,
@@ -61,9 +59,9 @@ class BrowseQuizPage extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => QuizPage(
-                                          quiz: _quizService.getQuizById(
+                                          quiz: _quizService.fetchQuizById(
                                               _quizService
-                                                  .getQuizByCategory(
+                                                  .fetchQuizByCategory(
                                                       category.name)[index]
                                                   .id),
                                         ),
@@ -72,11 +70,11 @@ class BrowseQuizPage extends StatelessWidget {
                                   },
                                   child: QuizListContainer(
                                       _quizService
-                                          .getQuizByCategory(
+                                          .fetchQuizByCategory(
                                               category.name)[index]
                                           .title,
                                       _quizService
-                                          .getQuizByCategory(
+                                          .fetchQuizByCategory(
                                               category.name)[index]
                                           .difficulty));
                             },

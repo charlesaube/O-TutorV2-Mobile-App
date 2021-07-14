@@ -24,7 +24,7 @@ class CategoryBloc{
     getCategories() async {
       categoryListSink.add(ApiResponse.loading('Fetching Categories'));
       try {
-        List<Category> categories = await _categoryRepository.getCategories();
+        List<Category> categories = await _categoryRepository.fetchAllCategories();
         categoryListSink.add(ApiResponse.completed(categories));
       } catch (e) {
         categoryListSink.add(ApiResponse.error(e.toString()));

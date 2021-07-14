@@ -1,8 +1,9 @@
 import 'package:demo3/model/quiz.dart';
+import 'package:demo3/network/services/IQuiz_repository.dart';
 
-class QuizService {
+class QuizService extends IQuizRepository{
 
-  List<Quiz> getQuizByCategory(String categoryName) {
+  List<Quiz> fetchQuizByCategory(String categoryName) {
     Quiz q1 = new Quiz.basic("Titre", "Easy",1);
     Quiz q2 = new Quiz.basic("Titre", "Hard",2);
     Quiz q3 = new Quiz.basic("Titre", "Expert",3);
@@ -17,7 +18,7 @@ class QuizService {
     return quizList;
   }
 
-  Quiz getQuizById(int id){
+  Quiz fetchQuizById(int id){
     Quiz q1 = new Quiz.basic("Titre", "Easy",1);
     return q1;
   }
