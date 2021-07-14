@@ -19,12 +19,13 @@ class CategoryBloc{
       _categoryListController = StreamController<ApiResponse<List<Category>>>();
       _categoryRepository = CategoryRepository();
       getCategories();
+
     }
     getCategories() async {
-      categoryListSink.add(ApiResponse.loading('Fetching Popular Movies'));
+      categoryListSink.add(ApiResponse.loading('Fetching Categories'));
       try {
-        List<Category> movies = await _categoryRepository.getCategories();
-        categoryListSink.add(ApiResponse.completed(movies));
+        List<Category> categories = await _categoryRepository.getCategories();
+        categoryListSink.add(ApiResponse.completed(categories));
       } catch (e) {
         categoryListSink.add(ApiResponse.error(e.toString()));
         print(e);

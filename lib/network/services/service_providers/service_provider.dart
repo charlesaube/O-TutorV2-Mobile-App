@@ -5,6 +5,7 @@ import 'package:demo3/network/services/Impl/auth_service.dart';
 import 'package:demo3/network/services/Impl/category_service.dart';
 import 'package:demo3/network/services/Impl/quiz_service.dart';
 import 'package:demo3/network/services/Impl/user_service.dart';
+import 'package:demo3/network/services/repositories/category_repository.dart';
 
 class ServiceProvider{
 
@@ -16,6 +17,9 @@ class ServiceProvider{
   }
   CategoryService getCategoryService(){
     return CategoryService();
+  }
+  CategoryRepository getCategoryRepository(){
+    return CategoryRepository();
   }
 
   QuizService getQuizService() {
