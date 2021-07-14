@@ -1,15 +1,20 @@
 import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/model/Category.dart';
 import 'package:demo3/network/api_response.dart';
+import 'package:demo3/network/services/ICategory_repository.dart';
 import 'package:demo3/network/services/Impl/category_service.dart';
 import 'package:demo3/network/services/service_providers/service_provider.dart';
 import 'package:demo3/screens/quiz/blocs/category_bloc.dart';
 import 'package:demo3/custom_painter/bg_circles.dart';
 import 'package:demo3/screens/quiz/widget/error_widget.dart';
+import 'package:demo3/screens/quiz/widget/header.dart';
+import 'package:demo3/screens/quiz/widget/list_container.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+import 'browse_quiz.dart';
 
 class BrowseCategoryPage extends StatefulWidget {
   @override
@@ -21,7 +26,7 @@ class BrowseCategoryPage extends StatefulWidget {
 class _BrowseCategoryState extends State<BrowseCategoryPage> {
   CategoryBloc? _bloc;
   final ServiceProvider _serviceProvider = new ServiceProvider();
-  late final CategoryService _categoryService;
+  late  ICategoryRepository _categoryService;
 
   _BrowseCategoryState() {
     this._categoryService = _serviceProvider.getCategoryService();
@@ -31,6 +36,12 @@ class _BrowseCategoryState extends State<BrowseCategoryPage> {
   void initState() {
     super.initState();
     _bloc = CategoryBloc();
+  }
+
+  void refresh() {
+    setState(() {
+      _bloc!.getCategories();
+    });
   }
 
   @override
@@ -71,7 +82,7 @@ class _BrowseCategoryState extends State<BrowseCategoryPage> {
                         //               shrinkWrap: true,
                         //               physics: BouncingScrollPhysics(),
                         //               itemCount: _categoryService
-                        //                   .getAllCategory()
+                        //                   .fetchAllCategories()
                         //                   .length,
                         //               itemBuilder: (
                         //                 BuildContext context,
@@ -80,7 +91,7 @@ class _BrowseCategoryState extends State<BrowseCategoryPage> {
                         //                 return GestureDetector(
                         //                   onTap: () {
                         //                     print(_categoryService
-                        //                         .getAllCategory()[index]
+                        //                         .fetchAllCategories()[index]
                         //                         .name);
                         //                     Navigator.push(
                         //                       context,
@@ -88,17 +99,17 @@ class _BrowseCategoryState extends State<BrowseCategoryPage> {
                         //                         builder: (context) =>
                         //                             BrowseQuizPage(
                         //                                 category: _categoryService
-                        //                                         .getAllCategory()[
+                        //                                     .fetchAllCategories()[
                         //                                     index]),
                         //                       ),
                         //                     );
                         //                   },
                         //                   child: CategoryListContainer(
                         //                       _categoryService
-                        //                           .getAllCategory()[index]
+                        //                           .fetchAllCategories()[index]
                         //                           .name,
                         //                       _categoryService
-                        //                           .getAllCategory()[index]
+                        //                           .fetchAllCategories()[index]
                         //                           .icon),
                         //                 );
                         //               },
@@ -109,9 +120,9 @@ class _BrowseCategoryState extends State<BrowseCategoryPage> {
                         //     ],
                         //   ),
                         // );
-                        break;
+                        // break;
                       case Status.ERROR:
-                        return ErrorPopUp(snapshot);
+                        return ErrorPopUp(snapshot, refresh);
                         break;
                     }
                   }

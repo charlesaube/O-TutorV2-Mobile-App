@@ -8,18 +8,19 @@ import 'api_exceptions.dart';
 
 class ApiClient {
   final String _baseUrl = SecureStorage.apiUrl;
+
   //final String _baseUrl = "http://api.themoviedb.org/3/";
   //final String _baseUrl = "https://otutor-f456.restdb.io/rest/";
 
   Map<String, String> get headers => {
-    "x-apiKey": SecureStorage.apiSecret,
-  };
+        "x-apiKey": SecureStorage.apiSecret,
+      };
 
   Future<dynamic> get(String url) async {
     var responseJson;
     try {
-      final response = await http.get(Uri.parse(_baseUrl + url),
-      headers: headers);
+      final response =
+          await http.get(Uri.parse(_baseUrl + url), headers: headers);
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No internet');
@@ -27,6 +28,17 @@ class ApiClient {
     return responseJson;
   }
 
+  Future<dynamic> post(String url, Map<String, String> data) async {
+    var responseJson;
+    try {
+      final response = await http.post(Uri.parse(_baseUrl + url),
+          headers: headers,
+          body: jsonEncode(data));
+    } on SocketException {
+      throw FetchDataException('No internet');
+    }
+    return responseJson;
+  }
 
   dynamic _returnResponse(http.Response response) {
     switch (response.statusCode) {

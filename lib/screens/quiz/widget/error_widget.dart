@@ -8,9 +8,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ErrorPopUp extends StatelessWidget {
+  final VoidCallback _refresh;
   final AsyncSnapshot<ApiResponse<List<Category>>> _snapshot;
 
-  ErrorPopUp(this._snapshot);
+  ErrorPopUp(this._snapshot, this._refresh);
 
   @override
   Widget build(BuildContext context) {
@@ -46,10 +47,9 @@ class ErrorPopUp extends StatelessWidget {
           ),
           ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => NavBar()));
+            _refresh();
               },
-              child: Text("Try Again")),
+              child: Text(AppLocalizations.of(context)!.translate("Try Again").toString())),
           Spacer(),
         ],
       ),

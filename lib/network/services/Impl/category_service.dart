@@ -1,9 +1,11 @@
 import 'package:demo3/model/Category.dart';
+import 'package:demo3/network/services/ICategory_repository.dart';
 
-class CategoryService {
+class CategoryService implements ICategoryRepository {
   CategoryService();
 
-  List<Category> getAllCategory() {
+  @override
+  List<Category> fetchAllCategories() {
     Category c1 = new Category.basic("Psychologie", "psychology_sharp");
     Category c2 = new Category.basic("Mathématique", "moving_sharp");
     Category c3 = new Category.basic("Science","biotech");
