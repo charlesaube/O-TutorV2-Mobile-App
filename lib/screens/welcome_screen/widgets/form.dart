@@ -3,8 +3,10 @@ import 'package:demo3/network/api_response.dart';
 import 'package:demo3/screens/navigation/navbar.dart';
 import 'package:demo3/screens/welcome_screen/Bloc/authentication_bloc.dart';
 import 'package:demo3/screens/welcome_screen/widgets/buttons.dart';
+import 'package:demo3/secure_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoginForm extends StatefulWidget {
@@ -57,7 +59,12 @@ class LoginFormState extends State<LoginForm> {
                         ),
                       );
                     case Status.COMPLETED:
-
+                      SchedulerBinding.instance!.addPostFrameCallback((_) {
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => NavBar()));
+                      });
                       break;
                   }
                 }
@@ -159,6 +166,7 @@ class LoginFormState extends State<LoginForm> {
                 if (_formKey.currentState!.validate()) {
                   _bloc!.authenticate(
                       usernameController.text, passwordController.text);
+                  print(SecureStorage());
                 }
               },
             ),

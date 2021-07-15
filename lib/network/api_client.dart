@@ -12,18 +12,21 @@ class ApiClient {
   //final String _baseUrl = "http://api.themoviedb.org/3/";
   //final String _baseUrl = "https://otutor-f456.restdb.io/rest/";
 
-  Map<String, String> get headers => {
-        "x-apiKey": SecureStorage.apiSecret,
-    "Content-Type": "application/json",
+
+
+  Map<String, String> get headers =>
+      {
+        "x-apiKey": SecureStorage.getAuthToken().toString(),
+        "Content-Type": "application/json",
       };
 
   Future<dynamic> get(String url) async {
     var responseJson;
     try {
       final response =
-          await http.get(Uri.parse(_baseUrl + url), headers: headers);
+      await http.get(Uri.parse(_baseUrl + url), headers: headers);
       responseJson = _returnResponse(response);
-    } on SocketException catch (e){
+    } on SocketException catch (e) {
       print(e);
       throw FetchDataException('No internet');
     }
@@ -49,14 +52,16 @@ class ApiClient {
         print(responseJson);
         return responseJson;
       case 400:
-        throw BadRequestException(response.body.toString() + response.statusCode.toString());
+        throw BadRequestException(
+            response.body.toString() + response.statusCode.toString());
       case 401:
       case 403:
         throw UnauthorisedException(response.body.toString());
       case 500:
       default:
         throw FetchDataException(
-            'Error occured while Communication with Server with StatusCode : ${response.statusCode}');
+            'Error occured while Communication with Server with StatusCode : ${response
+                .statusCode}');
     }
   }
 }

@@ -6,9 +6,8 @@ class SecureStorage{
   static final _storage = FlutterSecureStorage();
 
   static const _keyUsername = 'username';
-  static const _keyLoginToken = 'authtoken';
+  static const _keyAuthToken = 'authtoken';
   static String apiUrl = "http://10.0.2.2:8000/";
-  static String apiSecret ="4072e8fd15acedb8caa1e50c72c3821b25d39";
 
   
   static Future setUsername(String username) async =>
@@ -18,11 +17,11 @@ class SecureStorage{
       await _storage.read(key: _keyUsername);
 
 
-  static Future setLoginToken(String loginToken) async =>
-      await _storage.write(key: _keyLoginToken, value: loginToken);
+  static Future setAuthToken(String loginToken) async =>
+      await _storage.write(key: _keyAuthToken, value: loginToken);
 
-  static Future<String?> getLoginToken() async =>
-      await _storage.read(key: _keyLoginToken);
+  static Future<String?> getAuthToken() async =>
+      await _storage.read(key: _keyAuthToken);
 
 
 
