@@ -32,6 +32,19 @@ class AuthenticationBloc{
 
   }
 
+  logout() async{
+    authSink.add(ApiResponse.loading('Login out'));
+    try{
+      String logout = await _authenticationRepository.logout();
+      authSink.add(ApiResponse.completed(logout));
+    }
+    catch (e){
+      authSink.add(ApiResponse.error(e.toString()));
+      print(e);
+    }
+
+  }
+
   dispose() {
     _authenticationController.close();
   }

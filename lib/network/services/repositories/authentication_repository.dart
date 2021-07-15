@@ -12,10 +12,15 @@ class AuthenticationRepository extends IAuthenticationRepository{
   @override
   Future<String> authenticate(Map<String, String> body) async {
     final response = await _helper.post("auth/token/", body );
-    print("Test Json");
-    print(response['auth_token']);
     await SecureStorage.setAuthToken(response['auth_token']);
     return response['auth_token'];
+  }
+
+  @override
+  Future logout() async {
+    final response = await _helper.delete("auth/token/");
+    print(response);
+    return response;
   }
 
 
