@@ -1,4 +1,3 @@
-import 'package:demo3/screens/movie_screen.dart';
 import 'package:demo3/screens/navigation/navbar.dart';
 import 'package:demo3/screens/welcome_screen/welcome.dart';
 import 'package:flutter/material.dart';

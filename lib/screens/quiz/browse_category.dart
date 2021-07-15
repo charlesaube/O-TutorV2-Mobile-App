@@ -38,6 +38,11 @@ class _BrowseCategoryState extends State<BrowseCategoryPage> {
       _bloc!.getCategories();
     });
   }
+ @override
+  void dispose() {
+    super.dispose();
+    _bloc!.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

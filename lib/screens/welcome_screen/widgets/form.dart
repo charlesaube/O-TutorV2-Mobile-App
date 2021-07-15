@@ -22,10 +22,18 @@ class LoginFormState extends State<LoginForm> {
   final passwordController = TextEditingController();
   final usernameController = TextEditingController();
 
+
   @override
   void initState() {
     super.initState();
     _bloc = AuthenticationBloc();
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    _bloc!.dispose();
+    passwordController.dispose();
+    usernameController.dispose();
   }
 
   @override
@@ -59,6 +67,7 @@ class LoginFormState extends State<LoginForm> {
                         ),
                       );
                     case Status.COMPLETED:
+                      snapshot.data!.status = Status.LOADING;
                       SchedulerBinding.instance!.addPostFrameCallback((_) {
                         Navigator.push(
                             context,
@@ -176,11 +185,7 @@ class LoginFormState extends State<LoginForm> {
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _bloc!.dispose();
-  }
+
 }
 
 class SignupForm extends StatefulWidget {

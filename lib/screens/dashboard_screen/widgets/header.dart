@@ -7,10 +7,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-class Header extends StatelessWidget {
+class Header extends StatefulWidget {
+
+
+
+  @override
+  _HeaderState createState() => _HeaderState();
+}
+
+class _HeaderState extends State<Header> {
   late AuthenticationBloc? _bloc;
 
-  Header() {
+  @override
+  void initState() {
+    super.initState();
     _bloc = AuthenticationBloc();
   }
 
@@ -38,6 +48,7 @@ class Header extends StatelessWidget {
                       if (snapshot.hasData) {
                         switch (snapshot.data!.status) {
                           case Status.COMPLETED:
+
                             SchedulerBinding.instance!.addPostFrameCallback((_) {
                               Navigator.push(
                                   context,
@@ -75,5 +86,11 @@ class Header extends StatelessWidget {
         ),
       ]),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _bloc!.dispose();
   }
 }
