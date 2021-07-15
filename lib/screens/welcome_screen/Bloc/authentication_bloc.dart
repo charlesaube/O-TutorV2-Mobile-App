@@ -1,11 +1,14 @@
 import 'dart:async';
 
+import 'package:demo3/model/movie_demo.dart';
 import 'package:demo3/network/api_response.dart';
+import 'package:demo3/network/services/IAuthentication_repository.dart';
 import 'package:demo3/network/services/repositories/authentication_repository.dart';
+import 'package:demo3/network/services/service_providers/service_provider.dart';
 
 class AuthenticationBloc{
 
-  late AuthenticationRepository _authenticationRepository;
+  late IAuthenticationRepository _authenticationRepository;
 
    var _authenticationController = StreamController<ApiResponse<String>>();
   StreamSink<ApiResponse<String>> get _authSink => _authenticationController.sink;
@@ -14,11 +17,19 @@ class AuthenticationBloc{
 
   AuthenticationBloc(){
     _authenticationController = StreamController<ApiResponse<String>>();
+    _authenticationRepository = ServiceProvider().fetchAuthenticationRepository();
 
   }
 
-  authenticate() async{
+  authenticate(String username, String password) async{
     _authSink.add(ApiResponse.loading('Authenticating'));
+    try {
+      String movies = await _authenticationRepository.authenticate({"Username": username,"Password":password });
+      _authSink.add(ApiResponse.completed(movies));
+    } catch (e) {
+      _authSink.add(ApiResponse.error(e.toString()));
+      print(e);
+    }
 
   }
 

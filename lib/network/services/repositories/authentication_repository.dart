@@ -1,13 +1,18 @@
-import '../../api_client.dart';
+import 'dart:convert';
 
-class AuthenticationRepository{
+import '../../api_client.dart';
+import '../IAuthentication_repository.dart';
+
+class AuthenticationRepository extends IAuthenticationRepository{
 
   ApiClient _helper = ApiClient();
 
-  Future<List<Category>> getCategories() async {
-    final response = await _helper.get("/category");
-    print("results:");
-    return CategoryResponse.fromJson(response).results;
+  @override
+  Future<String> authenticate(Map<String, String> body) async {
+    final response = await _helper.post("/auth/token/", body );
+    print("Test Json");
+    print(response[0]['token']);
+    return response[0]['token'];
   }
 
 

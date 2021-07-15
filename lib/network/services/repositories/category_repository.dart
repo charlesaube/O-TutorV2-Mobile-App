@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:demo3/model/Category.dart';
 import 'package:demo3/network/services/ICategory_repository.dart';
 
@@ -11,7 +13,7 @@ class CategoryRepository extends ICategoryRepository{
   @override
   Future<List<Category>> fetchAllCategories() async {
     final response = await _helper.get("/category");
-    print("results:");
+
     return CategoryResponse.fromJson(response).results;
   }
 

@@ -28,12 +28,13 @@ class ApiClient {
     return responseJson;
   }
 
-  Future<dynamic> post(String url, Map<String, String> data) async {
+  Future<dynamic> post(String url, Map<String, String> body) async {
     var responseJson;
     try {
       final response = await http.post(Uri.parse(_baseUrl + url),
           headers: headers,
-          body: jsonEncode(data));
+          body: jsonEncode(body));
+      responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No internet');
     }
