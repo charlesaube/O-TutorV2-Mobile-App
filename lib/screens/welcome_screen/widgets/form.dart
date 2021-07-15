@@ -1,5 +1,6 @@
 import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/network/api_response.dart';
+import 'package:demo3/screens/navigation/navbar.dart';
 import 'package:demo3/screens/welcome_screen/Bloc/authentication_bloc.dart';
 import 'package:demo3/screens/welcome_screen/widgets/buttons.dart';
 import 'package:flutter/cupertino.dart';
@@ -39,23 +40,25 @@ class LoginFormState extends State<LoginForm> {
                 if (snapshot.hasData) {
                   switch (snapshot.data!.status) {
                     case Status.LOADING:
-                      return SpinKitDoubleBounce(
-                          color: Colors.orange);
+                      return SpinKitDoubleBounce(color: Colors.orange);
                     case Status.ERROR:
                       return Container(
-                          padding: EdgeInsets.all(10),
-                          child: Column(
-                            children: <Widget>[
-                              if(snapshot.data!.message.contains("401"))
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          children: <Widget>[
+                            if (snapshot.data!.message.contains("400"))
                               Text(
                                 AppLocalizations.of(context)!
                                     .translate("Login Error")
                                     .toString(),
                                 style: TextStyle(color: Colors.red),
                               )
-                            ],
-                          ),
-                       );
+                          ],
+                        ),
+                      );
+                    case Status.COMPLETED:
+
+                      break;
                   }
                 }
                 return Container();
@@ -156,7 +159,6 @@ class LoginFormState extends State<LoginForm> {
                 if (_formKey.currentState!.validate()) {
                   _bloc!.authenticate(
                       usernameController.text, passwordController.text);
-
                 }
               },
             ),

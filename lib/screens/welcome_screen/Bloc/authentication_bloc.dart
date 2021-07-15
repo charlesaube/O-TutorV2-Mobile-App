@@ -23,8 +23,8 @@ class AuthenticationBloc{
   authenticate(String username, String password) async{
     authSink.add(ApiResponse.loading('Authenticating'));
     try {
-      String movies = await _authenticationRepository.authenticate({"Username": username,"Password":password });
-      authSink.add(ApiResponse.completed(movies));
+      String authToken = await _authenticationRepository.authenticate({"username": username,"password":password });
+      authSink.add(ApiResponse.completed(authToken));
     } catch (e) {
       authSink.add(ApiResponse.error(e.toString()));
       print(e);

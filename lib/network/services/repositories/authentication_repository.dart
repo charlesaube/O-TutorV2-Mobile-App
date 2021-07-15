@@ -9,10 +9,10 @@ class AuthenticationRepository extends IAuthenticationRepository{
 
   @override
   Future<String> authenticate(Map<String, String> body) async {
-    final response = await _helper.post("/auth/token/", body );
+    final response = await _helper.post("auth/token/", body );
     print("Test Json");
-    print(response[0]['token']);
-    return response[0]['token'];
+    print(response['auth_token']);
+    return response['auth_token'];
   }
 
 

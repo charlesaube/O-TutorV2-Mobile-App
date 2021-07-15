@@ -14,6 +14,7 @@ class ApiClient {
 
   Map<String, String> get headers => {
         "x-apiKey": SecureStorage.apiSecret,
+    "Content-Type": "application/json",
       };
 
   Future<dynamic> get(String url) async {
@@ -22,7 +23,8 @@ class ApiClient {
       final response =
           await http.get(Uri.parse(_baseUrl + url), headers: headers);
       responseJson = _returnResponse(response);
-    } on SocketException {
+    } on SocketException catch (e){
+      print(e);
       throw FetchDataException('No internet');
     }
     return responseJson;
@@ -32,8 +34,7 @@ class ApiClient {
     var responseJson;
     try {
       final response = await http.post(Uri.parse(_baseUrl + url),
-          headers: headers,
-          body: jsonEncode(body));
+          body: jsonEncode(body), headers: headers);
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No internet');
@@ -48,7 +49,7 @@ class ApiClient {
         print(responseJson);
         return responseJson;
       case 400:
-        throw BadRequestException(response.body.toString());
+        throw BadRequestException(response.body.toString() + response.statusCode.toString());
       case 401:
       case 403:
         throw UnauthorisedException(response.body.toString());

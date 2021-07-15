@@ -7,7 +7,7 @@ class SecureStorage{
 
   static const _keyUsername = 'username';
   static const _keyLoginToken = 'authtoken';
-  static String apiUrl = "https://otutor-f456.restdb.io/rest/";
+  static String apiUrl = "http://10.0.2.2:8000/";
   static String apiSecret ="4072e8fd15acedb8caa1e50c72c3821b25d39";
 
   
