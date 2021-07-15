@@ -11,23 +11,22 @@ class AuthenticationBloc{
   late IAuthenticationRepository _authenticationRepository;
 
    var _authenticationController = StreamController<ApiResponse<String>>();
-  StreamSink<ApiResponse<String>> get _authSink => _authenticationController.sink;
+  StreamSink<ApiResponse<String>> get authSink => _authenticationController.sink;
 
-  Stream<ApiResponse<String>> get _authStream => _authenticationController.stream;
+  Stream<ApiResponse<String>> get authStream => _authenticationController.stream;
 
   AuthenticationBloc(){
     _authenticationController = StreamController<ApiResponse<String>>();
     _authenticationRepository = ServiceProvider().fetchAuthenticationRepository();
-
   }
 
   authenticate(String username, String password) async{
-    _authSink.add(ApiResponse.loading('Authenticating'));
+    authSink.add(ApiResponse.loading('Authenticating'));
     try {
       String movies = await _authenticationRepository.authenticate({"Username": username,"Password":password });
-      _authSink.add(ApiResponse.completed(movies));
+      authSink.add(ApiResponse.completed(movies));
     } catch (e) {
-      _authSink.add(ApiResponse.error(e.toString()));
+      authSink.add(ApiResponse.error(e.toString()));
       print(e);
     }
 

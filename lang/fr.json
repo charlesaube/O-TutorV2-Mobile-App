@@ -23,5 +23,7 @@
   "College": "Collège de ",
   "Choose College": "Choisissez votre collège",
   "No internet": "Aucune connexion internet",
-  "Try Again": "Réessayer"
+  "Try Again": "Réessayer",
+  "Login Error": "Le mot de passe ou le nom d'utilisateur est erroné"
+
 }

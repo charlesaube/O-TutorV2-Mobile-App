@@ -4,11 +4,10 @@ import 'package:demo3/screens/welcome_screen/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'localization/app_localizations.dart';
-import 'network/services/Impl/authentication_service.dart';
+
 
 void main() {
-  final authenticationService = AuthenticationService();
-  print(authenticationService.authentication("s", "password"));
+
   runApp(MyApp());
 }
 
@@ -43,7 +42,7 @@ class MyApp extends StatelessWidget {
 
         primarySwatch: Colors.blue,
       ),
-      home: NavBar(),
+      home: WelcomePage(),
       debugShowCheckedModeBanner: false,
     );
   }

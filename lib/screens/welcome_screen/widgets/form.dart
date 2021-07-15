@@ -1,7 +1,10 @@
 import 'package:demo3/localization/app_localizations.dart';
+import 'package:demo3/network/api_response.dart';
+import 'package:demo3/screens/welcome_screen/Bloc/authentication_bloc.dart';
 import 'package:demo3/screens/welcome_screen/widgets/buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoginForm extends StatefulWidget {
   @override
@@ -11,9 +14,16 @@ class LoginForm extends StatefulWidget {
 }
 
 class LoginFormState extends State<LoginForm> {
+  AuthenticationBloc? _bloc;
   final _formKey = GlobalKey<FormState>();
+  final passwordController = TextEditingController();
+  final usernameController = TextEditingController();
 
-
+  @override
+  void initState() {
+    super.initState();
+    _bloc = AuthenticationBloc();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,19 +33,45 @@ class LoginFormState extends State<LoginForm> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          StreamBuilder<ApiResponse<String>>(
+              stream: _bloc!.authStream,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  switch (snapshot.data!.status) {
+                    case Status.LOADING:
+                      return SpinKitDoubleBounce(
+                          color: Colors.orange);
+                    case Status.ERROR:
+                      return Container(
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            AppLocalizations.of(context)!
+                                .translate("Login Error")
+                                .toString(),
+                            style: TextStyle(color: Colors.red),
+                          ));
+                  }
+                }
+                return Container();
+              }),
           Padding(
             child: TextFormField(
+              controller: usernameController,
               decoration: new InputDecoration(
                 suffixIcon: IconButton(
                   onPressed: () => {},
                   icon: Icon(Icons.account_circle_sharp),
                 ),
-                labelText: AppLocalizations.of(context)!.translate("Username").toString(),
+                labelText: AppLocalizations.of(context)!
+                    .translate("Username")
+                    .toString(),
                 enabledBorder: const OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.orange, width: 2.0),
+                  borderSide:
+                      const BorderSide(color: Colors.orange, width: 2.0),
                 ),
                 focusedBorder: const OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.orange, width: 2.0),
+                  borderSide:
+                      const BorderSide(color: Colors.orange, width: 2.0),
                 ),
                 errorBorder: const OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.red, width: 2.0),
@@ -46,7 +82,13 @@ class LoginFormState extends State<LoginForm> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return AppLocalizations.of(context)!.translate("Username").toString() + AppLocalizations.of(context)!.translate("Is required").toString();
+                  return AppLocalizations.of(context)!
+                          .translate("Username")
+                          .toString() +
+                      " " +
+                      AppLocalizations.of(context)!
+                          .translate("Is required")
+                          .toString();
                 }
                 return null;
               },
@@ -56,6 +98,7 @@ class LoginFormState extends State<LoginForm> {
           ),
           Padding(
             child: TextFormField(
+              controller: passwordController,
               obscureText: true,
               enableSuggestions: false,
               autocorrect: false,
@@ -64,12 +107,16 @@ class LoginFormState extends State<LoginForm> {
                   onPressed: () => {},
                   icon: Icon(Icons.lock),
                 ),
-                labelText: AppLocalizations.of(context)!.translate("Password").toString(),
+                labelText: AppLocalizations.of(context)!
+                    .translate("Password")
+                    .toString(),
                 enabledBorder: const OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.orange, width: 2.0),
+                  borderSide:
+                      const BorderSide(color: Colors.orange, width: 2.0),
                 ),
                 focusedBorder: const OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.orange, width: 2.0),
+                  borderSide:
+                      const BorderSide(color: Colors.orange, width: 2.0),
                 ),
                 errorBorder: const OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.red, width: 2.0),
@@ -77,11 +124,16 @@ class LoginFormState extends State<LoginForm> {
                 focusedErrorBorder: const OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.red, width: 2.0),
                 ),
-
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return AppLocalizations.of(context)!.translate("Password").toString() + AppLocalizations.of(context)!.translate("Is required").toString();
+                  return AppLocalizations.of(context)!
+                          .translate("Password")
+                          .toString() +
+                      " " +
+                      AppLocalizations.of(context)!
+                          .translate("Is required")
+                          .toString();
                 }
                 return null;
               },
@@ -93,22 +145,27 @@ class LoginFormState extends State<LoginForm> {
             padding:
                 const EdgeInsets.symmetric(vertical: 16.0, horizontal: 15.0),
             child: LoginButton(
-              text:  AppLocalizations.of(context)!.translate("Login").toString(),
+              text: AppLocalizations.of(context)!.translate("Login").toString(),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text('Processing Data')));
+                  _bloc!.authenticate(
+                      usernameController.text, passwordController.text);
+
                 }
               },
             ),
           ),
-
         ],
       ),
     );
   }
-}
 
+  @override
+  void dispose() {
+    super.dispose();
+    _bloc!.dispose();
+  }
+}
 
 class SignupForm extends StatefulWidget {
   @override
@@ -143,12 +200,16 @@ class SignupFormState extends State<SignupForm> {
                   onPressed: () => {},
                   icon: Icon(Icons.account_circle_sharp),
                 ),
-                labelText:AppLocalizations.of(context)!.translate("Username").toString(),
+                labelText: AppLocalizations.of(context)!
+                    .translate("Username")
+                    .toString(),
                 enabledBorder: const OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.orange, width: 2.0),
+                  borderSide:
+                      const BorderSide(color: Colors.orange, width: 2.0),
                 ),
                 focusedBorder: const OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.orange, width: 2.0),
+                  borderSide:
+                      const BorderSide(color: Colors.orange, width: 2.0),
                 ),
                 errorBorder: const OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.red, width: 2.0),
@@ -159,13 +220,18 @@ class SignupFormState extends State<SignupForm> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return AppLocalizations.of(context)!.translate("Username").toString() + AppLocalizations.of(context)!.translate("Is required").toString();
+                  return AppLocalizations.of(context)!
+                          .translate("Username")
+                          .toString() +
+                      AppLocalizations.of(context)!
+                          .translate("Is required")
+                          .toString();
                 }
                 return null;
               },
             ),
             padding:
-            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
           ),
           Padding(
             child: TextFormField(
@@ -178,12 +244,16 @@ class SignupFormState extends State<SignupForm> {
                   onPressed: () => {},
                   icon: Icon(Icons.lock),
                 ),
-                labelText: AppLocalizations.of(context)!.translate("Password").toString(),
+                labelText: AppLocalizations.of(context)!
+                    .translate("Password")
+                    .toString(),
                 enabledBorder: const OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.orange, width: 2.0),
+                  borderSide:
+                      const BorderSide(color: Colors.orange, width: 2.0),
                 ),
                 focusedBorder: const OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.orange, width: 2.0),
+                  borderSide:
+                      const BorderSide(color: Colors.orange, width: 2.0),
                 ),
                 errorBorder: const OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.red, width: 2.0),
@@ -191,17 +261,21 @@ class SignupFormState extends State<SignupForm> {
                 focusedErrorBorder: const OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.red, width: 2.0),
                 ),
-
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return AppLocalizations.of(context)!.translate("Password").toString() + AppLocalizations.of(context)!.translate("Is required").toString();
+                  return AppLocalizations.of(context)!
+                          .translate("Password")
+                          .toString() +
+                      AppLocalizations.of(context)!
+                          .translate("Is required")
+                          .toString();
                 }
                 return null;
               },
             ),
             padding:
-            const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
+                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
           ),
           Padding(
             child: TextFormField(
@@ -213,12 +287,16 @@ class SignupFormState extends State<SignupForm> {
                   onPressed: () => {},
                   icon: Icon(Icons.lock),
                 ),
-                labelText: AppLocalizations.of(context)!.translate("Confirm Password").toString(),
+                labelText: AppLocalizations.of(context)!
+                    .translate("Confirm Password")
+                    .toString(),
                 enabledBorder: const OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.orange, width: 2.0),
+                  borderSide:
+                      const BorderSide(color: Colors.orange, width: 2.0),
                 ),
                 focusedBorder: const OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.orange, width: 2.0),
+                  borderSide:
+                      const BorderSide(color: Colors.orange, width: 2.0),
                 ),
                 errorBorder: const OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.red, width: 2.0),
@@ -226,25 +304,32 @@ class SignupFormState extends State<SignupForm> {
                 focusedErrorBorder: const OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.red, width: 2.0),
                 ),
-
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return AppLocalizations.of(context)!.translate("Password").toString() + AppLocalizations.of(context)!.translate("Is required").toString();
-                }else if(value !=  passWordController.text){
-                  return AppLocalizations.of(context)!.translate("Passwords do not match").toString();
+                  return AppLocalizations.of(context)!
+                          .translate("Password")
+                          .toString() +
+                      AppLocalizations.of(context)!
+                          .translate("Is required")
+                          .toString();
+                } else if (value != passWordController.text) {
+                  return AppLocalizations.of(context)!
+                      .translate("Passwords do not match")
+                      .toString();
                 }
                 return null;
               },
             ),
             padding:
-            const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
+                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
           ),
           Padding(
             padding:
-            const EdgeInsets.symmetric(vertical: 16.0, horizontal: 15.0),
+                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 15.0),
             child: LoginButton(
-              text: AppLocalizations.of(context)!.translate("Sign up").toString(),
+              text:
+                  AppLocalizations.of(context)!.translate("Sign up").toString(),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   ScaffoldMessenger.of(context)
@@ -258,4 +343,3 @@ class SignupFormState extends State<SignupForm> {
     );
   }
 }
-
