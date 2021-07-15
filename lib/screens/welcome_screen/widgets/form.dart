@@ -44,12 +44,18 @@ class LoginFormState extends State<LoginForm> {
                     case Status.ERROR:
                       return Container(
                           padding: EdgeInsets.all(10),
-                          child: Text(
-                            AppLocalizations.of(context)!
-                                .translate("Login Error")
-                                .toString(),
-                            style: TextStyle(color: Colors.red),
-                          ));
+                          child: Column(
+                            children: <Widget>[
+                              if(snapshot.data!.message.contains("401"))
+                              Text(
+                                AppLocalizations.of(context)!
+                                    .translate("Login Error")
+                                    .toString(),
+                                style: TextStyle(color: Colors.red),
+                              )
+                            ],
+                          ),
+                       );
                   }
                 }
                 return Container();
