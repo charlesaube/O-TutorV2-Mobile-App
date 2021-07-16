@@ -9,23 +9,17 @@ import 'api_exceptions.dart';
 class ApiClient {
   final String _baseUrl = SecureStorage.apiUrl;
 
-  //final String _baseUrl = "http://api.themoviedb.org/3/";
-  //final String _baseUrl = "https://otutor-f456.restdb.io/rest/";
 
-  Map<String, String> get authHeaders => {
-        "Content-Type": "application/json",
-      };
 
-  // Map<String, String> get deleteHeaders =>
-  //     {
-  //       "Content-Type": "application/json",
-  //       "Authorization": "Token 4703e9c451e04f99d19fb3e1523e9b7b02c6ad1c" ,
-  //     };
   Future<Map<String, String>> fetchHeaders() async {
     final token = await SecureStorage.getAuthToken();
+    final collegId = await SecureStorage.getCollegeId();
     Map<String, String> headers = {
-      "Content-Type": "application/json",
-      "Authorization": "Token " + token!,
+      "Accept": "application/json",
+      "X-Secret": "KUKVtR2yPbtXfz0ho2xGDABPMETujuYov0tFzKIl",
+      "Accept-Language": "",
+      "debug": "false",
+      "X-College-Id": collegId!,
     };
     return headers;
   }
@@ -34,7 +28,7 @@ class ApiClient {
     var responseJson;
     try {
       final response =
-          await http.get(Uri.parse(_baseUrl + url), headers: authHeaders);
+          await http.get(Uri.parse(_baseUrl + url), headers: await fetchHeaders());
       responseJson = _returnResponse(response);
     } on SocketException catch (e) {
       print(e);
@@ -47,7 +41,7 @@ class ApiClient {
     var responseJson;
     try {
       final response = await http.post(Uri.parse(_baseUrl + url),
-          body: jsonEncode(body), headers: authHeaders);
+          body: jsonEncode(body), headers: await fetchHeaders());
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No internet');
@@ -58,9 +52,8 @@ class ApiClient {
   Future<dynamic> delete(String url) async {
     var responseJson;
     try {
-      final header = await fetchHeaders();
       final response =
-          await http.delete(Uri.parse(_baseUrl + url), headers: header);
+          await http.delete(Uri.parse(_baseUrl + url), headers: await fetchHeaders());
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No internet');

@@ -7,7 +7,9 @@ class SecureStorage{
 
   static const _keyUsername = 'username';
   static const _keyAuthToken = 'authtoken';
-  static String apiUrl = "http://10.0.2.2:8000/";
+  static const _keyCollegeId = 'collegeId';
+  //static String apiUrl = "http://10.0.2.2:8000/";
+  static String apiUrl = "https://o-tutor.com/webservices/";
 
   
   static Future setUsername(String username) async =>
@@ -22,6 +24,12 @@ class SecureStorage{
 
   static Future<String?> getAuthToken() async =>
       await _storage.read(key: _keyAuthToken);
+
+  static Future setCollegeId(String collegeId) async =>
+      await _storage.write(key: _keyCollegeId, value: collegeId);
+
+  static Future<String?> getCollegeId() async =>
+      await _storage.read(key: _keyCollegeId);
 
 
 
