@@ -8,8 +8,10 @@ import 'package:demo3/network/services/Impl/college_service.dart';
 import 'package:demo3/network/services/service_providers/service_provider.dart';
 import 'package:demo3/screens/welcome_screen/welcome.dart';
 import 'package:demo3/screens/welcome_screen/widgets/buttons.dart';
+import 'package:demo3/secure_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'Bloc/college_bloc.dart';
 import 'login.dart';
@@ -30,7 +32,15 @@ class _CollegesState extends State<Colleges> {
     _bloc = CollegeBloc();
   }
 
-
+  //trouve le id d'un college par nom car on ne peux pas stocker d'objet dans un buttondropdown
+  int findIdOfCollege(String categoryName){
+    int id = 0;
+    for(final e in colleges){
+      if (e.name == categoryName)
+        id = e.id;
+    }
+    return id;
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -60,7 +70,12 @@ class _CollegesState extends State<Colleges> {
                     if (snapshot.hasData) {
                       switch (snapshot.data!.status) {
                         case Status.LOADING:
-                          return Text('Loading');
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height,
+                            child: SpinKitDoubleBounce(
+                                color: Colors.orange),
+                          );
                         case Status.COMPLETED:
                           colleges = snapshot.data!.data;
                         return Column(
@@ -111,7 +126,9 @@ class _CollegesState extends State<Colleges> {
                                     text: AppLocalizations.of(context)!
                                         .translate('Next')
                                         .toString(),
-                                    onPressed: () {
+                                    onPressed: () async {
+                                      int collegeId = findIdOfCollege(selectedCollege);
+                                      await SecureStorage.setCollegeId(collegeId.toString());
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(

@@ -4,22 +4,13 @@ class CollegeResponse{
   late List<College> results;
 
   CollegeResponse.fromJson(dynamic json) {
-    // print(json['id']);
-    // if (json['id'] != null) {
-    //   results = <College>[];
-    //   json['results'].forEach((v) {
-    //     if (v['id'] != null)
-    //       {
-    //         results.add(new College.fromJson(v));
-    //       }
-    //   });
-    // }
+
    results = List<College>.from(json.map((model)=> College.fromJson(model)));
 
   }
 }
 class College{
-  String id;
+  int id;
   String name;
   String image;
 
@@ -27,7 +18,9 @@ class College{
 
   factory College.fromJson(dynamic json){
 
-    String id = json['id'] as String;
+    String tempId = json['id'] as String;
+    int id = int.parse(tempId);
+
     String name = json['name'] as String;
     String image = json['image'] as String;
 

@@ -13,13 +13,18 @@ class ApiClient {
 
   Future<Map<String, String>> fetchHeaders() async {
     final token = await SecureStorage.getAuthToken();
-    final collegId = await SecureStorage.getCollegeId();
+    var collegeId = await SecureStorage.getCollegeId();
+    if (collegeId == null)
+      {
+        collegeId = ' ';
+      }
+    print(collegeId);
     Map<String, String> headers = {
       "Accept": "application/json",
       "X-Secret": "KUKVtR2yPbtXfz0ho2xGDABPMETujuYov0tFzKIl",
       "Accept-Language": "",
       "debug": "false",
-      "X-College-Id": collegId!,
+      "X-College-Id": collegeId,
     };
     return headers;
   }
@@ -80,7 +85,7 @@ class ApiClient {
       case 500:
       default:
         throw FetchDataException(
-            'Error occured while Communication with Server with StatusCode : ${response.statusCode}');
+            'Error occured while Communication with Server with StatusCode : ${response.statusCode}  ${response.body}');
     }
   }
 }
