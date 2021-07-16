@@ -39,7 +39,7 @@ class CategoryListContainer extends StatelessWidget {
               Text(
                   "(" +
                       _quizService
-                          .fetchQuizByCategory("physique")
+                          .fetchQuizByCategoryName("physique")
                           .length
                           .toString() +
                       ")",

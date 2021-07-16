@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:demo3/model/movie_demo.dart';
 import 'package:demo3/network/api_response.dart';
 import 'package:demo3/network/services/IAuthentication_repository.dart';
@@ -10,13 +9,13 @@ class AuthenticationBloc{
 
   late IAuthenticationRepository _authenticationRepository;
 
-   var _authenticationController = StreamController<ApiResponse<String>>();
+   var _authenticationController = StreamController<ApiResponse<String>>.broadcast();
   StreamSink<ApiResponse<String>> get authSink => _authenticationController.sink;
 
   Stream<ApiResponse<String>> get authStream => _authenticationController.stream;
 
   AuthenticationBloc(){
-    _authenticationController = StreamController<ApiResponse<String>>();
+    _authenticationController = StreamController<ApiResponse<String>>.broadcast();
     _authenticationRepository = ServiceProvider().fetchAuthenticationRepository();
   }
 

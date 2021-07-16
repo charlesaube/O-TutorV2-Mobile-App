@@ -47,7 +47,7 @@ class BrowseQuizPage extends StatelessWidget {
                             shrinkWrap: true,
                             physics: BouncingScrollPhysics(),
                             itemCount: _quizService
-                                .fetchQuizByCategory(category.name)
+                                .fetchQuizByCategoryName(category.name)
                                 .length,
                             itemBuilder: (
                               BuildContext context,
@@ -61,7 +61,7 @@ class BrowseQuizPage extends StatelessWidget {
                                         builder: (context) => QuizPage(
                                           quiz: _quizService.fetchQuizById(
                                               _quizService
-                                                  .fetchQuizByCategory(
+                                                  .fetchQuizByCategoryName(
                                                       category.name)[index]
                                                   .id),
                                         ),
@@ -70,11 +70,11 @@ class BrowseQuizPage extends StatelessWidget {
                                   },
                                   child: QuizListContainer(
                                       _quizService
-                                          .fetchQuizByCategory(
+                                          .fetchQuizByCategoryName(
                                               category.name)[index]
                                           .title,
                                       _quizService
-                                          .fetchQuizByCategory(
+                                          .fetchQuizByCategoryName(
                                               category.name)[index]
                                           .difficulty));
                             },

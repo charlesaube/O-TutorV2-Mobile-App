@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 
 class ErrorPopUp extends StatelessWidget {
   final VoidCallback _refresh;
-  final AsyncSnapshot<ApiResponse<List<Category>>> _snapshot;
+  final AsyncSnapshot<ApiResponse<dynamic>> _snapshot;
 
   ErrorPopUp(this._snapshot, this._refresh);
 
@@ -58,17 +58,18 @@ class ErrorPopUp extends StatelessWidget {
 }
 
 class ErrorText extends StatelessWidget {
-  final String _errrorMessage;
+  final String _errorMessage;
 
-  const ErrorText(this._errrorMessage);
+  const ErrorText(this._errorMessage);
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.all(10),
       child: Text(
-        _errrorMessage,
+        _errorMessage,
         textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.grey.shade700, fontSize: 15),
+        style: TextStyle(color: Colors.grey.shade700, fontSize: 17, fontWeight: FontWeight.w400),
       ),
     );
   }

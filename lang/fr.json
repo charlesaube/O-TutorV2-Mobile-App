@@ -24,6 +24,10 @@
   "Choose College": "Choisissez votre collège",
   "No internet": "Aucune connexion internet",
   "Try Again": "Réessayer",
-  "Login Error": "Le mot de passe ou le nom d'utilisateur est erroné"
+  "Login Error": "Le mot de passe ou le nom d'utilisateur est erroné",
+  "Logout": "Deconnexion",
+  "Cancel": "Annuler",
+  "Confirm": "Confirmer",
+  "Confirmation Logout": "Voulez-vous vraiment vous déconnnectez?"
 
 }

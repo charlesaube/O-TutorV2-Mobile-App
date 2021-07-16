@@ -3,7 +3,7 @@ import 'package:demo3/network/services/IQuiz_repository.dart';
 
 class QuizService extends IQuizRepository{
 
-  List<Quiz> fetchQuizByCategory(String categoryName) {
+  List<Quiz> fetchQuizByCategoryName(String categoryName) {
     Quiz q1 = new Quiz.basic("Titre", "Easy",1);
     Quiz q2 = new Quiz.basic("Titre", "Hard",2);
     Quiz q3 = new Quiz.basic("Titre", "Expert",3);
@@ -21,5 +21,11 @@ class QuizService extends IQuizRepository{
   Quiz fetchQuizById(int id){
     Quiz q1 = new Quiz.basic("Titre", "Easy",1);
     return q1;
+  }
+
+  @override
+  fetchQuizByCategoryId(int categoryId) {
+    // TODO: implement fetchQuizByCategoryId
+    throw UnimplementedError();
   }
 }

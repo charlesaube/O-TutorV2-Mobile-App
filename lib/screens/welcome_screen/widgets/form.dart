@@ -21,12 +21,14 @@ class LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   final passwordController = TextEditingController();
   final usernameController = TextEditingController();
-
+  bool hasBeenListen = false;
 
   @override
   void initState() {
     super.initState();
     _bloc = AuthenticationBloc();
+    hasBeenListen = false;
+
   }
   @override
   void dispose() {
@@ -35,6 +37,7 @@ class LoginFormState extends State<LoginForm> {
     passwordController.dispose();
     usernameController.dispose();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -67,12 +70,13 @@ class LoginFormState extends State<LoginForm> {
                         ),
                       );
                     case Status.COMPLETED:
-                      snapshot.data!.status = Status.LOADING;
+                      if(!hasBeenListen)
                       SchedulerBinding.instance!.addPostFrameCallback((_) {
                         Navigator.push(
                             context,
                             new MaterialPageRoute(
                                 builder: (context) => NavBar()));
+                        hasBeenListen = true;
                       });
                       break;
                   }

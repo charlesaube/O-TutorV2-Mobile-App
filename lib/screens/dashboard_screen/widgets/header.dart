@@ -1,3 +1,4 @@
+import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/network/api_response.dart';
 import 'package:demo3/network/services/Impl/user_service.dart';
 import 'package:demo3/screens/welcome_screen/Bloc/authentication_bloc.dart';
@@ -39,8 +40,8 @@ class _HeaderState extends State<Header> {
           onTap: () => showDialog<String>(
             context: context,
             builder: (BuildContext context) => CupertinoAlertDialog(
-              title: const Text('Logout'),
-              content: const Text('Do you really want to logout?'),
+              title: Text(AppLocalizations.of(context)!.translate('Logout').toString()),
+              content: Text(AppLocalizations.of(context)!.translate('Confirmation Logout').toString()),
               actions: <Widget>[
                 StreamBuilder<ApiResponse<String>>(
                     stream: _bloc!.authStream,
@@ -48,7 +49,6 @@ class _HeaderState extends State<Header> {
                       if (snapshot.hasData) {
                         switch (snapshot.data!.status) {
                           case Status.COMPLETED:
-
                             SchedulerBinding.instance!.addPostFrameCallback((_) {
                               Navigator.push(
                                   context,
@@ -62,14 +62,14 @@ class _HeaderState extends State<Header> {
                     }),
                 TextButton(
                   onPressed: () => Navigator.pop(context, 'Cancel'),
-                  child: const Text('Cancel'),
+                  child:  Text(AppLocalizations.of(context)!.translate('Cancel').toString()),
                 ),
                 TextButton(
                   onPressed: () {
                     _bloc!.logout();
                     //Navigator.push(context, MaterialPageRoute(builder: (context) => WelcomePage()));
                   },
-                  child: const Text('Yes'),
+                  child: Text(AppLocalizations.of(context)!.translate('Confirm').toString()),
                 ),
               ],
             ),
