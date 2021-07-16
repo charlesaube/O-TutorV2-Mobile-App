@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
 
         primarySwatch: Colors.blue,
       ),
-      home:WelcomePage(),
+      home:NavBar(),
       debugShowCheckedModeBanner: false,
     );
   }

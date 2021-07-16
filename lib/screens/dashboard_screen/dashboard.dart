@@ -65,14 +65,18 @@ class DashboardSate extends State<DashboardPage> {
                     stream: _bloc!.startupStream,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        _startup = snapshot.data!.data;
-
                         switch (snapshot.data!.status) {
+
                           case Status.LOADING:
                             return SpinKitDoubleBounce(
                                 color: Colors.lightBlue.shade100);
                             break;
                           case Status.COMPLETED:
+                            _startup = snapshot.data!.data;
+                            return Container();
+
+
+                          case Status.ERROR:
                             return  SingleChildScrollView(
                               child: Column(
                                 children: [
@@ -167,8 +171,7 @@ class DashboardSate extends State<DashboardPage> {
                               ),
                             );
 
-                          case Status.ERROR:
-                            return ErrorPopUp(snapshot as dynamic, refresh);
+                            //return ErrorPopUp(snapshot as dynamic, refresh);
                             break;
                         }
                       }

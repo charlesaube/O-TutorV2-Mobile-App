@@ -1,7 +1,10 @@
 import 'package:demo3/model/quiz.dart';
+import 'package:demo3/network/api_client.dart';
 import 'package:demo3/network/services/IQuiz_repository.dart';
 
 class QuizService extends IQuizRepository{
+
+  ApiClient _helper = new ApiClient();
 
   List<Quiz> fetchQuizByCategoryName(String categoryName) {
     Quiz q1 = new Quiz.basic("Titre", "Easy",1);
@@ -24,8 +27,8 @@ class QuizService extends IQuizRepository{
   }
 
   @override
-  fetchQuizByCategoryId(int categoryId) {
-    // TODO: implement fetchQuizByCategoryId
-    throw UnimplementedError();
+  fetchQuizByCategoryId(int categoryId) async {
+    final response = await _helper.get("/category/");
+    return Quiz.fromJson(response);
   }
 }

@@ -13,16 +13,17 @@ class QuizBloc{
 
   Stream<ApiResponse<Quiz>> get quizStream => _quizController.stream;
 
-  var _quizzesController = StreamController<ApiResponse<List<Quiz>>>();
-  StreamSink<ApiResponse<List<Quiz>>> get quizzesSink => _quizzesController.sink;
+  var _quizListController = StreamController<ApiResponse<List<Quiz>>>();
+  StreamSink<ApiResponse<List<Quiz>>> get quizListSink => _quizListController.sink;
 
-  Stream<ApiResponse<List<Quiz>>> get quizzesStream => _quizzesController.stream;
+  Stream<ApiResponse<List<Quiz>>> get quizListStream => _quizListController.stream;
 
 
-  QuizBloc(){
+  QuizBloc(int categoryId){
     _quizController = StreamController<ApiResponse<Quiz>>();
+    _quizListController = StreamController<ApiResponse<List<Quiz>>>();
     _quizRepository = ServiceProvider().fetchQuizRepository();
-    _quizzesController = StreamController<ApiResponse<List<Quiz>>>();
+    fetchQuizByCategoryId(categoryId);
   }
 
   fetchQuizById(int id) async{
@@ -36,20 +37,20 @@ class QuizBloc{
     }
   }
 
-  fetchQuizByCategory(int categoryId) async{
-    quizSink.add(ApiResponse.loading('Authenticating'));
+  fetchQuizByCategoryId(int categoryId) async{
+    quizListSink.add(ApiResponse.loading('Authenticating'));
     try {
-      Quiz quiz = await _quizRepository.fetchQuizByCategoryId(categoryId);
-      quizSink.add(ApiResponse.completed(quiz));
+      List<Quiz> quizzes = await _quizRepository.fetchQuizByCategoryId(categoryId);
+      quizListSink.add(ApiResponse.completed(quizzes));
     } catch (e) {
-      quizSink.add(ApiResponse.error(e.toString()));
+      quizListSink.add(ApiResponse.error(e.toString()));
       print(e);
     }
   }
 
   dispose(){
     _quizController.close();
-    _quizzesController.close();
+    _quizListController.close();
   }
 
 }
