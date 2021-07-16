@@ -14,10 +14,9 @@ class QuizBloc{
   Stream<ApiResponse<Quiz>> get quizStream => _quizController.stream;
 
   var _quizzesController = StreamController<ApiResponse<List<Quiz>>>();
-  StreamSink<ApiResponse<Quiz>> get quizzesSink => _quizController.sink;
+  StreamSink<ApiResponse<List<Quiz>>> get quizzesSink => _quizzesController.sink;
 
-  Stream<ApiResponse<Quiz>> get quizzesStream => _quizController.stream;
-
+  Stream<ApiResponse<List<Quiz>>> get quizzesStream => _quizzesController.stream;
 
 
   QuizBloc(){

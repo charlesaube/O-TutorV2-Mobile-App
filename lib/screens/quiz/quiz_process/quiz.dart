@@ -1,4 +1,4 @@
-import 'package:demo3/model/Answer.dart';
+import 'package:demo3/model/answer.dart';
 import 'package:demo3/model/question.dart';
 import 'package:demo3/model/quiz.dart';
 import 'package:demo3/network/services/Impl/answer_service.dart';
