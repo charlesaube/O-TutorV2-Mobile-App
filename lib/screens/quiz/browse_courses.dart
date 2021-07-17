@@ -109,7 +109,7 @@ class _BrowseCoursesState extends State<BrowseCoursesPage> {
                                                ),
                                              );
                                            },
-                                           child: CategoryListContainer(//Affiche la description car le courseName est vide
+                                           child: CoursesListContainer(//Affiche la description car le courseName est vide
                                                _groups[index]
                                                    .description,
                                                _categoryService

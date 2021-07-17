@@ -4,13 +4,13 @@ import 'package:demo3/network/services/service_providers/service_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CategoryListContainer extends StatelessWidget {
+class CoursesListContainer extends StatelessWidget {
   final String _title;
   final String _icon;
   final ServiceProvider _serviceProvider = new ServiceProvider();
   late final QuizService _quizService;
 
-  CategoryListContainer(this._title, this._icon){
+  CoursesListContainer(this._title, this._icon){
     this._quizService = _serviceProvider.getQuizService();
   }
 

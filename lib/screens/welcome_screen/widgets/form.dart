@@ -59,7 +59,7 @@ class LoginFormState extends State<LoginForm> {
                         padding: EdgeInsets.all(10),
                         child: Column(
                           children: <Widget>[
-                            if (snapshot.data!.message.contains("400"))
+                            if (snapshot.data!.message.contains("460"))
                               Text(
                                 AppLocalizations.of(context)!
                                     .translate("Login Error")
