@@ -2,7 +2,7 @@ import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/model/Category.dart';
 import 'package:demo3/network/api_response.dart';
 import 'package:demo3/screens/navigation/navbar.dart';
-import 'package:demo3/screens/quiz/browse_category.dart';
+import 'package:demo3/screens/quiz/browse_courses.dart';
 import 'package:demo3/screens/quiz/browse_quiz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
