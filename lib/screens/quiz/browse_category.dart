@@ -1,9 +1,12 @@
 import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/model/Category.dart';
+import 'package:demo3/model/group.dart';
+import 'package:demo3/model/startup.dart';
 import 'package:demo3/network/api_response.dart';
 import 'package:demo3/network/services/ICategory_repository.dart';
 import 'package:demo3/network/services/Impl/category_service.dart';
 import 'package:demo3/network/services/service_providers/service_provider.dart';
+import 'package:demo3/screens/dashboard_screen/blocs/startup_bloc.dart';
 import 'package:demo3/screens/quiz/blocs/category_bloc.dart';
 import 'package:demo3/custom_painter/bg_circles.dart';
 import 'package:demo3/screens/util/error_widget.dart';
@@ -24,18 +27,19 @@ class BrowseCategoryPage extends StatefulWidget {
 }
 
 class _BrowseCategoryState extends State<BrowseCategoryPage> {
-  CategoryBloc? _bloc;
+  StartupBloc? _bloc;
   final ICategoryRepository _categoryService = ServiceProvider().getCategoryService();
+  late List<Group> _groups;
 
   @override
   void initState() {
     super.initState();
-    _bloc = CategoryBloc();
+    _bloc = StartupBloc();
   }
 
   void refresh() {
     setState(() {
-      _bloc!.getCategories();
+      _bloc!.fetchStartup();
     });
   }
  @override
@@ -59,9 +63,9 @@ class _BrowseCategoryState extends State<BrowseCategoryPage> {
             ),
           ),
           RefreshIndicator(
-            onRefresh: () => _bloc!.getCategories(),
-            child: StreamBuilder<ApiResponse<List<Category>>>(
-                stream: _bloc!.categoryListStream,
+            onRefresh: () => _bloc!.fetchStartup(),
+            child: StreamBuilder<ApiResponse<Startup>>(
+                stream: _bloc!.startupStream,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     switch (snapshot.data!.status) {
@@ -70,60 +74,59 @@ class _BrowseCategoryState extends State<BrowseCategoryPage> {
                             color: Colors.lightBlue.shade100);
                         break;
                       case Status.COMPLETED:
+                         _groups = snapshot.data!.data.groups;
 
+                         return SingleChildScrollView(
+                           child: Column(
+                             children: <Widget>[
+                               Container(
+                                 width: MediaQuery.of(context).size.width,
+                                 height: MediaQuery.of(context).size.height,
+                                 child: Column(
+                                   children: <Widget>[
+                                     HeaderCategory("Cours"),
+                                     ListView.builder(
+                                       scrollDirection: Axis.vertical,
+                                       shrinkWrap: true,
+                                       physics: BouncingScrollPhysics(),
+                                       itemCount: _groups.length,
+                                       itemBuilder: (
+                                           BuildContext context,
+                                           int index,
+                                           ) {
+                                         return GestureDetector(
+                                           onTap: () {
+                                             print(_groups[index]
+                                                 .courseName);
+                                             Navigator.push(
+                                               context,
+                                               MaterialPageRoute(
+                                                 builder: (context) =>
+                                                     BrowseQuizPage(
+                                                         category: _categoryService
+                                                             .fetchAllCategories()[
+                                                         index]),
+                                               ),
+                                             );
+                                           },
+                                           child: CategoryListContainer(//Affiche la description car le courseName est vide
+                                               _groups[index]
+                                                   .description,
+                                               _categoryService
+                                                   .fetchAllCategories()[index]
+                                                   .icon),
+                                         );
+                                       },
+                                     ),
+                                   ],
+                                 ),
+                               ),
+                             ],
+                           ),
+                         );
+                         break;
                       case Status.ERROR:
-                      return SingleChildScrollView(
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              child: Column(
-                                children: <Widget>[
-                                  HeaderCategory("Category"),
-                                  ListView.builder(
-                                    scrollDirection: Axis.vertical,
-                                    shrinkWrap: true,
-                                    physics: BouncingScrollPhysics(),
-                                    itemCount: _categoryService
-                                        .fetchAllCategories()
-                                        .length,
-                                    itemBuilder: (
-                                        BuildContext context,
-                                        int index,
-                                        ) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          print(_categoryService
-                                              .fetchAllCategories()[index]
-                                              .name);
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  BrowseQuizPage(
-                                                      category: _categoryService
-                                                          .fetchAllCategories()[
-                                                      index]),
-                                            ),
-                                          );
-                                        },
-                                        child: CategoryListContainer(
-                                            _categoryService
-                                                .fetchAllCategories()[index]
-                                                .name,
-                                            _categoryService
-                                                .fetchAllCategories()[index]
-                                                .icon),
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                      break;
-                        //return ErrorPopUp(snapshot, refresh);
+                        return ErrorPopUp(snapshot, refresh);
                         break;
                     }
                   }

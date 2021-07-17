@@ -28,7 +28,6 @@ class DashboardPage extends StatefulWidget {
 
 class DashboardSate extends State<DashboardPage> {
   StartupBloc? _bloc;
-  late final UserService _userService = ServiceProvider().getUserService();
   final IStartupRepository _startupRepository =
       ServiceProvider().fetchStartupRepository();
   late Startup _startup;

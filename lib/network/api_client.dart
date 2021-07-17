@@ -36,6 +36,7 @@ class ApiClient {
       "X-College-Id": /*collegeId*/ "40",//hardcoded parceque c'est le seul id fonctionnel pour le logout
       "authorization-token": token,
     };
+    print("Token: " + token);
     return headers;
   }
 
