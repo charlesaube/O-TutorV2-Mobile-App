@@ -4,17 +4,16 @@ import 'group.dart';
 
 class Startup {
   List<Group> groups;
-  List<User> users;
+  User user;
 
-  Startup(this.groups, this.users);
+  Startup(this.groups, this.user);
 
   factory Startup.fromJson(dynamic json){
     var groupObjJson = json['groups']  as List;
     List<Group> _groups = groupObjJson.map((groupJson) => Group.fromJson(groupJson)).toList();
 
-    var userObjJson = json['users']  as List;
-    List<User> _users = userObjJson.map((userJson) => User.fromJson(userJson)).toList();
+    User _user = User.fromJson(json['users'] );
 
-    return Startup(_groups, _users);
+    return Startup(_groups, _user);
   }
 }

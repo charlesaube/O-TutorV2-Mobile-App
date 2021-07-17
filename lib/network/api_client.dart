@@ -7,9 +7,8 @@ import 'package:http/http.dart' as http;
 import 'api_exceptions.dart';
 
 class ApiClient {
+
   final String _baseUrl = SecureStorage.apiUrl;
-
-
 
   Future<Map<String, String>> fetchHeaders() async {
     final token = await SecureStorage.getAuthToken();
@@ -18,13 +17,13 @@ class ApiClient {
       {
         collegeId = ' ';
       }
-    print(collegeId);
     Map<String, String> headers = {
       "Accept": "application/json",
       "X-Secret": "KUKVtR2yPbtXfz0ho2xGDABPMETujuYov0tFzKIl",
       "Accept-Language": "",
       "debug": "false",
       "X-College-Id": collegeId,
+      "authorization-token": token!,
     };
     return headers;
   }

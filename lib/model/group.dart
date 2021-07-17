@@ -1,23 +1,17 @@
-import 'package:flutter/cupertino.dart';
-
-import 'assignedQuizzes.dart';
-
-
 class Group {
-  int id;
+  String id;
   String name;
-  int courseId;
-  String courseName;
-  int tutorId;
+  String tutorId;
   String tutorName;
-  int semesterId;
+  String semesterId;
   String description;
   String status;
-  int addedBy;
-  bool isAdmin;
-  int created;
-  int modified;
-  String language;
+  String addedBy;
+  String isAdmin;
+  String created;
+  String modified;
+  dynamic image;
+  String courseName;
   int openFormativeQuizzesCount;
   int totalFormativeQuizzesCount;
   int topicsTotalCount;
@@ -25,67 +19,90 @@ class Group {
   int topicsLevel1Count;
   int topicsLevel2Count;
   int topicsLevel3Count;
-  String image;
   int forumTotalDiscussionsCount;
   int forumUnreadDiscussionsCount;
-  List<AssignedQuizzes> assignedQuizzes;
+  List<dynamic>? assignedQuizzes;
 
-  Group({
-    required this.id,
-    required this.name,
-    required this.courseId,
-    required this.tutorId,
-    required this.tutorName,
-    required this.courseName,
-    required this.semesterId,
-    required this.description,
-    required this.status,
-    required this.addedBy,
-    required this.isAdmin,
-    required this.created,
-    required this.modified,
-    required this.language,
-    required this.openFormativeQuizzesCount,
-    required this.totalFormativeQuizzesCount,
-    required this.topicsTotalCount,
-    required this.topicsLevel0Count,
-    required this.topicsLevel1Count,
-    required this.topicsLevel2Count,
-    required this.topicsLevel3Count,
-    required this.image,
-    required this.forumTotalDiscussionsCount,
-    required this.forumUnreadDiscussionsCount,
-    required this.assignedQuizzes, });
+  Group(this.id,
+      this.name,
+      this.tutorId,
+      this.tutorName,
+      this.semesterId,
+      this.description,
+      this.status,
+      this.addedBy,
+      this.isAdmin,
+      this.created,
+      this.modified,
+      this.image,
+      this.courseName,
+      this.openFormativeQuizzesCount,
+      this.totalFormativeQuizzesCount,
+      this.topicsTotalCount,
+      this.topicsLevel0Count,
+      this.topicsLevel1Count,
+      this.topicsLevel2Count,
+      this.topicsLevel3Count,
+      this.forumTotalDiscussionsCount,
+      this.forumUnreadDiscussionsCount,
+      [this.assignedQuizzes]);
 
-  factory Group.fromJson(Map<String, dynamic> json) {
+  factory Group.fromJson(dynamic json) {
+    dynamic id = json['id'];
+    dynamic name = json['name'];
+    dynamic tutorId = json["tutor_id"];
+    dynamic tutorName = json["tutor_name"];
+    dynamic semesterId = json["semester_id"];
+    dynamic description = json["description"];
+    dynamic status = json["status"];
+    dynamic addedBy = json["added_by"];
+    dynamic isAdmin = json["is_admin"];
+    dynamic created = json["created"];
+    dynamic modified = json["modified"];
+    dynamic image = json["image"];
+    dynamic courseName = json["course_name"];
+    dynamic openFormativeQuizzesCount = json["open_formative_quizzes_count"];
+    dynamic totalFormativeQuizzesCount = json["total_formative_quizzes_count"];
+    dynamic topicsTotalCount = json["topics_total_count"];
+    dynamic topicsLevel0Count = json["topics_level0_count"];
+    dynamic topicsLevel1Count = json["topics_level1_count"];
+    dynamic topicsLevel2Count = json["topics_level2_count"];
+    dynamic topicsLevel3Count = json["topics_level3_count"];
+    dynamic forumTotalDiscussionsCount = json["forum_total_discussions_count"];
+    dynamic forumUnreadDiscussionsCount =
+    json["forum_unread_discussions_count"];
+    dynamic assignedQuizzes = [];
+    if (json["assigned_quizzes"] != null) {
+      dynamic assignedQuizzes = [];
+      json["assigned_quizzes"].forEach((v) {
+        assignedQuizzes.add(assignedQuizzes.fromJson(v));
+      });
+    }
     return Group(
-      id: json["id"],
-      name: json["name"],
-      courseId: json["course_id"],
-      courseName: json["course_name"],
-      tutorId: json["tutor_id"],
-      tutorName: json["tutor_name"],
-      semesterId: json["semester_id"],
-      description: json["description"],
-      status: json["status"],
-      addedBy: json["added_by"],
-      isAdmin: json["is_admin"],
-      created: json["created"],
-      modified: json["modified"],
-      language: json["language"],
-      openFormativeQuizzesCount: json["open_formative_quizzes_count"],
-      totalFormativeQuizzesCount: json["total_formative_quizzes_count"],
-      topicsTotalCount: json["topics_total_count"],
-      topicsLevel0Count: json["topics_level0_count"],
-      topicsLevel1Count: json["topics_level1_count"],
-      topicsLevel2Count: json["topics_level2_count"],
-      topicsLevel3Count: json["topics_level3_count"],
-      image: json["image"],
-      forumTotalDiscussionsCount: json["forum_total_discussions_count"],
-      forumUnreadDiscussionsCount: json["forum_unread_discussions_count"],
-      assignedQuizzes: [],
-    );
+        id,
+        name,
+        tutorId,
+        tutorName,
+        semesterId,
+        description,
+        status,
+        addedBy,
+        isAdmin,
+        created,
+        modified,
+        image,
+        courseName,
+        openFormativeQuizzesCount,
+        totalFormativeQuizzesCount,
+        topicsTotalCount,
+        topicsLevel0Count,
+        topicsLevel1Count,
+        topicsLevel2Count,
+        topicsLevel3Count,
+        forumTotalDiscussionsCount,
+        forumUnreadDiscussionsCount,
+        assignedQuizzes);
   }
+
+
 }
-
-

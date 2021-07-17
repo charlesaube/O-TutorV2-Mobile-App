@@ -1,73 +1,116 @@
 class User {
-   String browser;
-   int id;
-   String username;
-   String password;
-   String firstName;
-   String LastName;
-   String email;
-   String picture;
-   String folder;
-   int registrationDate;
-   int lastLogin;
-   String affiliation;
-   String country;
-   String provState;
-   String city;
-   int nbConnect;
-   String ipAdress;
-   String profile;
-   String logStatus;
-   int idCategory;
-   String office;
+  late String id;
+  late String addedBy;
+  late String parentId;
+  late String username;
+  late String firstName;
+  late String lastName;
+  late dynamic profileImage;
+  late String email;
+  late dynamic location;
+  late dynamic description;
+  late String status;
+  late dynamic contactNumber;
+  late String created;
+  late String modified;
+  late dynamic lastLogin;
+  late String userType;
+  late String language;
+  late String emailVerify;
+  late int openFormativeQuizzes;
+  late int weeklyGoal;
+  late int weeklyGoalProgress;
+  late bool ongoingWork;
+  late String ongoingWorkType;
+  late int ongoingWorkId;
+  List<dynamic>? assignedQuizzes;
 
-  User({
-    required this.browser,
-    required this.firstName,
-    required this.LastName,
-    required this.email,
-    required this.picture,
-    required this.folder,
-    required this.registrationDate,
-    required this.lastLogin,
-    required this.affiliation,
-    required this.country,
-    required this.provState,
-    required this.city,
-    required this.nbConnect,
-    required this.ipAdress,
-    required this.profile,
-    required this.logStatus,
-    required this.idCategory,
-    required this.office,
-    required this.id,
-    required this.username,
-    required this.password,
-  });
+  User(
+      this.id,
+      this.addedBy,
+      this.parentId,
+      this.username,
+      this.firstName,
+      this.lastName,
+      this.profileImage,
+      this.email,
+      this.location,
+      this.description,
+      this.status,
+      this.contactNumber,
+      this.created,
+      this.modified,
+      this.lastLogin,
+      this.userType,
+      this.language,
+      this.emailVerify,
+      this.openFormativeQuizzes,
+      this.weeklyGoal,
+      this.weeklyGoalProgress,
+      this.ongoingWork,
+      this.ongoingWorkType,
+      this.ongoingWorkId,
+      [this.assignedQuizzes]);
 
-  factory User.fromJson(Map<String, dynamic> json) {
+  factory User.fromJson(dynamic json) {
+    dynamic id = json["id"];
+    dynamic addedBy = json["added_by"];
+    dynamic parentId = json["parent_id"];
+    dynamic username = json["username"];
+    dynamic firstName = json["first_name"];
+    dynamic lastName = json["last_name"];
+    dynamic profileImage = json["profile_image"];
+    dynamic email = json["email"];
+    dynamic location = json["location"];
+    dynamic description = json["description"];
+    dynamic status = json["status"];
+    dynamic contactNumber = json["contact_number"];
+    dynamic created = json["created"];
+    dynamic modified = json["modified"];
+    dynamic lastLogin = json["last_login"];
+    dynamic userType = json["user_type"];
+    dynamic language = json["language"];
+    dynamic emailVerify = json["email_verify"];
+    dynamic openFormativeQuizzes = json["open_formative_quizzes"];
+    dynamic weeklyGoal = json["weekly_goal"];
+    dynamic weeklyGoalProgress = json["weekly_goal_progress"];
+    dynamic ongoingWork = json["ongoing_work"];
+    dynamic ongoingWorkType = json["ongoing_work_type"];
+    dynamic ongoingWorkId = json["ongoing_work_id"];
+
+
+    dynamic assignedQuizzes = [];
+    if (json["assigned_quizzes"] != null) {
+      dynamic assignedQuizzes = [];
+      json["assigned_quizzes"].forEach((v) {
+        assignedQuizzes.add(assignedQuizzes.fromJson(v));
+      });
+    }
     return User(
-      browser: json['browser'] as String,
-      id: json['id'] as int,
-      username: json['username'] as String,
-      password: json['Password'] as String,
-      firstName: json['first_name'] as String,
-      LastName: json['Last_name'] as String,
-      email: json['email'] as String,
-      picture: json['picture'] as String,
-      folder: json['folder'] as String,
-      registrationDate: json['registration_date'] as int,
-      lastLogin: json['last_login'] as int,
-      affiliation: json['affiliation'] as String,
-      country: json['country'] as String,
-      provState: json['prov_state'] as String,
-      city: json['city'] as String,
-      nbConnect: json['nb_connect'] as int,
-      ipAdress: json['ip_address'] as String,
-      profile: json['profile'] as String,
-      logStatus: json['log_status'] as String,
-      idCategory: json['id_category'] as int,
-      office: json['office'] as String,
-    );
+        id,
+        addedBy,
+        parentId,
+        username,
+        firstName,
+        lastName,
+        profileImage,
+        email,
+        location,
+        description,
+        status,
+        contactNumber,
+        created,
+        modified,
+        lastLogin,
+        userType,
+        language,
+        emailVerify,
+        openFormativeQuizzes,
+        weeklyGoal,
+        weeklyGoalProgress,
+        ongoingWork,
+        ongoingWorkType,
+        ongoingWorkId,
+        assignedQuizzes);
   }
 }
