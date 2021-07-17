@@ -19,14 +19,14 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'browse_quiz.dart';
 
-class BrowseCategoryPage extends StatefulWidget {
+class BrowseCoursesPage extends StatefulWidget {
   @override
-  _BrowseCategoryState createState() {
-    return _BrowseCategoryState();
+  _BrowseCoursesState createState() {
+    return _BrowseCoursesState();
   }
 }
 
-class _BrowseCategoryState extends State<BrowseCategoryPage> {
+class _BrowseCoursesState extends State<BrowseCoursesPage> {
   StartupBloc? _bloc;
   final ICategoryRepository _categoryService = ServiceProvider().getCategoryService();
   late List<Group> _groups;

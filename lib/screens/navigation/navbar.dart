@@ -19,7 +19,7 @@ class NavBarState extends State<NavBar> {
 
   final tabs = [
     Center(child: DashboardPage()),
-    Center(child: BrowseCategoryPage()),
+    Center(child: BrowseCoursesPage()),
     Center(child: ForumPage()),
     Center(child: SettingsPage()),
   ];
