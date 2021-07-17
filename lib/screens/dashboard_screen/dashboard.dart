@@ -113,7 +113,7 @@ class DashboardSate extends State<DashboardPage> {
                                                       'Dashboard Statistics')
                                                   .toString()),
                                             ),
-                                           WeaklyGoal(user),
+                                            WeaklyGoal(user),
                                           ],
                                         ),
                                       ],
@@ -127,9 +127,8 @@ class DashboardSate extends State<DashboardPage> {
                             break;
                         }
                       }
-                      return Container(
-                        child: Text("No data"),
-                      );
+                      return SpinKitDoubleBounce(
+                          color: Colors.lightBlue.shade100);
                     })),
           ],
         ),
