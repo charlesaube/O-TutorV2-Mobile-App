@@ -17,9 +17,9 @@ class AuthenticationRepository extends IAuthenticationRepository{
   }
 
   @override
-  Future logout() async {
+  Future<String> logout() async {
     final response = await _helper.delete("auth/token/");
-    return response;
+    return response['status'];
   }
 
 

@@ -12,8 +12,7 @@ class CollegeRepository extends ICollegeRepository{
 
   @override
   Future<List<College>>fetchColleges() async {
-    print("allo");
-    final response = await _helper.get("/colleges/");
+    final response = await _helper.get("/colleges/", "College");
     print(response);
     return CollegeResponse.fromJson(response).results;
   }

@@ -10,29 +10,40 @@ class ApiClient {
 
   final String _baseUrl = SecureStorage.apiUrl;
 
-  Future<Map<String, String>> fetchHeaders() async {
-    final token = await SecureStorage.getAuthToken();
+  Future<Map<String, String>> fetchHeaders([String? type]) async {
+    var token = await SecureStorage.getAuthToken();
     var collegeId = await SecureStorage.getCollegeId();
-    if (collegeId == null)
+    if (collegeId == null || token == null)
       {
-        collegeId = ' ';
+        collegeId = '';
+        token = '';
+      }
+    if (type == "College")
+      {
+        Map<String, String> headers = {
+          "Accept": "application/json",
+          "X-Secret": "KUKVtR2yPbtXfz0ho2xGDABPMETujuYov0tFzKIl",
+          "Accept-Language": "",
+          "debug": "false",
+        };
+        return headers;
       }
     Map<String, String> headers = {
       "Accept": "application/json",
       "X-Secret": "KUKVtR2yPbtXfz0ho2xGDABPMETujuYov0tFzKIl",
       "Accept-Language": "",
       "debug": "false",
-      "X-College-Id": collegeId,
-      "authorization-token": token!,
+      "X-College-Id": /*collegeId*/ "40",//hardcoded parceque c'est le seul id fonctionnel pour le logout
+      "authorization-token": token,
     };
     return headers;
   }
 
-  Future<dynamic> get(String url) async {
+  Future<dynamic> get(String url, [String? type]) async {
     var responseJson;
     try {
       final response =
-          await http.get(Uri.parse(_baseUrl + url), headers: await fetchHeaders());
+          await http.get(Uri.parse(_baseUrl + url), headers: await fetchHeaders(type));
       responseJson = _returnResponse(response);
     } on SocketException catch (e) {
       print(e);

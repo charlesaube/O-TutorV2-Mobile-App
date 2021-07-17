@@ -21,7 +21,7 @@ class CollegeBloc {
   }
 
   fetchColleges() async {
-    collegeListSink.add(ApiResponse.loading('Fetching Categories'));
+    collegeListSink.add(ApiResponse.loading('Fetching Colleges'));
     try {
       List<College> colleges = await _collegeRepository.fetchColleges();
       collegeListSink.add(ApiResponse.completed(colleges));
