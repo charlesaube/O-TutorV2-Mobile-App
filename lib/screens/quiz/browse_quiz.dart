@@ -63,21 +63,28 @@ class _BrowseQuizPageState extends State<BrowseQuizPage> {
                 ),
               ),
               RefreshIndicator(
-                  onRefresh: () => _bloc!.fetchQuizByGroupId(1),
+                  onRefresh: () => _bloc!.fetchQuizByGroupId(widget.groupId),
                   child: StreamBuilder<ApiResponse<List<Quiz>>>(
                       stream: _bloc!.quizListStream,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           switch (snapshot.data!.status) {
                             case Status.LOADING:
-                              return SpinKitDoubleBounce(
-                                  color: Colors.lightBlue.shade100);
+                              return Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height,
+                                child: SpinKitDoubleBounce(
+                                    color: Colors.lightBlue.shade100),
+                              );
                             case Status.COMPLETED:
                               _quizzes = snapshot.data!.data;
+
                               return SingleChildScrollView(
                                 child: Column(
                                   children: <Widget>[
                                     Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: MediaQuery.of(context).size.height,
                                       child: Column(
                                         children: <Widget>[
                                           HeaderCategory("Quiz"),
@@ -102,18 +109,8 @@ class _BrowseQuizPageState extends State<BrowseQuizPage> {
                                                       ),
                                                     );
                                                   },
-                                                  child: Text(""));
-                                              // child: QuizListContainer(
-                                              //     _quizService
-                                              //         .fetchQuizByCategoryName(
-                                              //             widget.category
-                                              //                 .name)[index]
-                                              //         .title,
-                                              //     _quizService
-                                              //         .fetchQuizByCategoryName(
-                                              //             widget.category
-                                              //                 .name)[index]
-                                              //         .difficulty));
+                                              child: QuizListContainer(
+                                                 _quizzes[index]));
                                             },
                                           ),
                                         ],
@@ -122,7 +119,7 @@ class _BrowseQuizPageState extends State<BrowseQuizPage> {
                                   ],
                                 ),
                               );
-                              break;
+                               break;
 
                             case Status.ERROR:
                               return ErrorPopUp(snapshot, refresh);

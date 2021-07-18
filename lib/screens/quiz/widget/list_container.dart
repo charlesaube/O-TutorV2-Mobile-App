@@ -1,4 +1,6 @@
+import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/model/group.dart';
+import 'package:demo3/model/quiz.dart';
 import 'package:demo3/network/services/Impl/category_service.dart';
 import 'package:demo3/network/services/Impl/quiz_service.dart';
 import 'package:demo3/network/services/service_providers/service_provider.dart';
@@ -42,12 +44,11 @@ class CoursesListContainer extends StatelessWidget {
 }
 
 class QuizListContainer extends StatelessWidget {
-  final String _title;
-  final String _difficulty;
-  final CategoryService _categoryService = new CategoryService();
-  final QuizService _quizService = new QuizService();
+  final Quiz _quiz;
 
-  QuizListContainer(this._title, this._difficulty);
+
+
+  QuizListContainer(this._quiz);
 
   @override
   Widget build(BuildContext context) {
@@ -58,13 +59,13 @@ class QuizListContainer extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(" " + _title,
+              Text(" " + _quiz.quizTitle,
                   style: TextStyle(color: Colors.white, fontSize: 20)),
             ],
           ),
           Row(
             children: <Widget>[
-              Text(_difficulty,
+              Text(AppLocalizations.of(context)!.translate('Questions').toString() + ": " + _quiz.noOfQuestions,
                   style: TextStyle(color: Colors.white, fontSize: 15)),
               Icon(Icons.navigate_next, color: Colors.white),
             ],

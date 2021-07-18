@@ -11,7 +11,6 @@ class QuizRepository extends IQuizRepository{
     final response = await _helper.get("groups/" + groupId.toString() +"/quizzes");
     var quizObjJson = response  as List;
     List<Quiz> quizzes = quizObjJson.map((quizJson) => Quiz.fromJson(quizJson)).toList();
-    print(quizzes[0].toString());
     return quizzes;
   }
 
