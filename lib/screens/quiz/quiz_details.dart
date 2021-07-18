@@ -111,28 +111,47 @@ class QuizDetailsPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          alignment: Alignment.topLeft,
-                          padding: EdgeInsets.all(20),
-                          child: Text("Instructions", style: TextStyle(fontSize: 15),),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width / 1.2,
-                          height: MediaQuery.of(context).size.height / 3,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.orange,
-                              width: 2,
-                            ),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            children: <Widget>[
+                              Container(
+                                width: MediaQuery.of(context).size.width / 1.2,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.topLeft,
+                                      margin: EdgeInsets.only(bottom: 10),
+                                      child: Text(
+                                        "Instructions:",
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                    ),
+                                    Container(
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              3,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Colors.orange,
+                                          width: 2,
+                                        ),
+                                      ),
+                                      child: Text(
+                                        quiz.instructions,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                          child: Text(quiz.instructions, ),
-                        ),
-                        LoginButton(onPressed: () {}, text: "Start"),
-                      ],
+                          LoginButton(onPressed: () {}, text: "Start"),
+                        ],
+                      ),
                     ),
                   ],
                 ),
