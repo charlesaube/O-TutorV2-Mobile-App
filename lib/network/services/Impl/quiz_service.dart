@@ -7,10 +7,10 @@ class QuizService extends IQuizRepository{
   ApiClient _helper = new ApiClient();
 
   List<Quiz> fetchQuizByCategoryName(String categoryName) {
-    Quiz q1 = new Quiz.basic("Titre", "Easy",1);
-    Quiz q2 = new Quiz.basic("Titre", "Hard",2);
-    Quiz q3 = new Quiz.basic("Titre", "Expert",3);
-    Quiz q4 = new Quiz.basic("Titre", "Easy",4);
+    Quiz q1 = new Quiz.basic("Titre", 1);
+    Quiz q2 = new Quiz.basic("Titre", 2);
+    Quiz q3 = new Quiz.basic("Titre", 3);
+    Quiz q4 = new Quiz.basic("Titre",4);
 
     List<Quiz> quizList = [];
     quizList.add(q1);
@@ -21,14 +21,23 @@ class QuizService extends IQuizRepository{
     return quizList;
   }
 
-  Quiz fetchQuizById(int id){
-    Quiz q1 = new Quiz.basic("Titre", "Easy",1);
-    return q1;
-  }
+
 
   @override
   fetchQuizByCategoryId(int categoryId) async {
     final response = await _helper.get("/category/");
     return Quiz.fromJson(response);
+  }
+
+  @override
+  fetchQuizByGroupId(int groupId) {
+    // TODO: implement fetchquizByGroupId
+    throw UnimplementedError();
+  }
+
+  @override
+  fetchQuizById(int id) {
+    // TODO: implement fetchQuizById
+    throw UnimplementedError();
   }
 }

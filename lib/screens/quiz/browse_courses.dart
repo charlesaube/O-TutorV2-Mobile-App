@@ -103,9 +103,7 @@ class _BrowseCoursesState extends State<BrowseCoursesPage> {
                                                MaterialPageRoute(
                                                  builder: (context) =>
                                                      BrowseQuizPage(
-                                                         category: _categoryService
-                                                             .fetchAllCategories()[
-                                                         index]),
+                                                        groupId: _groups[index].id,),
                                                ),
                                              );
                                            },

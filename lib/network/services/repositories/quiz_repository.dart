@@ -5,21 +5,22 @@ import 'package:demo3/network/services/IQuiz_repository.dart';
 class QuizRepository extends IQuizRepository{
   ApiClient _helper = new ApiClient();
 
+
   @override
-  fetchQuizByCategoryName(String categoryName) async {
-    final response = await _helper.get("");
+  fetchQuizByGroupId(int groupId) async {
+    final response = await _helper.get("groups/" + groupId.toString() +"/quizzes");
+    var quizObjJson = response  as List;
+    List<Quiz> quizzes = quizObjJson.map((quizJson) => Quiz.fromJson(quizJson)).toList();
+    print(quizzes[0].toString());
+    return quizzes;
+  }
+
+  @override
+  fetchQuizById(int id) {
+    // TODO: implement fetchQuizById
     throw UnimplementedError();
   }
 
-  @override
-  fetchQuizByCategoryId(int categoryId) async{
-    final response = await _helper.get("/" + categoryId.toString() + "/");
-  }
 
-  @override
-  fetchQuizById(int id) async{
-    final response = await _helper.get("question/" + id.toString() + "/");
-    return Quiz.fromJson(response);
-  }
 
 }

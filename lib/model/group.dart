@@ -1,5 +1,5 @@
 class Group {
-  String id;
+  int id;
   String name;
   String tutorId;
   String tutorName;
@@ -48,7 +48,7 @@ class Group {
       [this.assignedQuizzes]);
 
   factory Group.fromJson(dynamic json) {
-    dynamic id = json['id'];
+    dynamic id = int.parse(json['id']);
     dynamic name = json['name'];
     dynamic tutorId = json["tutor_id"];
     dynamic tutorName = json["tutor_name"];

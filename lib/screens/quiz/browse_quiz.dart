@@ -4,40 +4,44 @@ import 'package:demo3/network/api_response.dart';
 import 'package:demo3/network/services/IQuiz_repository.dart';
 import 'package:demo3/network/services/Impl/quiz_service.dart';
 import 'package:demo3/network/services/service_providers/service_provider.dart';
+import 'package:demo3/screens/quiz/blocs/browse_quiz_bloc.dart';
 import 'package:demo3/screens/quiz/quiz_process/blocs/quiz_bloc.dart';
 import 'package:demo3/screens/quiz/quiz_process/quiz.dart';
 import 'package:demo3/custom_painter/bg_circles.dart';
 import 'package:demo3/screens/quiz/widget/header.dart';
 import 'package:demo3/screens/quiz/widget/list_container.dart';
+import 'package:demo3/screens/util/error_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class BrowseQuizPage extends StatefulWidget {
-  final Category category;
+  late int groupId;
 
   BrowseQuizPage({
     Key? key,
-    required this.category,
-  }) : super(key: key);
+    required this.groupId,
+  }) : super(key: key){
+    this.groupId = 23; //Hard coded parce que le groupe 24(le vrai groupe de laura) est unauthorize
+  }
 
   @override
   _BrowseQuizPageState createState() => _BrowseQuizPageState();
 }
 
 class _BrowseQuizPageState extends State<BrowseQuizPage> {
-  QuizBloc? _bloc;
-  final IQuizRepository _quizService = ServiceProvider().getQuizService();
+  BrowseQuizBloc? _bloc;
+  late List<Quiz> _quizzes;
 
   @override
   void initState() {
     super.initState();
-    _bloc = QuizBloc(1);
+    _bloc = BrowseQuizBloc(widget.groupId);
   }
 
   void refresh() {
     setState(() {
-      _bloc!.fetchQuizByCategoryId(widget.category.categoryId);
+      _bloc!.fetchQuizByGroupId(widget.groupId);
     });
   }
 
@@ -59,7 +63,7 @@ class _BrowseQuizPageState extends State<BrowseQuizPage> {
                 ),
               ),
               RefreshIndicator(
-                  onRefresh: () => _bloc!.fetchQuizByCategoryId(1),
+                  onRefresh: () => _bloc!.fetchQuizByGroupId(1),
                   child: StreamBuilder<ApiResponse<List<Quiz>>>(
                       stream: _bloc!.quizListStream,
                       builder: (context, snapshot) {
@@ -69,8 +73,7 @@ class _BrowseQuizPageState extends State<BrowseQuizPage> {
                               return SpinKitDoubleBounce(
                                   color: Colors.lightBlue.shade100);
                             case Status.COMPLETED:
-
-                            case Status.ERROR:
+                              _quizzes = snapshot.data!.data;
                               return SingleChildScrollView(
                                 child: Column(
                                   children: <Widget>[
@@ -82,14 +85,11 @@ class _BrowseQuizPageState extends State<BrowseQuizPage> {
                                             scrollDirection: Axis.vertical,
                                             shrinkWrap: true,
                                             physics: BouncingScrollPhysics(),
-                                            itemCount: _quizService
-                                                .fetchQuizByCategoryName(
-                                                    widget.category.name)
-                                                .length,
+                                            itemCount: _quizzes.length,
                                             itemBuilder: (
-                                              BuildContext context,
-                                              int index,
-                                            ) {
+                                                BuildContext context,
+                                                int index,
+                                                ) {
                                               return GestureDetector(
                                                   onTap: () {
                                                     Navigator.push(
@@ -97,29 +97,23 @@ class _BrowseQuizPageState extends State<BrowseQuizPage> {
                                                       MaterialPageRoute(
                                                         builder: (context) =>
                                                             QuizPage(
-                                                          quiz: _quizService
-                                                              .fetchQuizById(_quizService
-                                                                  .fetchQuizByCategoryName(
-                                                                      widget
-                                                                          .category
-                                                                          .name)[
-                                                                      index]
-                                                                  .id),
-                                                        ),
+                                                             quiz: _quizzes[index],
+                                                            ),
                                                       ),
                                                     );
                                                   },
-                                                  child: QuizListContainer(
-                                                      _quizService
-                                                          .fetchQuizByCategoryName(
-                                                              widget.category
-                                                                  .name)[index]
-                                                          .title,
-                                                      _quizService
-                                                          .fetchQuizByCategoryName(
-                                                              widget.category
-                                                                  .name)[index]
-                                                          .difficulty));
+                                                  child: Text(""));
+                                              // child: QuizListContainer(
+                                              //     _quizService
+                                              //         .fetchQuizByCategoryName(
+                                              //             widget.category
+                                              //                 .name)[index]
+                                              //         .title,
+                                              //     _quizService
+                                              //         .fetchQuizByCategoryName(
+                                              //             widget.category
+                                              //                 .name)[index]
+                                              //         .difficulty));
                                             },
                                           ),
                                         ],
@@ -129,6 +123,11 @@ class _BrowseQuizPageState extends State<BrowseQuizPage> {
                                 ),
                               );
                               break;
+
+                            case Status.ERROR:
+                              return ErrorPopUp(snapshot, refresh);
+                              break;
+
                           }
                         }
                         return Text("No data");

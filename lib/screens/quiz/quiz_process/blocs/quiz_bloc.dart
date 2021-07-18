@@ -40,7 +40,7 @@ class QuizBloc{
   fetchQuizByCategoryId(int categoryId) async{
     quizListSink.add(ApiResponse.loading('Authenticating'));
     try {
-      List<Quiz> quizzes = await _quizRepository.fetchQuizByCategoryId(categoryId);
+      List<Quiz> quizzes = await _quizRepository.fetchQuizByGroupId(categoryId);
       quizListSink.add(ApiResponse.completed(quizzes));
     } catch (e) {
       quizListSink.add(ApiResponse.error(e.toString()));

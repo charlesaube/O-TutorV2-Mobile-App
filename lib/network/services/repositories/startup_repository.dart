@@ -17,7 +17,7 @@ class StartupRepository extends IStartupRepository{
     List<Group> groups = groupObjJson.map((groupJson) => Group.fromJson(groupJson)).toList();
     Startup startup = new Startup(groups, user);
 
-    print(response);
+    print(response);//facile d'acces à la réponse pour vérifier les id ou autre attribut pour les autres requêtes
     return startup;
 
   }
