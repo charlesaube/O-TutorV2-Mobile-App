@@ -16,7 +16,10 @@ class StartupRepository extends IStartupRepository{
     var groupObjJson = response['groups']  as List;
     List<Group> groups = groupObjJson.map((groupJson) => Group.fromJson(groupJson)).toList();
     Startup startup = new Startup(groups, user);
+
+    print(response);
     return startup;
+
   }
 
 }

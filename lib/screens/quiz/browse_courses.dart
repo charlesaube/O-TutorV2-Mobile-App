@@ -109,12 +109,8 @@ class _BrowseCoursesState extends State<BrowseCoursesPage> {
                                                ),
                                              );
                                            },
-                                           child: CoursesListContainer(//Affiche la description car le courseName est vide
-                                               _groups[index]
-                                                   .description,
-                                               _categoryService
-                                                   .fetchAllCategories()[index]
-                                                   .icon),
+                                           child: CoursesListContainer(
+                                               _groups[index]),
                                          );
                                        },
                                      ),

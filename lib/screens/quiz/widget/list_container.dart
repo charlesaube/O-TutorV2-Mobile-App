@@ -1,3 +1,4 @@
+import 'package:demo3/model/group.dart';
 import 'package:demo3/network/services/Impl/category_service.dart';
 import 'package:demo3/network/services/Impl/quiz_service.dart';
 import 'package:demo3/network/services/service_providers/service_provider.dart';
@@ -5,14 +6,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CoursesListContainer extends StatelessWidget {
-  final String _title;
-  final String _icon;
-  final ServiceProvider _serviceProvider = new ServiceProvider();
-  late final QuizService _quizService;
 
-  CoursesListContainer(this._title, this._icon){
-    this._quizService = _serviceProvider.getQuizService();
-  }
+  final Group group;
+
+  CoursesListContainer(this.group);
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +20,8 @@ class CoursesListContainer extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(
-                _icon,
-                style: TextStyle(
-                    fontFamily: 'MaterialIcons',
-                    fontSize: 32,
-                    color: Colors.white),
-              ),
-              Text(" " + _title,
+             SizedBox(height: 50,child: Image.network(group.image)),
+              Text(" " + group.description,//Affiche la description car le courseName est vide
                   style: TextStyle(color: Colors.white, fontSize: 20)),
             ],
           ),
@@ -38,10 +29,7 @@ class CoursesListContainer extends StatelessWidget {
             children: <Widget>[
               Text(
                   "(" +
-                      _quizService
-                          .fetchQuizByCategoryName("physique")
-                          .length
-                          .toString() +
+                     group.assignedQuizzes!.length.toString() +
                       ")",
                   style: TextStyle(color: Colors.white, fontSize: 15)),
               Icon(Icons.navigate_next, color: Colors.white),
