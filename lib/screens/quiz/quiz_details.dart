@@ -1,8 +1,11 @@
 import 'package:demo3/custom_painter/bg_circles.dart';
+import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/model/quiz.dart';
+import 'package:demo3/screens/quiz/quiz_process/quiz.dart';
 import 'package:demo3/screens/welcome_screen/widgets/buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class QuizDetailsPage extends StatelessWidget {
   final Quiz quiz;
@@ -29,6 +32,7 @@ class QuizDetailsPage extends StatelessWidget {
               //     painter: RPSCustomPainter180(),
               //   ),
               // ),
+
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
@@ -48,13 +52,20 @@ class QuizDetailsPage extends StatelessWidget {
                       )),
                       child: Column(
                         children: <Widget>[
-                          SizedBox(height: 50),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.close, color: Colors.white,)),
+                            ),
+                          ),
+
                           Text(
                             quiz.quizTitle,
                             textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.white, fontSize: 30),
                           ),
-                          SizedBox(height: 150),
+                          SizedBox(height: 120),
                           IntrinsicHeight(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -140,8 +151,8 @@ class QuizDetailsPage extends StatelessWidget {
                                           width: 2,
                                         ),
                                       ),
-                                      child: Text(
-                                        quiz.instructions,
+                                      child: Html(
+                                        data: quiz.instructions,
                                       ),
                                     ),
                                   ],
@@ -149,7 +160,17 @@ class QuizDetailsPage extends StatelessWidget {
                               ),
                             ],
                           ),
-                          LoginButton(onPressed: () {}, text: "Start"),
+                          LoginButton(onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    QuizPage(
+                                      quiz: quiz,
+                                    ),
+                              ),
+                            );
+                          }, text: AppLocalizations.of(context)!.translate("Start").toString()),
                         ],
                       ),
                     ),
