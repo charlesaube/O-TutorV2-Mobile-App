@@ -40,11 +40,7 @@ class _BrowseCoursesState extends State<BrowseCoursesPage> {
       _bloc!.fetchStartup();
     });
   }
- @override
-  void dispose() {
-    super.dispose();
-    _bloc!.dispose();
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -128,5 +124,11 @@ class _BrowseCoursesState extends State<BrowseCoursesPage> {
         ],
       )),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _bloc!.dispose();
   }
 }

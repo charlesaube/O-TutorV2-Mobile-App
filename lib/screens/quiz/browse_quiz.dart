@@ -27,8 +27,11 @@ class BrowseQuizPage extends StatefulWidget {
         23; //Hard coded parce que le groupe 24(le vrai groupe de laura) est unauthorize
   }
 
+
   @override
-  _BrowseQuizPageState createState() => _BrowseQuizPageState();
+  _BrowseQuizPageState createState(){
+    return _BrowseQuizPageState();
+  }
 }
 
 class _BrowseQuizPageState extends State<BrowseQuizPage> {

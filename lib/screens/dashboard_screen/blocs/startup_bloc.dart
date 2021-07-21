@@ -18,7 +18,8 @@ class StartupBloc {
   StartupBloc() {
     _startupController = StreamController<ApiResponse<Startup>>();
     _startupRepository = ServiceProvider().fetchStartupRepository();
-    print(_cachedStartup!.user.id);
+
+    //Permet de seulement faire les requètes lorsque le cache est vide.
     if (_cachedStartup == null) {
       fetchStartup();
     } else {
