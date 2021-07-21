@@ -27,7 +27,6 @@ class BrowseCoursesPage extends StatefulWidget {
 
 class _BrowseCoursesState extends State<BrowseCoursesPage> {
   StartupBloc? _bloc;
-  final ICategoryRepository _categoryService = ServiceProvider().getCategoryService();
   late List<Group> _groups;
 
   @override

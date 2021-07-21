@@ -126,8 +126,7 @@ class DashboardSate extends State<DashboardPage> {
                             break;
                         }
                       }
-                      return SpinKitDoubleBounce(
-                          color: Colors.lightBlue.shade100);
+                      return Container();
                     })),
           ],
         ),

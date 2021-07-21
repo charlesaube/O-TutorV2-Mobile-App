@@ -22,8 +22,9 @@ class BrowseQuizPage extends StatefulWidget {
   BrowseQuizPage({
     Key? key,
     required this.groupId,
-  }) : super(key: key){
-    this.groupId = 23; //Hard coded parce que le groupe 24(le vrai groupe de laura) est unauthorize
+  }) : super(key: key) {
+    this.groupId =
+        23; //Hard coded parce que le groupe 24(le vrai groupe de laura) est unauthorize
   }
 
   @override
@@ -49,90 +50,86 @@ class _BrowseQuizPageState extends State<BrowseQuizPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Stack(
-            children: <Widget>[
-              Positioned(
-                bottom: -600,
-                right: -350,
-                height: 620,
-                child: CustomPaint(
-                  size: Size(370, (360 * 1.6666666666666667).toDouble()),
-                  painter: RPSCustomPainter180(),
-                ),
+      body: Center(
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              bottom: -600,
+              right: -350,
+              height: 620,
+              child: CustomPaint(
+                size: Size(370, (360 * 1.6666666666666667).toDouble()),
+                painter: RPSCustomPainter180(),
               ),
-              RefreshIndicator(
-                  onRefresh: () => _bloc!.fetchQuizByGroupId(widget.groupId),
-                  child: StreamBuilder<ApiResponse<List<Quiz>>>(
-                      stream: _bloc!.quizListStream,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          switch (snapshot.data!.status) {
-                            case Status.LOADING:
-                              return Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: MediaQuery.of(context).size.height,
-                                child: SpinKitDoubleBounce(
-                                    color: Colors.lightBlue.shade100),
-                              );
-                            case Status.COMPLETED:
-                              _quizzes = snapshot.data!.data;
+            ),
+            RefreshIndicator(
+                onRefresh: () => _bloc!.fetchQuizByGroupId(widget.groupId),
+                child: StreamBuilder<ApiResponse<List<Quiz>>>(
+                    stream: _bloc!.quizListStream,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        switch (snapshot.data!.status) {
+                          case Status.LOADING:
+                            return Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height,
+                              child: SpinKitDoubleBounce(
+                                  color: Colors.lightBlue.shade100),
+                            );
+                          case Status.COMPLETED:
+                            _quizzes = snapshot.data!.data;
 
-                              return SingleChildScrollView(
-                                child: Column(
-                                  children: <Widget>[
-                                    Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      height: MediaQuery.of(context).size.height,
-                                      child: Column(
-                                        children: <Widget>[
-                                          HeaderCategory("Quiz"),
-                                          ListView.builder(
-                                            scrollDirection: Axis.vertical,
-                                            shrinkWrap: true,
-                                            physics: BouncingScrollPhysics(),
-                                            itemCount: _quizzes.length,
-                                            itemBuilder: (
-                                                BuildContext context,
-                                                int index,
-                                                ) {
-                                              return GestureDetector(
-                                                  onTap: () {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                           QuizDetailsPage(
-                                                             quiz: _quizzes[index],
-                                                            ),
+                            return SingleChildScrollView(
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height,
+                                    child: Column(
+                                      children: <Widget>[
+                                        HeaderCategory("Quiz"),
+                                        ListView.builder(
+                                          scrollDirection: Axis.vertical,
+                                          shrinkWrap: true,
+                                          physics: BouncingScrollPhysics(),
+                                          itemCount: _quizzes.length,
+                                          itemBuilder: (
+                                            BuildContext context,
+                                            int index,
+                                          ) {
+                                            return GestureDetector(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          QuizDetailsPage(
+                                                        quiz: _quizzes[index],
                                                       ),
-                                                    );
-                                                  },
-                                              child: QuizListContainer(
-                                                 _quizzes[index]));
-                                            },
-                                          ),
-                                        ],
-                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                                child: QuizListContainer(
+                                                    _quizzes[index]));
+                                          },
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              );
-                               break;
+                                  ),
+                                ],
+                              ),
+                            );
+                            break;
 
-                            case Status.ERROR:
-                              return ErrorPopUp(snapshot, refresh);
-                              break;
-
-                          }
+                          case Status.ERROR:
+                            return ErrorPopUp(snapshot, refresh);
+                            break;
                         }
-                        return Text("No data");
-                      })),
-            ],
-          ),
-        ],
+                      }
+                      return Text("No data");
+                    })),
+          ],
+        ),
       ),
     );
   }

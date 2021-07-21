@@ -5,33 +5,40 @@ import 'package:demo3/network/api_response.dart';
 import 'package:demo3/network/services/IStartup_repository.dart';
 import 'package:demo3/network/services/service_providers/service_provider.dart';
 
-class StartupBloc{
+class StartupBloc {
+  late IStartupRepository _startupRepository;
+  static Startup? _cachedStartup;
 
-    late IStartupRepository _startupRepository;
+  var _startupController = StreamController<ApiResponse<Startup>>();
 
-    var _startupController = StreamController<ApiResponse<Startup>>();
-    StreamSink<ApiResponse<Startup>> get startupSink => _startupController.sink;
+  StreamSink<ApiResponse<Startup>> get startupSink => _startupController.sink;
 
-    Stream<ApiResponse<Startup>> get startupStream => _startupController.stream;
+  Stream<ApiResponse<Startup>> get startupStream => _startupController.stream;
 
-    StartupBloc(){
-      _startupController = StreamController<ApiResponse<Startup>>.broadcast();
-      _startupRepository = ServiceProvider().fetchStartupRepository();
+  StartupBloc() {
+    _startupController = StreamController<ApiResponse<Startup>>();
+    _startupRepository = ServiceProvider().fetchStartupRepository();
+    print(_cachedStartup!.user.id);
+    if (_cachedStartup == null) {
       fetchStartup();
+    } else {
+      startupSink.add(ApiResponse.completed(_cachedStartup!));
     }
+  }
 
-    fetchStartup() async{
-      startupSink.add(ApiResponse.loading('Fetching Startup'));
-      try {
-        Startup startup = await _startupRepository.fetchStartup();
-        startupSink.add(ApiResponse.completed(startup));
-      } catch (e) {
-        startupSink.add(ApiResponse.error(e.toString()));
-        print(e);
-      }
+  fetchStartup() async {
+    startupSink.add(ApiResponse.loading('Fetching Startup'));
+    try {
+      Startup startup = await _startupRepository.fetchStartup();
+      _cachedStartup = startup;
+      startupSink.add(ApiResponse.completed(startup));
+    } catch (e) {
+      startupSink.add(ApiResponse.error(e.toString()));
+      print(e);
     }
+  }
 
-    dispose(){
-      _startupController.close();
-    }
+  dispose() {
+    _startupController.close();
+  }
 }

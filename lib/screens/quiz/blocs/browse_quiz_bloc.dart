@@ -19,7 +19,6 @@ class BrowseQuizBloc{
   BrowseQuizBloc(int groupId){
     _quizListController = StreamController<ApiResponse<List<Quiz>>>();
     _quizRepository = ServiceProvider().fetchQuizRepository();
-    print(_cachedQuizzes.isEmpty);
     if( _cachedQuizzes.isEmpty){
       fetchQuizByGroupId(groupId);
     }
