@@ -7,7 +7,6 @@ import 'package:demo3/network/services/ICategory_repository.dart';
 import 'package:demo3/network/services/Impl/category_service.dart';
 import 'package:demo3/network/services/service_providers/service_provider.dart';
 import 'package:demo3/screens/dashboard_screen/blocs/startup_bloc.dart';
-import 'package:demo3/screens/quiz/blocs/category_bloc.dart';
 import 'package:demo3/custom_painter/bg_circles.dart';
 import 'package:demo3/screens/util/error_widget.dart';
 import 'package:demo3/screens/quiz/widget/header.dart';

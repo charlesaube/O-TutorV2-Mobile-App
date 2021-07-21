@@ -9,7 +9,7 @@ class QuestionRepository extends IQuestionRepository{
 
   @override
   Future<Question> fetchQuestionByQuizId(int id) async {
-    final response = await _helper.get("question/" + id.toString() + "/");
+    final response = await _helper.get("quizzes/" + id.toString() + "/questions");
     return Question.fromJson(response);
   }
 
