@@ -22,7 +22,8 @@ class UserRepository extends IUserRepository {
 
   @override
   changePassword(Map<String, String> body) async {
-    final response = await _helper.post("/settings/email", body);
-    throw UnimplementedError();
+    final response = await _helper.post("/settings/password", body);
+
+    return response['response'];
   }
 }

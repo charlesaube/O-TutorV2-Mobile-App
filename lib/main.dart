@@ -1,12 +1,11 @@
 import 'package:demo3/screens/navigation/navbar.dart';
+import 'package:demo3/screens/settings/settings.dart';
 import 'package:demo3/screens/welcome_screen/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'localization/app_localizations.dart';
 
-
 void main() {
-
   runApp(MyApp());
 }
 
@@ -38,12 +37,10 @@ class MyApp extends StatelessWidget {
         return supportedLocales.first;
       },
       theme: ThemeData(
-
         primarySwatch: Colors.blue,
       ),
-      home:WelcomePage(),
+      home: SettingsPage(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
-

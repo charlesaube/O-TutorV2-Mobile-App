@@ -7,29 +7,30 @@ import 'package:demo3/network/services/service_providers/service_provider.dart';
 class SettingsBloc {
   late IUserRepository _userRepository;
 
-  var _startupController = StreamController<ApiResponse<String>>();
+  var _settingsController = StreamController<ApiResponse<String>>();
 
-  StreamSink<ApiResponse<String>> get startupSink => _startupController.sink;
+  StreamSink<ApiResponse<String>> get settingsSink => _settingsController.sink;
 
-  Stream<ApiResponse<String>> get startupStream => _startupController.stream;
+  Stream<ApiResponse<String>> get settingsStream => _settingsController.stream;
 
   SettingsBloc() {
-    _startupController = StreamController<ApiResponse<String>>();
+    _settingsController = StreamController<ApiResponse<String>>();
     _userRepository = ServiceProvider().fetchUserRepository();
   }
 
-  updatePassword() async {
-    startupSink.add(ApiResponse.loading('Fetching Startup'));
+  updatePassword(String oldPassword, String newPassword) async {
+    settingsSink.add(ApiResponse.loading('Loading'));
     try {
-      String startup = await _userRepository.changeEmail();
-      startupSink.add(ApiResponse.completed(startup));
+      String response = await _userRepository.changeEmail(
+          {"old_password": oldPassword, "new_password": newPassword});
+      settingsSink.add(ApiResponse.completed(response));
     } catch (e) {
-      startupSink.add(ApiResponse.error(e.toString()));
+      settingsSink.add(ApiResponse.error(e.toString()));
       print(e);
     }
   }
 
   dispose() {
-    _startupController.close();
+    _settingsController.close();
   }
 }
