@@ -1,8 +1,4 @@
 import 'package:demo3/model/question.dart';
-import 'package:demo3/network/services/Impl/answer_service.dart';
-import 'package:demo3/network/services/Impl/category_service.dart';
-import 'package:demo3/network/services/Impl/college_service.dart';
-import 'package:demo3/network/services/Impl/quiz_service.dart';
 import 'package:demo3/network/services/repositories/authentication_repository.dart';
 import 'package:demo3/network/services/repositories/college_repository.dart';
 import 'package:demo3/network/services/repositories/question_repository.dart';
@@ -12,18 +8,6 @@ import 'package:demo3/network/services/repositories/user_repository.dart';
 import 'package:demo3/screens/welcome_screen/colleges.dart';
 
 class ServiceProvider {
-  AnswerService getAnswerService() {
-    return AnswerService();
-  }
-
-  CategoryService getCategoryService() {
-    return CategoryService();
-  }
-
-  QuizService getQuizService() {
-    return QuizService();
-  }
-
   UserRepository fetchUserRepository() {
     return UserRepository();
   }

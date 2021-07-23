@@ -1,8 +1,7 @@
 import 'package:demo3/model/answer.dart';
 import 'package:demo3/model/question.dart';
 import 'package:demo3/model/quiz.dart';
-import 'package:demo3/network/services/Impl/answer_service.dart';
-import 'package:demo3/network/services/Impl/question_service.dart';
+
 import 'package:demo3/screens/quiz/quiz_process/widgets/quiz_card.dart';
 import 'package:demo3/custom_painter/bg_circles.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,14 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 class QuizPage extends StatefulWidget {
-  final QuestionService _questionService = new QuestionService();
-  final AnswerService _answerService = new AnswerService();
+  // final QuestionService _questionService = new QuestionService();
+  // final AnswerService _answerService = new AnswerService();
 
   final Quiz quiz;
   List<Question> _questions = [];
 
   QuizPage({Key? key, required this.quiz}) : super(key: key) {
-    this._questions = _questionService.fetchQuestionByQuizId(quiz.id);
+    // this._questions = _questionService.fetchQuestionByQuizId(quiz.id);
   }
 
   @override
@@ -47,7 +46,8 @@ class _QuizState extends State<QuizPage> {
   }
 
   List<Answer> getAnswers(int id) {
-    return widget._answerService.fetchAnswerByQuestionId(id);
+    throw UnimplementedError();
+    // return widget._answerService.fetchAnswerByQuestionId(id);
   }
 
   @override
