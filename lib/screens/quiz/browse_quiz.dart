@@ -2,7 +2,6 @@ import 'package:demo3/model/Category.dart';
 import 'package:demo3/model/quiz.dart';
 import 'package:demo3/network/api_response.dart';
 import 'package:demo3/network/services/IQuiz_repository.dart';
-import 'package:demo3/network/services/Impl/quiz_service.dart';
 import 'package:demo3/network/services/service_providers/service_provider.dart';
 import 'package:demo3/screens/quiz/blocs/browse_quiz_bloc.dart';
 import 'package:demo3/screens/quiz/quiz_details.dart';
@@ -27,9 +26,8 @@ class BrowseQuizPage extends StatefulWidget {
         23; //Hard coded parce que le groupe 24(le vrai groupe de laura) est unauthorize
   }
 
-
   @override
-  _BrowseQuizPageState createState(){
+  _BrowseQuizPageState createState() {
     return _BrowseQuizPageState();
   }
 }

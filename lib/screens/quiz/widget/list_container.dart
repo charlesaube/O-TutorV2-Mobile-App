@@ -1,14 +1,12 @@
 import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/model/group.dart';
 import 'package:demo3/model/quiz.dart';
-import 'package:demo3/network/services/Impl/category_service.dart';
-import 'package:demo3/network/services/Impl/quiz_service.dart';
+
 import 'package:demo3/network/services/service_providers/service_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CoursesListContainer extends StatelessWidget {
-
   final Group group;
 
   CoursesListContainer(this.group);
@@ -22,17 +20,17 @@ class CoursesListContainer extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-             SizedBox(height: 50,child: Image.network(group.image)),
-              Text(" " + group.description,//Affiche la description car le courseName est vide
+              SizedBox(height: 50, child: Image.network(group.image)),
+              Text(
+                  " " +
+                      group
+                          .description, //Affiche la description car le courseName est vide
                   style: TextStyle(color: Colors.white, fontSize: 20)),
             ],
           ),
           Row(
             children: <Widget>[
-              Text(
-                  "(" +
-                     group.assignedQuizzes!.length.toString() +
-                      ")",
+              Text("(" + group.assignedQuizzes!.length.toString() + ")",
                   style: TextStyle(color: Colors.white, fontSize: 15)),
               Icon(Icons.navigate_next, color: Colors.white),
             ],
@@ -45,8 +43,6 @@ class CoursesListContainer extends StatelessWidget {
 
 class QuizListContainer extends StatelessWidget {
   final Quiz _quiz;
-
-
 
   QuizListContainer(this._quiz);
 
@@ -65,7 +61,12 @@ class QuizListContainer extends StatelessWidget {
           ),
           Row(
             children: <Widget>[
-              Text(AppLocalizations.of(context)!.translate('Questions').toString() + ": " + _quiz.noOfQuestions,
+              Text(
+                  AppLocalizations.of(context)!
+                          .translate('Questions')
+                          .toString() +
+                      ": " +
+                      _quiz.noOfQuestions,
                   style: TextStyle(color: Colors.white, fontSize: 15)),
               Icon(Icons.navigate_next, color: Colors.white),
             ],
