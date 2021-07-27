@@ -12,12 +12,14 @@ class SettingsContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.white,
       height: 50,
       child: Row(
         children: [
           TextButton(
             onPressed: _callback,
-            child: Text(_text, style: TextStyle(color: Colors.grey.shade700)),
+            child: Text(_text,
+                style: TextStyle(color: Colors.grey.shade700, fontSize: 17)),
           ),
           Spacer(),
           Icon(
