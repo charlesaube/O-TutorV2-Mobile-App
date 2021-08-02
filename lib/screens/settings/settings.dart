@@ -28,7 +28,7 @@ class SettingsState extends State<SettingsPage> {
         gradient: LinearGradient(
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
-            colors: [const Color(0x8829C3FF), const Color(0xff2944FF)],
+            colors: [const Color(0x8829C3FF), const Color(0xaa2196F3)],
             tileMode: TileMode.clamp),
       ),
       child: Scaffold(

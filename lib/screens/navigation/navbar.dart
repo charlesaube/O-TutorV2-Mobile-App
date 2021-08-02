@@ -3,6 +3,7 @@ import 'package:demo3/screens/dashboard_screen/dashboard.dart';
 import 'package:demo3/screens/forum/forum.dart';
 import 'package:demo3/screens/quiz/browse_courses.dart';
 import 'package:demo3/screens/quiz/quiz_process/quiz.dart';
+import 'package:demo3/screens/quiz_assigment/quiz_assigment.dart';
 import 'package:demo3/screens/settings/settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class NavBarState extends State<NavBar> {
   final tabs = [
     Center(child: DashboardPage()),
     Center(child: BrowseCoursesPage()),
+    Center(child: QuizAssigmentPage()),
     Center(child: ForumPage()),
     Center(child: SettingsPage()),
   ];
@@ -39,21 +41,32 @@ class NavBarState extends State<NavBar> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),
-            label: AppLocalizations.of(context)!.translate("Navbar Dashboard").toString(),
+            label: AppLocalizations.of(context)!
+                .translate("Navbar Dashboard")
+                .toString(),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.school),
-            label: AppLocalizations.of(context)!.translate("Quizzes").toString(),
+            label:
+                AppLocalizations.of(context)!.translate("Quizzes").toString(),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.sticky_note_2),
+            label:
+                AppLocalizations.of(context)!.translate("Quizzes").toString(),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.people),
-            label: AppLocalizations.of(context)!.translate("Navbar Forum").toString(),
+            label: AppLocalizations.of(context)!
+                .translate("Navbar Forum")
+                .toString(),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            label: AppLocalizations.of(context)!.translate("Navbar Settings").toString(),
+            label: AppLocalizations.of(context)!
+                .translate("Navbar Settings")
+                .toString(),
           ),
-
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800],
