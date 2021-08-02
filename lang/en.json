@@ -31,6 +31,9 @@
   "Confirmation Logout": "Do you really want to logout?",
   "Questions": "Questions",
   "Start": "Start",
-  "Settings": "Settings"
+  "Settings": "Settings",
+  "Previous Password": "Previous Password",
+  "New Password": "New Password"
+
 
 }

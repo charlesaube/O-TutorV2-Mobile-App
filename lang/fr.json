@@ -31,7 +31,9 @@
   "Confirmation Logout": "Voulez-vous vraiment vous déconnnectez?",
   "Questions": "Questions",
   "Start": "Commencer",
-  "Settings": "Paramètre"
+  "Settings": "Paramètre",
+  "Old Password": "Ancien mot de passe",
+  "New Password": "Nouveau mot de passe"
 
 
 }

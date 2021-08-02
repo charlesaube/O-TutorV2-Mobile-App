@@ -28,8 +28,8 @@ class LoginFormState extends State<LoginForm> {
     super.initState();
     _bloc = AuthenticationBloc();
     hasBeenListen = false;
-
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -37,7 +37,6 @@ class LoginFormState extends State<LoginForm> {
     passwordController.dispose();
     usernameController.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -70,14 +69,14 @@ class LoginFormState extends State<LoginForm> {
                         ),
                       );
                     case Status.COMPLETED:
-                      if(!hasBeenListen)
-                      SchedulerBinding.instance!.addPostFrameCallback((_) {
-                        Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                                builder: (context) => NavBar()));
-                        hasBeenListen = true;
-                      });
+                      if (!hasBeenListen)
+                        SchedulerBinding.instance!.addPostFrameCallback((_) {
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) => NavBar()));
+                          hasBeenListen = true;
+                        });
                       break;
                   }
                 }
@@ -188,8 +187,6 @@ class LoginFormState extends State<LoginForm> {
       ),
     );
   }
-
-
 }
 
 class SignupForm extends StatefulWidget {

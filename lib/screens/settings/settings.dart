@@ -1,5 +1,6 @@
 import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/screens/settings/blocs/settings_bloc.dart';
+import 'package:demo3/screens/settings/widgets/settings_form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -77,8 +78,34 @@ class SettingsState extends State<SettingsPage> {
               ListView(
                 shrinkWrap: true,
                 children: <Widget>[
-                  SettingsContainer(onPressed: () {}, text: "Change Password"),
-                  SettingsContainer(onPressed: () {}, text: "Change Email"),
+                  SettingsContainer(
+                      onTap: () => showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Text('Change Password'),
+                              content: const Text('AlertDialog description'),
+                              actions: <Widget>[
+                                SettingsForm(),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, 'Cancel'),
+                                      child: const Text('Cancel'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, 'OK'),
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                      text: "Change Password"),
+                  SettingsContainer(onTap: () {}, text: "Change Email"),
                 ],
               ),
               Spacer(),
