@@ -33,7 +33,9 @@
   "Start": "Commencer",
   "Settings": "Paramètre",
   "Old Password": "Ancien mot de passe",
-  "New Password": "Nouveau mot de passe"
+  "New Password": "Nouveau mot de passe",
+  "Exercise": "Exercice",
+  "Change Password": "Changez le mot de passe"
 
 
 }

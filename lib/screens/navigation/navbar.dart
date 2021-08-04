@@ -53,7 +53,7 @@ class NavBarState extends State<NavBar> {
           BottomNavigationBarItem(
             icon: Icon(Icons.sticky_note_2),
             label:
-                AppLocalizations.of(context)!.translate("Quizzes").toString(),
+                AppLocalizations.of(context)!.translate("Exercise").toString(),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.people),

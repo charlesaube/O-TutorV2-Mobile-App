@@ -21,7 +21,7 @@ class SettingsBloc {
   updatePassword(String oldPassword, String newPassword) async {
     settingsSink.add(ApiResponse.loading('Loading'));
     try {
-      String response = await _userRepository.changeEmail(
+      String response = await _userRepository.changePassword(
           {"old_password": oldPassword, "new_password": newPassword});
       settingsSink.add(ApiResponse.completed(response));
     } catch (e) {

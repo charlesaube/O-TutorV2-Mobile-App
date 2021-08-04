@@ -14,14 +14,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class SettingsState extends State<SettingsPage> {
-  SettingsBloc? _bloc;
-
-  @override
-  void initState() {
-    super.initState();
-    _bloc = SettingsBloc();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -83,24 +75,8 @@ class SettingsState extends State<SettingsPage> {
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
                               title: const Text('Change Password'),
-                              content: const Text('AlertDialog description'),
                               actions: <Widget>[
                                 SettingsForm(),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(context, 'Cancel'),
-                                      child: const Text('Cancel'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(context, 'OK'),
-                                      child: const Text('OK'),
-                                    ),
-                                  ],
-                                ),
                               ],
                             ),
                           ),
@@ -133,11 +109,5 @@ class SettingsState extends State<SettingsPage> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _bloc!.dispose();
   }
 }
