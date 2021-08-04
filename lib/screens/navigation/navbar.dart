@@ -3,7 +3,7 @@ import 'package:demo3/screens/dashboard_screen/dashboard.dart';
 import 'package:demo3/screens/forum/forum.dart';
 import 'package:demo3/screens/quiz/browse_courses.dart';
 import 'package:demo3/screens/quiz/quiz_process/quiz.dart';
-import 'package:demo3/screens/quiz_assigment/quiz_assigment.dart';
+import 'package:demo3/screens/quiz_assigment/quiz_assessments.dart';
 import 'package:demo3/screens/settings/settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +21,7 @@ class NavBarState extends State<NavBar> {
   final tabs = [
     Center(child: DashboardPage()),
     Center(child: BrowseCoursesPage()),
-    Center(child: QuizAssigmentPage()),
+    Center(child: QuizAssessmentsPage()),
     Center(child: ForumPage()),
     Center(child: SettingsPage()),
   ];

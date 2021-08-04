@@ -80,17 +80,13 @@ class _CollegesState extends State<Colleges> {
                             children: <Widget>[
                               Container(
                                 width: MediaQuery.of(context).size.width,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.93,
+                                height: MediaQuery.of(context).size.height * 0.93,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      AppLocalizations.of(context)!
-                                          .translate("Choose College")
-                                          .toString(),
-                                      style: TextStyle(
-                                          fontSize: 17, color: Colors.orange),
+                                      AppLocalizations.of(context)!.translate("Choose College").toString(),
+                                      style: TextStyle(fontSize: 17, color: Colors.orange),
                                     ),
                                     Container(
                                       margin: EdgeInsets.all(20),
@@ -100,9 +96,7 @@ class _CollegesState extends State<Colleges> {
                                           isExpanded: true,
                                           hint: new Text("Select College"),
                                           value: selectedCollege,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 15.0),
+                                          style: TextStyle(color: Colors.black, fontSize: 15.0),
                                           underline: Container(
                                             height: 2,
                                             color: Colors.orange,
@@ -123,20 +117,14 @@ class _CollegesState extends State<Colleges> {
                                       ),
                                     ),
                                     LoginButton(
-                                      text: AppLocalizations.of(context)!
-                                          .translate('Next')
-                                          .toString(),
+                                      text: AppLocalizations.of(context)!.translate('Next').toString(),
                                       onPressed: () async {
-                                        int collegeId =
-                                            findIdOfCollege(selectedCollege);
-                                        await SecureStorage.setCollegeId(
-                                            collegeId.toString());
+                                        int collegeId = findIdOfCollege(selectedCollege);
+                                        await SecureStorage.setCollegeId(collegeId.toString());
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => LoginPage(
-                                                  collegeName:
-                                                      selectedCollege)),
+                                              builder: (context) => LoginPage(collegeName: selectedCollege)),
                                         );
                                       },
                                     ),

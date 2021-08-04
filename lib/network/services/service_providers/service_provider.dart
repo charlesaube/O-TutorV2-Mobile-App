@@ -3,6 +3,7 @@ import 'package:demo3/network/services/repositories/authentication_repository.da
 import 'package:demo3/network/services/repositories/college_repository.dart';
 import 'package:demo3/network/services/repositories/question_repository.dart';
 import 'package:demo3/network/services/repositories/quiz_repository.dart';
+import 'package:demo3/network/services/repositories/self_assigments_repository.dart';
 import 'package:demo3/network/services/repositories/startup_repository.dart';
 import 'package:demo3/network/services/repositories/user_repository.dart';
 import 'package:demo3/screens/welcome_screen/colleges.dart';
@@ -30,5 +31,9 @@ class ServiceProvider {
 
   QuestionRepository fetchQuestionRepository() {
     return QuestionRepository();
+  }
+
+  SelfAssigmentRepository fetchSelfAssigmentsRepository() {
+    return SelfAssigmentRepository();
   }
 }
