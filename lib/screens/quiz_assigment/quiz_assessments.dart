@@ -40,16 +40,13 @@ class QuizAssessmentState extends State<QuizAssessmentsPage> {
                     child: Column(
                       children: <Widget>[
                         HeaderCategory("Exercise"),
-                        QuizAssessmentsForm()
+                        SizedBox(height: 20),
+                        QuizAssessmentsForm(),
                       ],
                     ),
                   ),
                   Spacer(),
-                  LoginButton(
-                      onPressed: () {},
-                      text: AppLocalizations.of(context)!
-                          .translate("Start")
-                          .toString()),
+                  LoginButton(onPressed: () {}, text: AppLocalizations.of(context)!.translate("Start").toString()),
                   Spacer(),
                 ],
               ),

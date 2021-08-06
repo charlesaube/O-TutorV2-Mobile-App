@@ -24,17 +24,26 @@ class _OrangeSliderContainerState extends State<OrangeSliderContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10),
       child: Column(
         children: [
-          Container(width: double.infinity, child: Text(widget.text)),
+          Container(
+            width: double.infinity,
+            child: Text.rich(
+              TextSpan(children: [
+                TextSpan(text: widget.text + ":"),
+                TextSpan(
+                    text: " " + widget.currentSliderValue.floor().toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold))
+              ]),
+            ),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(widget.min.floor().toString()),
               Slider.adaptive(
                 value: widget.currentSliderValue,
-                activeColor: Colors.orange.shade500,
+                activeColor: Colors.orangeAccent,
                 inactiveColor: Colors.orange.shade100,
                 label: widget.currentSliderValue.round().toString(),
                 divisions: widget.division,
