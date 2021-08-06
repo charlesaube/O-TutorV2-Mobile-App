@@ -13,11 +13,11 @@ class _QuizAssessmentsState extends State<QuizAssessmentsForm> {
   String dropdownValue = 'One';
   double _currentSliderValue = 100;
   Map<String, bool> List = {
-    'Egges': false,
-    'Chocolates': false,
-    'Flour': false,
-    'Fllower': false,
-    'Fruits': false,
+    'Enum': false,
+    'Variable': false,
+    'Class': false,
+    'Polymophisme': false,
+    'Test unitaire': false,
   };
 
   @override
@@ -31,17 +31,18 @@ class _QuizAssessmentsState extends State<QuizAssessmentsForm> {
         child: Container(
           margin: EdgeInsets.all(10),
           child: SizedBox(
-            height: MediaQuery.of(context).size.height / 2,
+            height: MediaQuery.of(context).size.height / 1.8,
             width: MediaQuery.of(context).size.width / 1.2,
             child: Container(
-              margin: EdgeInsets.all(10),
+              margin: EdgeInsets.all(5),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      Text(AppLocalizations.of(context)!.translate('Choose your course').toString() + ": "),
+                      Text(AppLocalizations.of(context)!.translate('Choose your course').toString() + ": ",
+                          style: TextStyle(fontSize: 15)),
                       DropdownButton<String>(
                         value: dropdownValue,
                         iconSize: 24,
@@ -56,7 +57,8 @@ class _QuizAssessmentsState extends State<QuizAssessmentsForm> {
                             dropdownValue = newValue!;
                           });
                         },
-                        items: <String>['One', 'Two', 'Free', 'Four'].map<DropdownMenuItem<String>>((String value) {
+                        items:
+                            <String>['One', 'Two', 'Free', 'Algorithme'].map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
@@ -65,7 +67,8 @@ class _QuizAssessmentsState extends State<QuizAssessmentsForm> {
                       ),
                     ],
                   ),
-                  Text(AppLocalizations.of(context)!.translate('Choose your subject').toString() + ": "),
+                  Text(AppLocalizations.of(context)!.translate('Choose your subject').toString() + ": ",
+                      style: TextStyle(fontSize: 15)),
                   Container(
                     margin: EdgeInsets.only(bottom: 10, top: 10),
                     width: double.infinity,
@@ -100,14 +103,14 @@ class _QuizAssessmentsState extends State<QuizAssessmentsForm> {
                     min: 0,
                     max: 100,
                     division: 100,
-                    text: "Time",
+                    text: AppLocalizations.of(context)!.translate('Time').toString(),
                   ),
                   OrangeSliderContainer(
                       currentSliderValue: _currentSliderValue,
                       min: 0,
                       max: 100,
                       division: 100,
-                      text: "Nb of questions"),
+                      text: AppLocalizations.of(context)!.translate('Number of Questions').toString()),
                 ],
               ),
             ),

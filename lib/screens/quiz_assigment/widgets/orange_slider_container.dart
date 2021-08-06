@@ -30,7 +30,7 @@ class _OrangeSliderContainerState extends State<OrangeSliderContainer> {
             width: double.infinity,
             child: Text.rich(
               TextSpan(children: [
-                TextSpan(text: widget.text + ":"),
+                TextSpan(text: widget.text + ":", style: TextStyle(fontSize: 15)),
                 TextSpan(
                     text: " " + widget.currentSliderValue.floor().toString(),
                     style: TextStyle(fontWeight: FontWeight.bold))
@@ -40,7 +40,7 @@ class _OrangeSliderContainerState extends State<OrangeSliderContainer> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text(widget.min.floor().toString()),
+              Text(widget.min.floor().toString(), style: TextStyle(fontSize: 15)),
               Slider.adaptive(
                 value: widget.currentSliderValue,
                 activeColor: Colors.orangeAccent,
@@ -55,7 +55,7 @@ class _OrangeSliderContainerState extends State<OrangeSliderContainer> {
                   });
                 },
               ),
-              Text(widget.max.round().toString()),
+              Text(widget.max.round().toString(), style: TextStyle(fontSize: 15)),
             ],
           ),
         ],
