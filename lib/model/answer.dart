@@ -12,4 +12,8 @@ class Answer {
 
     return Answer(id, answer, isTrue);
   }
+
+  toMap() {}
+
+  static fromMap(x) {}
 }
