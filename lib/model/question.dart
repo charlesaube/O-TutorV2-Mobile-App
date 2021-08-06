@@ -9,7 +9,7 @@ class Question {
   String title;
   int difficulty;
   int courseId;
-  int timelimite;
+  int timelimit;
   int weight;
   String questionType;
   bool examOnly;
@@ -24,7 +24,7 @@ class Question {
   bool caseSensitive;
   int created;
   int modified;
-  int timeStamp;
+  int timestamp;
   List<Answer>? answers;
 
   Question({
@@ -32,7 +32,7 @@ class Question {
     required this.title,
     required this.difficulty,
     required this.courseId,
-    required this.timelimite,
+    required this.timelimit,
     required this.weight,
     required this.questionType,
     required this.examOnly,
@@ -47,7 +47,7 @@ class Question {
     required this.caseSensitive,
     required this.created,
     required this.modified,
-    required this.timeStamp,
+    required this.timestamp,
     this.answers,
   });
 
@@ -56,23 +56,24 @@ class Question {
     dynamic title = json["title"];
     dynamic difficulty = json["difficulty"];
     dynamic courseId = json["course_id"];
-    dynamic timelimite = json["timelimite"];
+    dynamic timelimit = json["timelimit"];
     dynamic weight = json["weight"];
     dynamic questionType = json["question_type"];
     dynamic examOnly = json["exam_only"];
     dynamic content = json["content"];
-    dynamic explanation = json["explanation"];
+    dynamic explanation = json["explanations"];
     dynamic comment = json["comment"];
-    dynamic addedBy = json["addedBy"];
+    dynamic addedBy = json["added_by"];
     dynamic inQuestionBank = json["in_question_bank"];
+    dynamic correctAnswerText = json["correct_answer_text"];
+    dynamic incorrectAnswerText = json["incorrect_answer_text"];
+
     dynamic status = json["status"];
-    dynamic caseSensitive = json["caseSensitive"];
+    dynamic caseSensitive = json["case_sensitive"];
     dynamic modified = json["modified"];
     dynamic created = json["created"];
-
-    dynamic timeStamp = json["timeStamp"];
+    dynamic timestamp = json["timestamp"];
     dynamic answers;
-
     if (json['choices'] != null) {
       var groupObjJson = json['choices'] as List;
       List<Answer> answers = groupObjJson.map((groupJson) => Answer.fromJson(groupJson)).toList();
@@ -85,7 +86,7 @@ class Question {
         title: title,
         difficulty: difficulty,
         courseId: courseId,
-        timelimite: timelimite,
+        timelimit: timelimit,
         weight: weight,
         questionType: questionType,
         examOnly: examOnly,
@@ -95,10 +96,12 @@ class Question {
         addedBy: addedBy,
         inQuestionBank: inQuestionBank,
         status: status,
+        correctAnswerText: correctAnswerText,
+        incorrectAnswerText: incorrectAnswerText,
         caseSensitive: caseSensitive,
         created: created,
         modified: modified,
-        timeStamp: timeStamp,
+        timestamp: timestamp,
         answers: answers);
   }
 }
