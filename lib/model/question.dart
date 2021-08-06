@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:demo3/model/shortAnswer.dart';
+
 import 'answer.dart';
 
 class Question {
@@ -15,7 +17,7 @@ class Question {
   String explanation;
   String comment;
   int addedBy;
-  bool in_question_bank;
+  bool inQuestionBank;
   String status;
   String? correctAnswerText;
   String? incorrectAnswerText;
@@ -23,7 +25,7 @@ class Question {
   int created;
   int modified;
   int timeStamp;
-  List<Answer> answers;
+  List<Answer>? answers;
 
   Question({
     required this.questionId,
@@ -38,7 +40,7 @@ class Question {
     required this.explanation,
     required this.comment,
     required this.addedBy,
-    required this.in_question_bank,
+    required this.inQuestionBank,
     required this.status,
     this.correctAnswerText,
     this.incorrectAnswerText,
@@ -46,62 +48,57 @@ class Question {
     required this.created,
     required this.modified,
     required this.timeStamp,
-    required this.answers,
+    this.answers,
   });
 
-  Map<String, dynamic> toMap() {
-    return {
-      'questionId': questionId,
-      'title': title,
-      'difficulty': difficulty,
-      'courseId': courseId,
-      'timelimite': timelimite,
-      'weight': weight,
-      'questionType': questionType,
-      'examOnly': examOnly,
-      'content': content,
-      'explanation': explanation,
-      'comment': comment,
-      'addedBy': addedBy,
-      'in_question_bank': in_question_bank,
-      'status': status,
-      'correctAnswerText': correctAnswerText,
-      'incorrectAnswerText': incorrectAnswerText,
-      'caseSensitive': caseSensitive,
-      'created': created,
-      'modified': modified,
-      'timeStamp': timeStamp,
-      'answers': answers.map((x) => x.toMap()).toList(),
-    };
-  }
+  factory Question.fromJson(dynamic json) {
+    dynamic questionId = json["id"];
+    dynamic title = json["title"];
+    dynamic difficulty = json["difficulty"];
+    dynamic courseId = json["course_id"];
+    dynamic timelimite = json["timelimite"];
+    dynamic weight = json["weight"];
+    dynamic questionType = json["question_type"];
+    dynamic examOnly = json["exam_only"];
+    dynamic content = json["content"];
+    dynamic explanation = json["explanation"];
+    dynamic comment = json["comment"];
+    dynamic addedBy = json["addedBy"];
+    dynamic inQuestionBank = json["in_question_bank"];
+    dynamic status = json["status"];
+    dynamic caseSensitive = json["caseSensitive"];
+    dynamic modified = json["modified"];
+    dynamic created = json["created"];
 
-  factory Question.fromMap(Map<String, dynamic> map) {
+    dynamic timeStamp = json["timeStamp"];
+    dynamic answers;
+
+    if (json['choices'] != null) {
+      var groupObjJson = json['choices'] as List;
+      List<Answer> answers = groupObjJson.map((groupJson) => Answer.fromJson(groupJson)).toList();
+    } else if (json['accepted_answers'] != null) {
+      var groupObjJson = json['accepted_answers'] as List;
+      List<ShortAnswer> answers = groupObjJson.map((groupJson) => ShortAnswer.fromJson(groupJson)).toList();
+    }
     return Question(
-      questionId: map['questionId'],
-      title: map['title'],
-      difficulty: map['difficulty'],
-      courseId: map['courseId'],
-      timelimite: map['timelimite'],
-      weight: map['weight'],
-      questionType: map['questionType'],
-      examOnly: map['examOnly'],
-      content: map['content'],
-      explanation: map['explanation'],
-      comment: map['comment'],
-      addedBy: map['addedBy'],
-      in_question_bank: map['in_question_bank'],
-      status: map['status'],
-      correctAnswerText: map['correctAnswerText'],
-      incorrectAnswerText: map['incorrectAnswerText'],
-      caseSensitive: map['caseSensitive'],
-      created: map['created'],
-      modified: map['modified'],
-      timeStamp: map['timeStamp'],
-      answers: List<Answer>.from(map['choices']?.map((x) => Answer.fromMap(x))),
-    );
+        questionId: questionId,
+        title: title,
+        difficulty: difficulty,
+        courseId: courseId,
+        timelimite: timelimite,
+        weight: weight,
+        questionType: questionType,
+        examOnly: examOnly,
+        content: content,
+        explanation: explanation,
+        comment: comment,
+        addedBy: addedBy,
+        inQuestionBank: inQuestionBank,
+        status: status,
+        caseSensitive: caseSensitive,
+        created: created,
+        modified: modified,
+        timeStamp: timeStamp,
+        answers: answers);
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory Question.fromJson(String source) => Question.fromMap(json.decode(source));
 }
