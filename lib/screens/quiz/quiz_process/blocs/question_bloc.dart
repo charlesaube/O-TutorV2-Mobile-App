@@ -6,33 +6,32 @@ import 'package:demo3/network/api_response.dart';
 import 'package:demo3/network/services/IQuestion_repository.dart';
 import 'package:demo3/network/services/service_providers/service_provider.dart';
 
-class QuestionBloc{
+class QuestionBloc {
   late IQuestionRepository _questionRepository;
 
   var _questionController = StreamController<ApiResponse<List<Question>>>();
-  StreamSink<ApiResponse<List<Question>>> get questionSink => _questionController.sink;
+  StreamSink<ApiResponse<List<Question>>> get questionListSink => _questionController.sink;
 
-  Stream<ApiResponse<List<Question>>> get questionStream => _questionController.stream;
+  Stream<ApiResponse<List<Question>>> get questionListStream => _questionController.stream;
 
-  QuestionBloc(){
+  QuestionBloc(int id) {
     _questionController = StreamController<ApiResponse<List<Question>>>();
     _questionRepository = ServiceProvider().fetchQuestionRepository();
+    fetchQuestionByQuizId(id);
   }
 
-  fetchQuestionByQuizId(int id) async{
-    questionSink.add(ApiResponse.loading('Fetching quiz'));
+  fetchQuestionByQuizId(int id) async {
+    questionListSink.add(ApiResponse.loading('Fetching quiz'));
     try {
       List<Question> questions = await _questionRepository.fetchQuestionByQuizId(id);
-      questionSink.add(ApiResponse.completed(questions));
+      questionListSink.add(ApiResponse.completed(questions));
     } catch (e) {
-      questionSink.add(ApiResponse.error(e.toString()));
+      questionListSink.add(ApiResponse.error(e.toString()));
       print(e);
     }
   }
 
-
-  dispose(){
+  dispose() {
     _questionController.close();
   }
-
 }
