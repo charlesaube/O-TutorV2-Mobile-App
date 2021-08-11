@@ -24,8 +24,10 @@ class QuestionRepository extends IQuestionRepository {
       throw FetchDataException('No internet');
     }
     print(responseJson);
+    var quizObjJson = responseJson  as List;
     //final response = await _helper.get("quizzes/" + id.toString() + "/questions");
-    List<Question> questions = responseJson.map((groupJson) => Question.fromJson(groupJson)).toList();
+    List<Question> questions = quizObjJson.map((groupJson) => Question.fromJson(groupJson)).toList();
+
     return questions;
   }
 }
