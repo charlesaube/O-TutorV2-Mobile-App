@@ -4,6 +4,7 @@ import 'package:demo3/model/question.dart';
 import 'package:demo3/model/quiz.dart';
 import 'package:demo3/network/api_response.dart';
 import 'package:demo3/screens/quiz/quiz_process/blocs/question_bloc.dart';
+import 'package:demo3/screens/quiz/quiz_process/widgets/answerDetails.dart';
 
 import 'package:demo3/screens/quiz/quiz_process/widgets/quiz_card.dart';
 import 'package:demo3/custom_painter/bg_circles.dart';
@@ -237,17 +238,8 @@ class _QuizState extends State<QuizPage> {
                                 ),
                                 margin: EdgeInsets.all(40),
                                 padding: EdgeInsets.only(left: 40, right: 40),
-                                child: TextButton(
-                                  child: Text("Next",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 17)),
-                                  onPressed: () {
-                                    _clicked = -1;
-                                    _answerQuestion();
-                                  },
-                                ),
+                                child: AnswerDetailsButton(onPressed: () {  },)
+
                               ),
                               Spacer(flex: 3),
                             ],
