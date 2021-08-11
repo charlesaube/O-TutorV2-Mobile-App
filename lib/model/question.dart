@@ -25,7 +25,8 @@ class Question {
   int created;
   int modified;
   int timestamp;
-  List<Answer>? answers;
+  List<Answer>? multipleAnswers;
+  List<ShortAnswer>? shortAnswers;
 
   Question({
     required this.questionId,
@@ -48,7 +49,8 @@ class Question {
     required this.created,
     required this.modified,
     required this.timestamp,
-    this.answers,
+    this.multipleAnswers,
+    this.shortAnswers,
   });
 
   factory Question.fromJson(dynamic json) {
@@ -73,13 +75,15 @@ class Question {
     dynamic modified = json["modified"];
     dynamic created = json["created"];
     dynamic timestamp = json["timestamp"];
-    dynamic answers;
+    List<Answer> answers = [];
+    List<ShortAnswer> shortAnswers = [];
+
     if (json['choices'] != null) {
       var groupObjJson = json['choices'] as List;
-      List<Answer> answers = groupObjJson.map((groupJson) => Answer.fromJson(groupJson)).toList();
+      answers = groupObjJson.map((groupJson) => Answer.fromJson(groupJson)).toList();
     } else if (json['accepted_answers'] != null) {
       var groupObjJson = json['accepted_answers'] as List;
-      List<ShortAnswer> answers = groupObjJson.map((groupJson) => ShortAnswer.fromJson(groupJson)).toList();
+      shortAnswers = groupObjJson.map((groupJson) => ShortAnswer.fromJson(groupJson)).toList();
     }
     return Question(
         questionId: questionId,
@@ -102,6 +106,7 @@ class Question {
         created: created,
         modified: modified,
         timestamp: timestamp,
-        answers: answers);
+        multipleAnswers: answers,
+        shortAnswers: shortAnswers);
   }
 }
