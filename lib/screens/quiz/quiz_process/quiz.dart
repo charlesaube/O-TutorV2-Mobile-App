@@ -5,9 +5,11 @@ import 'package:demo3/model/quiz.dart';
 import 'package:demo3/network/api_response.dart';
 import 'package:demo3/screens/quiz/quiz_process/blocs/question_bloc.dart';
 import 'package:demo3/screens/quiz/quiz_process/widgets/answerDetails.dart';
+import 'package:demo3/screens/quiz/quiz_process/widgets/multiple_choice.dart';
 
 import 'package:demo3/screens/quiz/quiz_process/widgets/quiz_card.dart';
 import 'package:demo3/custom_painter/bg_circles.dart';
+import 'package:demo3/screens/quiz/quiz_process/widgets/short_answer.dart';
 import 'package:demo3/screens/util/error_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +46,8 @@ class _QuizState extends State<QuizPage> {
     });
   }
 
+  //late Answer _questionAnswer;
+  String _questionAnswer = "";
   var _questionIndex = 0;
   Color _colorContainer = Colors.blue;
   int _clicked = -1;
@@ -58,6 +62,15 @@ class _QuizState extends State<QuizPage> {
     } else {
       print('No more questions!');
     }
+  }
+
+  //Méthode callback utiliser par les widget de type de question pour set la réponse choisi
+  void _setQuestionAnswer(var newAnswer) {
+    setState(() {
+      _questionAnswer = newAnswer;
+    });
+    print('New Answer for question ' + _questionIndex.toString() + ' was set');
+    print('Choosed Answer is: ' + _questionAnswer);
   }
 
   List<Answer> getAnswers(int id) {
@@ -91,8 +104,7 @@ class _QuizState extends State<QuizPage> {
                           return Container(
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.height,
-                            child: SpinKitDoubleBounce(
-                                color: Colors.lightBlue.shade100),
+                            child: SpinKitDoubleBounce(color: Colors.lightBlue.shade100),
                           );
                         case Status.COMPLETED:
                           widget._questions = snapshot.data!.data;
@@ -116,131 +128,40 @@ class _QuizState extends State<QuizPage> {
                                 Container(
                                   child: Column(
                                     children: <Widget>[
-                                      QuizCard(
-                                          questions: widget._questions,
-                                          questionIndex: _questionIndex),
-
+                                      QuizCard(questions: widget._questions, questionIndex: _questionIndex),
+                                      //Affichage varie selon type de question
                                       //Choix de Réponse ------------------------------
-                                      if (widget._questions[_questionIndex]
-                                          .multipleAnswers!.isNotEmpty)
-                                        Container(
-                                          width: 330,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              1.5,
-                                          child: ListView.builder(
-                                            physics:
-                                                NeverScrollableScrollPhysics(),
-                                            itemCount: widget
-                                                ._questions[_questionIndex]
-                                                .multipleAnswers!
-                                                .length,
-                                            itemBuilder: (
-                                              BuildContext context,
-                                              int index,
-                                            ) {
-                                              //Change la couleur du container Clické ------------------------
-                                              print(_clicked);
-                                              _colorContainer =
-                                                  Colors.grey.shade200;
-                                              if (index == _clicked)
-                                                _colorContainer =
-                                                    Colors.lightBlue;
-
-                                              return Container(
-                                                height: 50,
-                                                margin: EdgeInsets.all(15),
-                                                child: Card(
-                                                  shape: RoundedRectangleBorder(
-                                                    side: BorderSide(
-                                                        color: _colorContainer,
-                                                        width: 2),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8),
-                                                  ),
-                                                  elevation: 6,
-                                                  child: InkWell(
-                                                    splashColor: Colors
-                                                        .lightBlue
-                                                        .withAlpha(50),
-                                                    onTap: () {
-                                                      setState(() {
-                                                        _clicked = index;
-                                                      });
-                                                    },
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: <Widget>[
-                                                        Text(
-                                                          widget
-                                                              ._questions[
-                                                                  _questionIndex]
-                                                              .multipleAnswers![
-                                                                  index]
-                                                              .answer,
-                                                          style: TextStyle(
-                                                            fontSize: 15,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      if (widget._questions[_questionIndex]
-                                          .shortAnswers!.isNotEmpty)
-                                        Container(
-                                          margin: EdgeInsets.only(top: 15),
-                                          width: 330,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              1.5,
-                                          alignment: Alignment.center,
-                                          child: TextFormField(
-                                            decoration: new InputDecoration(
-                                              filled: true,
-                                              fillColor: Colors.white,
-                                              enabledBorder:
-                                                  const OutlineInputBorder(
-                                                borderSide: const BorderSide(
-                                                    color: Colors.orange,
-                                                    width: 2.0),
-                                              ),
-                                              focusedBorder:
-                                                  const OutlineInputBorder(
-                                                borderSide: const BorderSide(
-                                                    color: Colors.orange,
-                                                    width: 2.0),
-                                              ),
-                                            ),
-                                          ),
+                                      if (widget._questions[_questionIndex].multipleAnswers!.isNotEmpty)
+                                        MultipleChoice(
+                                            question: widget._questions[_questionIndex],
+                                            setAnswerCallback: _setQuestionAnswer),
+                                      //Réponse Courte ------------------------------
+                                      if (widget._questions[_questionIndex].shortAnswers!.isNotEmpty)
+                                        ShortAnswer(
+                                          setAnswerCallback: _setQuestionAnswer,
                                         ),
                                     ],
                                   ),
                                 ),
 
                               Spacer(),
-
-                              // Bouton suivant
                               Container(
                                 decoration: BoxDecoration(
                                   color: Colors.lightBlue,
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(90)),
+                                  BorderRadius.all(Radius.circular(90)),
                                 ),
                                 margin: EdgeInsets.all(40),
                                 padding: EdgeInsets.only(left: 40, right: 40),
-                                child: AnswerDetailsButton(onPressed: () {  },)
-
+                                child:    AnswerDetailsButton(
+                                    onPressed: () {
+                                      _clicked = -1;
+                                      _answerQuestion();
+                                      Navigator.pop(context);
+                                    }),
                               ),
+                              // Bouton suivant
+
                               Spacer(flex: 3),
                             ],
                           );
