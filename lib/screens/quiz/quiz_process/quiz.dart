@@ -1,3 +1,4 @@
+import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/model/answer.dart';
 import 'package:demo3/model/question.dart';
@@ -17,8 +18,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart';
 
 class QuizPage extends StatefulWidget {
+  //Quiz en cours
   final Quiz quiz;
+  //Liste des questions du quiz en cours
   List<Question> _questions = [];
+  //Liste des réponses choisi par l'utilisateur
+  List<String> _submitedAnswers = [];
 
   QuizPage({Key? key, required this.quiz}) : super(key: key);
 
@@ -47,16 +52,19 @@ class _QuizState extends State<QuizPage> {
   }
 
   //late Answer _questionAnswer;
-  String _questionAnswer = "";
-  var _questionIndex = 0;
+  String _questionAnswer = ""; //Réponse de la question en cours
+  var _questionIndex = 0; //Index de la question en cours
   Color _colorContainer = Colors.blue;
   int _clicked = -1;
 
+  //Méthode callback pour enregistrer définitivement la réponse de la question en cours
+  //et ensuite passer a la prochaine question
   void _answerQuestion() {
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
     print(_questionIndex);
+    widget._submitedAnswers.add(_questionAnswer); //Ajout de la réponse a la liste de réponse choisie
     if (_questionIndex < widget._questions.length) {
       print('We have more questions!');
     } else {
@@ -64,7 +72,7 @@ class _QuizState extends State<QuizPage> {
     }
   }
 
-  //Méthode callback utiliser par les widget de type de question pour set la réponse choisi
+  //Méthode callback utiliser par les widget de type de question pour set la réponse de la question en cours
   void _setQuestionAnswer(var newAnswer) {
     setState(() {
       _questionAnswer = newAnswer;
@@ -148,17 +156,15 @@ class _QuizState extends State<QuizPage> {
                               Container(
                                 decoration: BoxDecoration(
                                   color: Colors.lightBlue,
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(90)),
+                                  borderRadius: BorderRadius.all(Radius.circular(90)),
                                 ),
                                 margin: EdgeInsets.all(40),
                                 padding: EdgeInsets.only(left: 40, right: 40),
-                                child:    AnswerDetailsButton(
-                                    onPressed: () {
-                                      _clicked = -1;
-                                      _answerQuestion();
-                                      Navigator.pop(context);
-                                    }),
+                                child: AnswerDetailsButton(onPressed: () {
+                                  _clicked = -1;
+                                  _answerQuestion();
+                                  Navigator.pop(context);
+                                }),
                               ),
                               // Bouton suivant
 
@@ -174,6 +180,36 @@ class _QuizState extends State<QuizPage> {
                     }
                     return Text("No data");
                   }),
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: CircularCountDownTimer(
+                duration: Duration(minutes: int.parse(widget.quiz.timelimit)).inSeconds,
+                initialDuration: 0,
+                controller: CountDownController(),
+                width: MediaQuery.of(context).size.width / 6,
+                height: MediaQuery.of(context).size.height / 6,
+                ringColor: Colors.transparent,
+                ringGradient: null,
+                fillColor: Colors.orange,
+                fillGradient: null,
+                backgroundColor: null,
+                backgroundGradient: null,
+                strokeWidth: 3.0,
+                strokeCap: StrokeCap.round,
+                textStyle: TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
+                textFormat: CountdownTextFormat.MM_SS,
+                isReverse: true,
+                isReverseAnimation: true,
+                isTimerTextShown: true,
+                autoStart: true,
+                onStart: () {
+                  print('Countdown Started');
+                },
+                onComplete: () {
+                  print('Countdown Ended');
+                },
+              ),
             ),
           ],
         ),
