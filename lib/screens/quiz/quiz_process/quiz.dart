@@ -73,7 +73,7 @@ class _QuizState extends State<QuizPage> {
   }
 
   //Méthode callback utiliser par les widget de type de question pour set la réponse de la question en cours
-  void _setQuestionAnswer(var newAnswer) {
+  void _setQuestionAnswer(dynamic newAnswer) {
     setState(() {
       _questionAnswer = newAnswer;
     });
