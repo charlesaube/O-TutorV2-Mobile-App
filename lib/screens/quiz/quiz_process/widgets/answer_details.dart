@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 class AnswerDetailsButton extends StatelessWidget {
   final VoidCallback _callback;
-  // final Answer answer;
   Color dialogColor = Colors.green;
   final bool isTrue;
   final String answerText;
