@@ -5,7 +5,6 @@ class Answer {
   String answerText;
   bool isTrue;
 
-
   Answer(
     this.id,
     this.answer,
