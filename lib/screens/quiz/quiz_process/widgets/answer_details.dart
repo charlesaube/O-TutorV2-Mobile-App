@@ -1,3 +1,4 @@
+import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/model/answer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,8 @@ class AnswerDetailsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      child: Text("Next", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 17)),
+      child: Text(AppLocalizations.of(context)!.translate('Next').toString(),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 17)),
       onPressed: () {
         showDialog<String>(
           //barrierDismissible: false,
@@ -68,7 +70,8 @@ class AnswerDetailsButton extends StatelessWidget {
                           padding: EdgeInsets.only(left: 10, right: 10),
                           child: TextButton(
                             onPressed: _callback,
-                            child: Text("Next Question", style: TextStyle(color: Colors.white)),
+                            child: Text(AppLocalizations.of(context)!.translate('Next Question').toString(),
+                                style: TextStyle(color: Colors.white)),
                           ),
                         ),
                       ],
@@ -96,9 +99,10 @@ class CorrectAnswerDialog extends StatelessWidget {
             margin: EdgeInsets.all(25),
             child: Image.asset('assets/checkMark.png', height: 60, width: 60),
           ),
-          Text("Congrats !", style: TextStyle(fontSize: 25)),
+          Text(AppLocalizations.of(context)!.translate('Congrats').toString(), style: TextStyle(fontSize: 25)),
           Spacer(),
-          Text("The correct answer was indeed " + _answer, style: TextStyle(fontSize: 17)),
+          Text(AppLocalizations.of(context)!.translate('Correct Answer').toString() + ' ' + _answer,
+              style: TextStyle(fontSize: 17)),
         ],
       ),
     );
@@ -119,9 +123,10 @@ class IncorrectAnswerDialog extends StatelessWidget {
             margin: EdgeInsets.all(25),
             child: Image.asset('assets/xIcon.jpg', height: 60, width: 60),
           ),
-          Text("Incorrect !", style: TextStyle(fontSize: 25)),
+          Text(AppLocalizations.of(context)!.translate('Incorrect').toString(), style: TextStyle(fontSize: 25)),
           Spacer(),
-          Text(_answer + " is not the correct answer", style: TextStyle(fontSize: 17)),
+          Text(_answer + ' ' + AppLocalizations.of(context)!.translate('Incorrect Answer').toString(),
+              style: TextStyle(fontSize: 17)),
         ],
       ),
     );

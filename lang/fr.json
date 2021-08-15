@@ -40,7 +40,11 @@
   "Choose your subject": "Choisissez votre sujet",
   "Time": "Temps",
   "Number of Questions": "Nombre de Questions",
-  "Correct answer": "La bonne réponse était effectivement"
+  "Correct Answer": "La bonne réponse était effectivement",
+  "Next Question": "Prochaine Question",
+  "Congrats" : "Félicitation !",
+  "Incorrect" : "Incorrect !",
+  "Incorrect Answer" : "n'est pas la bonne réponse"
 
 
 

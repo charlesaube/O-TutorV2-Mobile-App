@@ -40,7 +40,13 @@
   "Choose your subject": "Choose your subject",
   "Time": "Time",
   "Number of Questions": "Number of Questions",
-  "Correct answer": "The correct Answer was indeed"
+  "Correct Answer": "The correct Answer was indeed",
+  "Next Question": "Next Question",
+  "Congrats" : "Congrats !",
+  "Incorrect" : "Incorrect !",
+  "Incorrect Answer" : "is not the correct answer"
+
+
 
 
 
