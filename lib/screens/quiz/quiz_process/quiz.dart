@@ -53,6 +53,7 @@ class _QuizState extends State<QuizPage> {
 
   //late Answer _questionAnswer;
   String _questionAnswer = ""; //Réponse de la question en cours
+  late Answer _answer = Answer(0, "null", 0, "null", false);
   var _questionIndex = 0; //Index de la question en cours
   Color _colorContainer = Colors.blue;
   int _clicked = -1;
@@ -73,12 +74,19 @@ class _QuizState extends State<QuizPage> {
   }
 
   //Méthode callback utiliser par les widget de type de question pour set la réponse de la question en cours
-  void _setQuestionAnswer(dynamic newAnswer) {
+  // void _setQuestionAnswer(dynamic newAnswer) {
+  //   setState(() {
+  //     _questionAnswer = newAnswer;
+  //   });
+  //   print('New Answer for question ' + _questionIndex.toString() + ' was set');
+  //   print('Choosed Answer is: ' + _questionAnswer);
+  // }
+  void _setQuestionAnswer(Answer newAnswer) {
     setState(() {
-      _questionAnswer = newAnswer;
+      _answer = newAnswer;
     });
     print('New Answer for question ' + _questionIndex.toString() + ' was set');
-    print('Choosed Answer is: ' + _questionAnswer);
+    print('Choosed Answer is: ' + _answer.answerText);
   }
 
   List<Answer> getAnswers(int id) {
@@ -144,10 +152,10 @@ class _QuizState extends State<QuizPage> {
                                             question: widget._questions[_questionIndex],
                                             setAnswerCallback: _setQuestionAnswer),
                                       //Réponse Courte ------------------------------
-                                      if (widget._questions[_questionIndex].shortAnswers!.isNotEmpty)
-                                        ShortAnswer(
-                                          setAnswerCallback: _setQuestionAnswer,
-                                        ),
+                                      // if (widget._questions[_questionIndex].shortAnswers!.isNotEmpty)
+                                      //   ShortAnswer(
+                                      //     setAnswerCallback: _setQuestionAnswer,
+                                      //   ),
                                     ],
                                   ),
                                 ),
@@ -160,11 +168,14 @@ class _QuizState extends State<QuizPage> {
                                 ),
                                 margin: EdgeInsets.all(40),
                                 padding: EdgeInsets.only(left: 40, right: 40),
-                                child: AnswerDetailsButton(onPressed: () {
-                                  _clicked = -1;
-                                  _answerQuestion();
-                                  Navigator.pop(context);
-                                }),
+                                child: AnswerDetailsButton(
+                                  onPressed: () {
+                                    _clicked = -1;
+                                    _answerQuestion();
+                                    Navigator.pop(context);
+                                  },
+                                  answer: _answer,
+                                ),
                               ),
                               // Bouton suivant
 
@@ -181,6 +192,7 @@ class _QuizState extends State<QuizPage> {
                     return Text("No data");
                   }),
             ),
+            //Countdown timer
             Align(
               alignment: Alignment.center,
               child: CircularCountDownTimer(

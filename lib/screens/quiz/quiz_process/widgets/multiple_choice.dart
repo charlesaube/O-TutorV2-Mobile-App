@@ -2,7 +2,7 @@ import 'package:demo3/model/answer.dart';
 import 'package:demo3/model/question.dart';
 import 'package:flutter/material.dart';
 
-typedef void VoidCallback(String newAnswer);
+typedef void VoidCallback(Answer newAnswer);
 
 class MultipleChoice extends StatefulWidget {
   final Question question;
@@ -26,9 +26,9 @@ class _MultipleChoiceState extends State<MultipleChoice> {
         physics: NeverScrollableScrollPhysics(),
         itemCount: this.widget.question.multipleAnswers!.length,
         itemBuilder: (
-            BuildContext context,
-            int index,
-            ) {
+          BuildContext context,
+          int index,
+        ) {
           //Change la couleur du container ClickÃ© ------------------------
           print(_clicked);
           _colorContainer = Colors.grey.shade200;
@@ -49,7 +49,7 @@ class _MultipleChoiceState extends State<MultipleChoice> {
                   setState(() {
                     _clicked = index;
                   });
-                  widget.setAnswerCallback(this.widget.question.multipleAnswers![index].answer);
+                  widget.setAnswerCallback(this.widget.question.multipleAnswers![index]);
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
