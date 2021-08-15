@@ -11,6 +11,7 @@ import 'package:demo3/screens/quiz/quiz_process/widgets/multiple_choice.dart';
 
 import 'package:demo3/screens/quiz/quiz_process/widgets/quiz_card.dart';
 import 'package:demo3/custom_painter/bg_circles.dart';
+import 'package:demo3/screens/quiz/quiz_process/widgets/score_details.dart';
 import 'package:demo3/screens/quiz/quiz_process/widgets/short_answer.dart';
 import 'package:demo3/screens/util/error_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -89,7 +90,7 @@ class _QuizState extends State<QuizPage> {
       _isTrue = isShortAnswerTrue(_answer);
     });
     print('New Answer for question ' + _questionIndex.toString() + ' was set');
-    print('Choosed Answer is: ' + _questionAnswer);
+    print('Choosed Answer is: ' + _answer);
   }
 
   void _setQuestionAnswer(Answer newAnswer) {
@@ -182,7 +183,7 @@ class _QuizState extends State<QuizPage> {
                                     ],
                                   ),
                                 ),
-
+                              if (_questionIndex >= widget._questions.length) ScoreDetails(),
                               Spacer(),
                               Container(
                                 decoration: BoxDecoration(

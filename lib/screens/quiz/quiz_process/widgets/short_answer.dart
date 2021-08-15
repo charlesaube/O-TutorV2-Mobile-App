@@ -44,6 +44,7 @@ class _ShortAnswerWidgetState extends State<ShortAnswerWidget> {
         ),
         onEditingComplete: () {
           this.widget.setAnswerCallback(answerTextController.text);
+          FocusScope.of(context).unfocus();
         },
       ),
     );
