@@ -102,11 +102,7 @@ class _QuizState extends State<QuizPage> {
     print('Choosed Answer is: ' + _answer);
   }
 
-  List<Answer> getAnswers(int id) {
-    throw UnimplementedError();
-    // return widget._answerService.fetchAnswerByQuestionId(id);
-  }
-
+  //permet de verifier si la réponse en input est vrai
   bool isShortAnswerTrue(String answer) {
     List<ShortAnswer> shortAnswers = widget._questions[_questionIndex].shortAnswers!;
     bool isTrue = false;

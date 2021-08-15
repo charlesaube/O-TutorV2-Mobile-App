@@ -48,7 +48,7 @@ class QuizBloc {
     }
   }
 
-  createQuizAttempt(QuizAttempt quizAttempt) async {}
+  createQuizAttempt(int quizId, int attemptDate) async {}
 
   dispose() {
     _quizController.close();

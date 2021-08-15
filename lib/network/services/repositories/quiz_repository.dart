@@ -22,5 +22,5 @@ class QuizRepository extends IQuizRepository {
   }
 
   @override
-  createQuizAttempt(QuizAttempt quizAttempt) {}
+  createQuizAttempt(int quizId, int attemptDate) {}
 }
