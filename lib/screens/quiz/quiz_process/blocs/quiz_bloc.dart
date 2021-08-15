@@ -1,11 +1,12 @@
 import 'dart:async';
 
 import 'package:demo3/model/quiz.dart';
+import 'package:demo3/model/quiz_attempt.dart';
 import 'package:demo3/network/api_response.dart';
 import 'package:demo3/network/services/IQuiz_repository.dart';
 import 'package:demo3/network/services/service_providers/service_provider.dart';
 
-class QuizBloc{
+class QuizBloc {
   late IQuizRepository _quizRepository;
 
   var _quizController = StreamController<ApiResponse<Quiz>>();
@@ -18,15 +19,14 @@ class QuizBloc{
 
   Stream<ApiResponse<List<Quiz>>> get quizListStream => _quizListController.stream;
 
-
-  QuizBloc(int categoryId){
+  QuizBloc(int categoryId) {
     _quizController = StreamController<ApiResponse<Quiz>>();
     _quizListController = StreamController<ApiResponse<List<Quiz>>>();
     _quizRepository = ServiceProvider().fetchQuizRepository();
     fetchQuizByCategoryId(categoryId);
   }
 
-  fetchQuizById(int id) async{
+  fetchQuizById(int id) async {
     quizSink.add(ApiResponse.loading('Fetching quiz'));
     try {
       Quiz quiz = await _quizRepository.fetchQuizById(id);
@@ -37,7 +37,7 @@ class QuizBloc{
     }
   }
 
-  fetchQuizByCategoryId(int categoryId) async{
+  fetchQuizByCategoryId(int categoryId) async {
     quizListSink.add(ApiResponse.loading('Authenticating'));
     try {
       List<Quiz> quizzes = await _quizRepository.fetchQuizByGroupId(categoryId);
@@ -48,9 +48,10 @@ class QuizBloc{
     }
   }
 
-  dispose(){
+  createQuizAttempt(QuizAttempt quizAttempt) async {}
+
+  dispose() {
     _quizController.close();
     _quizListController.close();
   }
-
 }

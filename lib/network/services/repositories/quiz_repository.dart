@@ -1,16 +1,16 @@
 import 'package:demo3/model/quiz.dart';
+import 'package:demo3/model/quiz_attempt.dart';
 import 'package:demo3/network/api_client.dart';
 import 'package:demo3/network/services/IQuiz_repository.dart';
 import 'package:flutter/cupertino.dart';
 
-class QuizRepository extends IQuizRepository{
+class QuizRepository extends IQuizRepository {
   ApiClient _helper = new ApiClient();
-
 
   @override
   fetchQuizByGroupId(int groupId) async {
-    final response = await _helper.get("groups/" + groupId.toString() +"/quizzes");
-    var quizObjJson = response  as List;
+    final response = await _helper.get("groups/" + groupId.toString() + "/quizzes");
+    var quizObjJson = response as List;
     List<Quiz> quizzes = quizObjJson.map((quizJson) => Quiz.fromJson(quizJson)).toList();
     return quizzes;
   }
@@ -21,6 +21,6 @@ class QuizRepository extends IQuizRepository{
     throw UnimplementedError();
   }
 
-
-
+  @override
+  createQuizAttempt(QuizAttempt quizAttempt) {}
 }
