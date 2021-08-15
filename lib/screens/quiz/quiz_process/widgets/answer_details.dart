@@ -4,13 +4,16 @@ import 'package:flutter/material.dart';
 
 class AnswerDetailsButton extends StatelessWidget {
   final VoidCallback _callback;
-  final Answer answer;
+  // final Answer answer;
   Color dialogColor = Colors.green;
+  final bool isTrue;
+  final String answerText;
 
-  AnswerDetailsButton({required VoidCallback onPressed, required Answer answer})
+  AnswerDetailsButton({required VoidCallback onPressed, required String answerText, required bool isTrue})
       : this._callback = onPressed,
-        this.answer = answer {
-    if (answer.isTrue) {
+        this.answerText = answerText,
+        this.isTrue = isTrue {
+    if (isTrue) {
       this.dialogColor = Color(0xff2dcb70);
     } else {
       this.dialogColor = Color(0xffcc3333);
@@ -18,13 +21,13 @@ class AnswerDetailsButton extends StatelessWidget {
   }
 
   Widget fetchAlertDialog() {
-    if (answer.isTrue) {
+    if (isTrue) {
       return CorrectAnswerDialog(
-        answer: answer,
+        answer: answerText,
       );
     } else {
       return IncorrectAnswerDialog(
-        answer: answer,
+        answer: answerText,
       );
     }
   }
@@ -81,8 +84,8 @@ class AnswerDetailsButton extends StatelessWidget {
 }
 
 class CorrectAnswerDialog extends StatelessWidget {
-  final Answer _answer;
-  CorrectAnswerDialog({required Answer answer}) : this._answer = answer;
+  final String _answer;
+  CorrectAnswerDialog({required String answer}) : this._answer = answer;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -96,7 +99,7 @@ class CorrectAnswerDialog extends StatelessWidget {
           ),
           Text("Congrats !", style: TextStyle(fontSize: 25)),
           Spacer(),
-          Text("The correct answer was indeed " + _answer.answer, style: TextStyle(fontSize: 17)),
+          Text("The correct answer was indeed " + _answer, style: TextStyle(fontSize: 17)),
         ],
       ),
     );
@@ -104,8 +107,8 @@ class CorrectAnswerDialog extends StatelessWidget {
 }
 
 class IncorrectAnswerDialog extends StatelessWidget {
-  final Answer _answer;
-  IncorrectAnswerDialog({required Answer answer}) : this._answer = answer;
+  final String _answer;
+  IncorrectAnswerDialog({required String answer}) : this._answer = answer;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -119,7 +122,7 @@ class IncorrectAnswerDialog extends StatelessWidget {
           ),
           Text("Incorrect !", style: TextStyle(fontSize: 25)),
           Spacer(),
-          Text(_answer.answer + " is not the correct answer", style: TextStyle(fontSize: 17)),
+          Text(_answer + " is not the correct answer", style: TextStyle(fontSize: 17)),
         ],
       ),
     );

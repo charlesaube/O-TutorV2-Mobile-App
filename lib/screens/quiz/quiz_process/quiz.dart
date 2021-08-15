@@ -3,9 +3,10 @@ import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/model/answer.dart';
 import 'package:demo3/model/question.dart';
 import 'package:demo3/model/quiz.dart';
+import 'package:demo3/model/shortAnswer.dart';
 import 'package:demo3/network/api_response.dart';
 import 'package:demo3/screens/quiz/quiz_process/blocs/question_bloc.dart';
-import 'package:demo3/screens/quiz/quiz_process/widgets/answerDetails.dart';
+import 'package:demo3/screens/quiz/quiz_process/widgets/answer_details.dart';
 import 'package:demo3/screens/quiz/quiz_process/widgets/multiple_choice.dart';
 
 import 'package:demo3/screens/quiz/quiz_process/widgets/quiz_card.dart';
@@ -53,7 +54,8 @@ class _QuizState extends State<QuizPage> {
 
   //late Answer _questionAnswer;
   String _questionAnswer = ""; //Réponse de la question en cours
-  late Answer _answer = Answer(0, "null", 0, "null", false);
+  late String _answer = "";
+  late bool _isTrue = false;
   var _questionIndex = 0; //Index de la question en cours
   Color _colorContainer = Colors.blue;
   int _clicked = -1;
@@ -81,17 +83,38 @@ class _QuizState extends State<QuizPage> {
   //   print('New Answer for question ' + _questionIndex.toString() + ' was set');
   //   print('Choosed Answer is: ' + _questionAnswer);
   // }
-  void _setQuestionAnswer(Answer newAnswer) {
+  void _setShortAnswer(dynamic newAnswer) {
     setState(() {
       _answer = newAnswer;
+      _isTrue = isShortAnswerTrue(_answer);
     });
     print('New Answer for question ' + _questionIndex.toString() + ' was set');
-    print('Choosed Answer is: ' + _answer.answerText);
+    print('Choosed Answer is: ' + _questionAnswer);
+  }
+
+  void _setQuestionAnswer(Answer newAnswer) {
+    setState(() {
+      _answer = newAnswer.answer;
+      _isTrue = newAnswer.isTrue;
+    });
+    print('New Answer for question ' + _questionIndex.toString() + ' was set');
+    print('Choosed Answer is: ' + _answer);
   }
 
   List<Answer> getAnswers(int id) {
     throw UnimplementedError();
     // return widget._answerService.fetchAnswerByQuestionId(id);
+  }
+
+  bool isShortAnswerTrue(String answer) {
+    List<ShortAnswer> shortAnswers = widget._questions[_questionIndex].shortAnswers!;
+    bool isTrue = false;
+    shortAnswers.forEach((element) {
+      if (element.answer == answer) {
+        isTrue = true;
+      }
+    });
+    return isTrue;
   }
 
   @override
@@ -152,10 +175,10 @@ class _QuizState extends State<QuizPage> {
                                             question: widget._questions[_questionIndex],
                                             setAnswerCallback: _setQuestionAnswer),
                                       //Réponse Courte ------------------------------
-                                      // if (widget._questions[_questionIndex].shortAnswers!.isNotEmpty)
-                                      //   ShortAnswer(
-                                      //     setAnswerCallback: _setQuestionAnswer,
-                                      //   ),
+                                      if (widget._questions[_questionIndex].shortAnswers!.isNotEmpty)
+                                        ShortAnswerWidget(
+                                          setAnswerCallback: _setShortAnswer,
+                                        ),
                                     ],
                                   ),
                                 ),
@@ -174,7 +197,8 @@ class _QuizState extends State<QuizPage> {
                                     _answerQuestion();
                                     Navigator.pop(context);
                                   },
-                                  answer: _answer,
+                                  answerText: _answer,
+                                  isTrue: _isTrue,
                                 ),
                               ),
                               // Bouton suivant

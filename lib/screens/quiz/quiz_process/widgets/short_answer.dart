@@ -1,17 +1,17 @@
-import 'package:demo3/model/answer.dart';
+import 'package:demo3/model/shortAnswer.dart';
 import 'package:flutter/material.dart';
 
 typedef void VoidCallback(String newAnswer);
 
-class ShortAnswer extends StatefulWidget {
+class ShortAnswerWidget extends StatefulWidget {
   final VoidCallback setAnswerCallback;
-  ShortAnswer({Key? key, required this.setAnswerCallback}) : super(key: key);
+  ShortAnswerWidget({Key? key, required this.setAnswerCallback}) : super(key: key);
 
   @override
-  _ShortAnswerState createState() => _ShortAnswerState();
+  _ShortAnswerWidgetState createState() => _ShortAnswerWidgetState();
 }
 
-class _ShortAnswerState extends State<ShortAnswer> {
+class _ShortAnswerWidgetState extends State<ShortAnswerWidget> {
   String shortAnswerText = " ";
 
   final answerTextController = TextEditingController();
