@@ -26,6 +26,8 @@ import 'blocs/quiz_attempt_bloc.dart';
 class QuizPage extends StatefulWidget {
   //Quiz en cours
   final Quiz quiz;
+
+  late QuizAttempt _quizAttempt;
   //Liste des questions du quiz en cours
   List<Question> _questions = [];
   //Liste des réponses choisi par l'utilisateur
@@ -165,6 +167,7 @@ class _QuizState extends State<QuizPage> {
                             child: SpinKitDoubleBounce(color: Colors.lightBlue.shade100),
                           );
                         case Status.COMPLETED:
+                          widget._quizAttempt = snapshot.data!.data;
                           widget._questions = snapshot.data!.data.questions;
                           return Column(
                             children: <Widget>[
@@ -226,6 +229,7 @@ class _QuizState extends State<QuizPage> {
                               Spacer(flex: 3),
                             ],
                           );
+
                           break;
 
                         case Status.ERROR:
@@ -236,11 +240,13 @@ class _QuizState extends State<QuizPage> {
                     return Text("No data");
                   }),
             ),
-            //Countdown timer
             Align(
-              alignment: Alignment.center,
+              //Countdown timer
               child: CircularCountDownTimer(
-                duration: Duration(minutes: int.parse(widget.quiz.timelimit)).inSeconds,
+                duration: Duration(
+                        minutes: 10 /*int.parse(widget._quizAttempt.duration.substring(0, 2))*/,
+                        seconds: 0 /*int.parse(widget._quizAttempt.duration.substring(3, 5))*/)
+                    .inSeconds,
                 initialDuration: 0,
                 controller: CountDownController(),
                 width: MediaQuery.of(context).size.width / 6,
