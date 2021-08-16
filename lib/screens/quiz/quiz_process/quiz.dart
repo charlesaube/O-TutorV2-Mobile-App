@@ -2,7 +2,9 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/model/answer.dart';
 import 'package:demo3/model/question.dart';
+import 'package:demo3/model/question_attempt.dart';
 import 'package:demo3/model/quiz.dart';
+import 'package:demo3/model/quiz_attempt.dart';
 import 'package:demo3/model/shortAnswer.dart';
 import 'package:demo3/network/api_response.dart';
 import 'package:demo3/screens/quiz/quiz_process/blocs/question_bloc.dart';
@@ -18,6 +20,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart';
+
+import 'blocs/quiz_attempt_bloc.dart';
 
 class QuizPage extends StatefulWidget {
   //Quiz en cours
@@ -36,7 +40,8 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizState extends State<QuizPage> {
-  QuestionBloc? _bloc;
+  //QuestionBloc? _bloc;
+  QuizAttemptBloc? _bloc;
 
   @override
   QuizPage get widget => super.widget;
@@ -44,12 +49,14 @@ class _QuizState extends State<QuizPage> {
   @override
   void initState() {
     super.initState();
-    _bloc = QuestionBloc(widget.quiz.id);
+    //_bloc = QuestionBloc(widget.quiz.id);
+    _bloc = QuizAttemptBloc(widget.quiz.id);
   }
 
   void refresh() {
     setState(() {
-      _bloc!.fetchQuestionByQuizId(widget.quiz.id);
+      //_bloc!.fetchQuestionByQuizId(widget.quiz.id);
+      _bloc!.createQuizAttempt(widget.quiz.id);
     });
   }
 
@@ -131,8 +138,10 @@ class _QuizState extends State<QuizPage> {
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height,
-              child: StreamBuilder<ApiResponse<List<Question>>>(
-                  stream: _bloc!.questionListStream,
+              //child: StreamBuilder<ApiResponse<List<Question>>>(
+              //stream: _bloc!.questionListStream,
+              child: StreamBuilder<ApiResponse<QuizAttempt>>(
+                  stream: _bloc!.quizAttemptStream,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       switch (snapshot.data!.status) {
@@ -143,7 +152,7 @@ class _QuizState extends State<QuizPage> {
                             child: SpinKitDoubleBounce(color: Colors.lightBlue.shade100),
                           );
                         case Status.COMPLETED:
-                          widget._questions = snapshot.data!.data;
+                          widget._questions = snapshot.data!.data.questions;
                           return Column(
                             children: <Widget>[
                               Row(

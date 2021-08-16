@@ -5,7 +5,6 @@ import 'package:demo3/network/services/IQuiz_repository.dart';
 import 'package:demo3/network/services/service_providers/service_provider.dart';
 import 'package:demo3/screens/quiz/blocs/browse_quiz_bloc.dart';
 import 'package:demo3/screens/quiz/quiz_details.dart';
-import 'package:demo3/screens/quiz/quiz_process/blocs/quiz_bloc.dart';
 import 'package:demo3/screens/quiz/quiz_process/quiz.dart';
 import 'package:demo3/custom_painter/bg_circles.dart';
 import 'package:demo3/screens/quiz/widget/header.dart';

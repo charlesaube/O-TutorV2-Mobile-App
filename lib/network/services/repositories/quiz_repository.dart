@@ -1,8 +1,14 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:demo3/model/quiz.dart';
 import 'package:demo3/model/quiz_attempt.dart';
 import 'package:demo3/network/api_client.dart';
 import 'package:demo3/network/services/IQuiz_repository.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
+
+import '../../api_exceptions.dart';
 
 class QuizRepository extends IQuizRepository {
   ApiClient _helper = new ApiClient();
@@ -22,5 +28,21 @@ class QuizRepository extends IQuizRepository {
   }
 
   @override
-  createQuizAttempt(int quizId, int attemptDate) {}
+  Future<QuizAttempt> createQuizAttempt(Map<String, int> body) async {
+    http.Response response;
+    var responseJson;
+    print(body);
+    try {
+      response = await http.post(Uri.parse("http://8g9dz.mocklab.io/quiz_attempts"), body: jsonEncode(body));
+      responseJson = _helper.returnResponse(response);
+      print("allo");
+    } on SocketException catch (e) {
+      print(e);
+      throw FetchDataException('No internet');
+    }
+    print(responseJson);
+    QuizAttempt quizAttempt = QuizAttempt.fromJson(responseJson);
+
+    return quizAttempt;
+  }
 }

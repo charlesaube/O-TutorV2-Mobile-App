@@ -4,14 +4,14 @@ import 'package:demo3/model/question.dart';
 import 'package:demo3/model/question_attempt.dart';
 
 class QuizAttempt {
-  late int id;
-  late int quizId;
-  late String duration;
-  late bool isOver;
-  late int currentQuestionId;
-  late List<int>? questionsOrder;
-  late List<QuestionAttempt> questionAttempts;
-  late List<Question> questions;
+  int id;
+  int quizId;
+  String duration;
+  bool isOver;
+  int currentQuestionId;
+  List<int>? questionsOrder;
+  List<QuestionAttempt> questionAttempts;
+  List<Question> questions;
 
   QuizAttempt(
       {required this.id,
@@ -24,7 +24,7 @@ class QuizAttempt {
       required this.questions});
 
   factory QuizAttempt.fromJson(dynamic json) {
-    dynamic id = int.parse(json["id"]);
+    int id = json["id"];
     dynamic quizId = json["quiz_id"];
     dynamic duration = json["duration"];
     dynamic isOver = json["is_over"];
