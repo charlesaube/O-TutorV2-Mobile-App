@@ -40,7 +40,6 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizState extends State<QuizPage> {
-  //QuestionBloc? _bloc;
   QuizAttemptBloc? _bloc;
 
   @override
@@ -49,13 +48,11 @@ class _QuizState extends State<QuizPage> {
   @override
   void initState() {
     super.initState();
-    //_bloc = QuestionBloc(widget.quiz.id);
     _bloc = QuizAttemptBloc(widget.quiz.id);
   }
 
   void refresh() {
     setState(() {
-      //_bloc!.fetchQuestionByQuizId(widget.quiz.id);
       _bloc!.createQuizAttempt(widget.quiz.id);
     });
   }
@@ -138,8 +135,6 @@ class _QuizState extends State<QuizPage> {
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height,
-              //child: StreamBuilder<ApiResponse<List<Question>>>(
-              //stream: _bloc!.questionListStream,
               child: StreamBuilder<ApiResponse<QuizAttempt>>(
                   stream: _bloc!.quizAttemptStream,
                   builder: (context, snapshot) {
