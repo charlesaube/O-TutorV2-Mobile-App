@@ -8,10 +8,11 @@ class QuestionAttempt {
   int answerTime;
   String type;
   String answer;
-  List<int> answers;
+  List<int>? answers;
 
-  QuestionAttempt(this.questionId, this.isAnswer, this.obtainedMark, this.goodAnswer, this.answerTime, this.type,
-      this.answer, this.answers);
+  QuestionAttempt(
+      this.questionId, this.isAnswer, this.obtainedMark, this.goodAnswer, this.answerTime, this.type, this.answer,
+      [this.answers]);
 
   factory QuestionAttempt.fromJson(dynamic json) {
     int questionId = json['question_id'];

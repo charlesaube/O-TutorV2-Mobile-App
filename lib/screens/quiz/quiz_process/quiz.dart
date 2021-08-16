@@ -64,6 +64,7 @@ class _QuizState extends State<QuizPage> {
   var _questionIndex = 0; //Index de la question en cours
   Color _colorContainer = Colors.blue;
   int _clicked = -1;
+  List<QuestionAttempt> _questionAttempts = [];
 
   //Méthode callback pour enregistrer définitivement la réponse de la question en cours
   //et ensuite passer a la prochaine question
@@ -95,6 +96,18 @@ class _QuizState extends State<QuizPage> {
     });
     print('New Answer for question ' + _questionIndex.toString() + ' was set');
     print('Choosed Answer is: ' + _answer);
+  }
+
+//permet de creer un question attempt et de l'ajouter a la liste.
+  void _addQuestionAttempt() {
+    String type;
+    if (widget._questions[_questionIndex].shortAnswers!.isEmpty) {
+      type = "MultipleChoice";
+    } else {
+      type = "ShortAnswer";
+    }
+    _questionAttempts
+        .add(QuestionAttempt(widget._questions[_questionIndex].questionId, 1, 1, _isTrue, 10, type, _answer));
   }
 
   void _setQuestionAnswer(Answer newAnswer) {
@@ -196,6 +209,7 @@ class _QuizState extends State<QuizPage> {
                                   onPressed: () {
                                     _clicked = -1;
                                     _answerQuestion();
+                                    _addQuestionAttempt();
                                     Navigator.pop(context);
                                   },
                                   answerText: _answer,

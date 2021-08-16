@@ -35,7 +35,6 @@ class QuizRepository extends IQuizRepository {
     try {
       response = await http.post(Uri.parse("http://8g9dz.mocklab.io/quiz_attempts"), body: jsonEncode(body));
       responseJson = _helper.returnResponse(response);
-      print("allo");
     } on SocketException catch (e) {
       print(e);
       throw FetchDataException('No internet');
