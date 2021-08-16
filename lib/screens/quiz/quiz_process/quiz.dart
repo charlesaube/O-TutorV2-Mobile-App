@@ -101,13 +101,18 @@ class _QuizState extends State<QuizPage> {
 //permet de creer un question attempt et de l'ajouter a la liste.
   void _addQuestionAttempt() {
     String type;
+    int obtainedMark = 0;
     if (widget._questions[_questionIndex].shortAnswers!.isEmpty) {
       type = "MultipleChoice";
     } else {
       type = "ShortAnswer";
     }
-    _questionAttempts
-        .add(QuestionAttempt(widget._questions[_questionIndex].questionId, 1, 1, _isTrue, 10, type, _answer));
+    if (_isTrue) {
+      obtainedMark = 1;
+    }
+    _questionAttempts.add(
+        QuestionAttempt(widget._questions[_questionIndex].questionId, 1, obtainedMark, _isTrue, 10, type, _answer));
+    print(_questionAttempts.toString());
   }
 
   void _setQuestionAnswer(Answer newAnswer) {

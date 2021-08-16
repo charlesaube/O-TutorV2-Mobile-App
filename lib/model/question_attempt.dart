@@ -32,6 +32,10 @@ class QuestionAttempt {
 
     return QuestionAttempt(questionId, isAnswer, obtainedMark, goodAnswer, answerTime, type, answer, answers);
   }
+  @override
+  String toString() {
+    return "Is Answer: ${this.isAnswer} obtained mark: ${this.obtainedMark} goodAnswer: ${this.goodAnswer}";
+  }
 
   Map<String, dynamic> toJson() => {
         'question_id': questionId,
