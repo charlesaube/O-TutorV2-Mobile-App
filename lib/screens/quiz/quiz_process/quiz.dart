@@ -9,6 +9,7 @@ import 'package:demo3/model/shortAnswer.dart';
 import 'package:demo3/network/api_response.dart';
 import 'package:demo3/screens/quiz/quiz_process/blocs/question_bloc.dart';
 import 'package:demo3/screens/quiz/quiz_process/widgets/answer_details.dart';
+import 'package:demo3/screens/quiz/quiz_process/widgets/exit_quiz_dialog.dart';
 import 'package:demo3/screens/quiz/quiz_process/widgets/multiple_choice.dart';
 
 import 'package:demo3/screens/quiz/quiz_process/widgets/quiz_card.dart';
@@ -168,6 +169,7 @@ class _QuizState extends State<QuizPage> {
                         case Status.COMPLETED:
                           widget._quizAttempt = snapshot.data!.data;
                           widget._questions = snapshot.data!.data.questions;
+                          _questionAttempts = snapshot.data!.data.questionAttempts;
                           return Column(
                             children: [
                               if (_questionIndex < widget._questions.length)
@@ -177,14 +179,17 @@ class _QuizState extends State<QuizPage> {
                                   child: Column(
                                     children: <Widget>[
                                       Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
                                           IconButton(
-                                            padding: EdgeInsets.only(top: 40, left: 20),
+                                            padding: EdgeInsets.only(top: 40, right: 20),
                                             onPressed: () {
-                                              Navigator.pop(context);
+                                              var popupDialog = ExitQuizDialog(context);
+                                              popupDialog.showMyDialog();
+                                              //Navigator.pop(context);
                                             },
                                             icon: Icon(
-                                              Icons.arrow_back_ios,
+                                              Icons.close,
                                               color: Colors.white,
                                             ),
                                           ),
@@ -253,8 +258,8 @@ class _QuizState extends State<QuizPage> {
                 //Countdown timer
                 child: CircularCountDownTimer(
                   duration: Duration(
-                          minutes: 10 /*int.parse(widget._quizAttempt.duration.substring(0, 2))*/,
-                          seconds: 0 /*int.parse(widget._quizAttempt.duration.substring(3, 5))*/)
+                          minutes: int.parse(widget._quizAttempt.duration.substring(0, 2)),
+                          seconds: int.parse(widget._quizAttempt.duration.substring(3, 5)))
                       .inSeconds,
                   initialDuration: 0,
                   controller: CountDownController(),
