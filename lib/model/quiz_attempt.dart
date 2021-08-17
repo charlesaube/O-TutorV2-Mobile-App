@@ -49,7 +49,7 @@ class QuizAttempt {
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'quiz_id': quizId,
+        'quiz_id:': quizId,
         'duration': duration,
         'is_over': isOver,
         'current_question_id': currentQuestionId,

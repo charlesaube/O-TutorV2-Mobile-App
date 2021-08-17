@@ -1,6 +1,8 @@
 import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/model/question_attempt.dart';
 import 'package:demo3/model/quiz_attempt.dart';
+import 'package:demo3/network/api_response.dart';
+import 'package:demo3/screens/quiz/quiz_process/blocs/quiz_attempt_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -19,6 +21,13 @@ class ScoreDetails extends StatefulWidget {
 
 class _ScoreDetailsState extends State<ScoreDetails> {
   int numOfGoodAnswer = 0;
+  QuizAttemptBloc? _bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc = QuizAttemptBloc();
+  }
 
   double calculateScore() {
     double score = 0.0;
@@ -186,6 +195,7 @@ class _ScoreDetailsState extends State<ScoreDetails> {
                 },
               ),
             ),
+
             Expanded(
               child: Container(
                 color: Colors.white,
@@ -219,7 +229,9 @@ class _ScoreDetailsState extends State<ScoreDetails> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            _bloc!.saveQuizAttempt(widget._quizAttempt, widget._quizAttempt.quizId);
+                          },
                           child: Text(
                             "Submit",
                             style: TextStyle(color: Color(0xff03C3FF), fontSize: 15, fontWeight: FontWeight.bold),
@@ -230,10 +242,28 @@ class _ScoreDetailsState extends State<ScoreDetails> {
                   ),
                 ),
               ),
-            )
+            ),
+            StreamBuilder<ApiResponse<QuizAttempt>>(
+                stream: _bloc!.quizAttemptStream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    switch (snapshot.data!.status) {
+                      case Status.COMPLETED:
+                        Navigator.pop(context);
+                        break;
+                    }
+                  }
+                  return Container();
+                }),
           ],
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _bloc!.dispose();
   }
 }

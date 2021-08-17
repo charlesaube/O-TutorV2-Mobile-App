@@ -50,7 +50,8 @@ class _QuizState extends State<QuizPage> {
   @override
   void initState() {
     super.initState();
-    _bloc = QuizAttemptBloc(widget.quiz.id);
+    _bloc = QuizAttemptBloc();
+    _bloc!.createQuizAttempt(widget.quiz.id);
   }
 
   void refresh() {

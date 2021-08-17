@@ -44,4 +44,59 @@ class QuizRepository extends IQuizRepository {
 
     return quizAttempt;
   }
+
+  @override
+  Future<String> saveQuizAttempt(QuizAttempt quizAttempt, int quizId) async {
+    http.Response response;
+    var responseJson;
+    Map<String, dynamic> qa = {
+      "id": 23,
+      "quiz_id": 145,
+      "duration": "12:34",
+      "is_over": false,
+      "current_question_id": 26,
+      "questions_order": [23, 24, 25, 12, 45, 21],
+      "question_attempts": [
+        {
+          "question_id": 23,
+          "is_answer": 0,
+          "obtained_mark": 2,
+          "good_answer": true,
+          "answer_time": 12,
+          "type": "multiplechoice",
+          "answers": [243, 245]
+        },
+        {
+          "question_id": 24,
+          "is_answer": 0,
+          "answer_time": 14,
+          "obtained_mark": 0,
+          "good_answer": false,
+          "type": "shortanswer",
+          "answer": "cat"
+        },
+        {
+          "question_id": 25,
+          "is_answer": "0",
+          "answer_time": 44,
+          "obtained_mark": 1,
+          "good_answer": true,
+          "type": "multiplechoice",
+          "answers": [250]
+        }
+      ]
+    };
+    Map<String, dynamic> body = quizAttempt.toJson();
+    print(body);
+    try {
+      response = await http.post(Uri.parse("http://8g9dz.mocklab.io/saveQuizAttempt/12"), body: quizAttempt.toJson());
+      responseJson = _helper.returnResponse(response);
+    } on SocketException catch (e) {
+      print(e);
+      throw FetchDataException('No internet');
+    }
+    print(responseJson['message']);
+
+    return responseJson;
+  }
 }

@@ -13,11 +13,9 @@ class QuizAttemptBloc {
   StreamSink<ApiResponse<QuizAttempt>> get quizAttemptSink => _quizAttemptController.sink;
   Stream<ApiResponse<QuizAttempt>> get quizAttemptStream => _quizAttemptController.stream;
 
-  QuizAttemptBloc(int quizId) {
+  QuizAttemptBloc() {
     _quizAttemptController = StreamController<ApiResponse<QuizAttempt>>();
     _quizRepository = ServiceProvider().fetchQuizRepository();
-
-    createQuizAttempt(quizId);
   }
 
   createQuizAttempt(int quizId) async {
@@ -26,6 +24,17 @@ class QuizAttemptBloc {
     quizAttemptSink.add(ApiResponse.loading('Creating'));
     try {
       QuizAttempt quizAttempt = await _quizRepository.createQuizAttempt(body);
+      quizAttemptSink.add(ApiResponse.completed(quizAttempt));
+    } catch (e) {
+      quizAttemptSink.add(ApiResponse.error(e.toString()));
+      print(e);
+    }
+  }
+
+  saveQuizAttempt(QuizAttempt quizAttempt, int quizId) async {
+    quizAttemptSink.add(ApiResponse.loading('Creating'));
+    try {
+      await _quizRepository.saveQuizAttempt(quizAttempt, quizId);
       quizAttemptSink.add(ApiResponse.completed(quizAttempt));
     } catch (e) {
       quizAttemptSink.add(ApiResponse.error(e.toString()));

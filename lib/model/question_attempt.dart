@@ -16,16 +16,16 @@ class QuestionAttempt {
 
   factory QuestionAttempt.fromJson(dynamic json) {
     int questionId = json['question_id'];
-    int isAnswer = json['is_answer'] as int;
-    int obtainedMark = json['obtained_mark'] as int;
-    bool goodAnswer = json['good_answer'] as bool;
-    int answerTime = json['answer_time'] as int;
-    String type = json['type'] as String;
+    int isAnswer = json['is_answer'];
+    int obtainedMark = json['obtained_mark'];
+    bool goodAnswer = json['good_answer'];
+    int answerTime = json['answer_time'];
+    String type = json['type'];
     String answer = "";
     List<int> answers = [];
 
     if (type == "shortanswer") {
-      answer = json['answer'] as String;
+      answer = json['answer'];
     } else {
       answers = json['answers'] as List<int>;
     }
@@ -44,7 +44,6 @@ class QuestionAttempt {
         'good_answer': goodAnswer,
         'answer_time': answerTime,
         'type': type,
-        'answer': answer,
-        'answers': answers
+        'answer': answer
       };
 }
