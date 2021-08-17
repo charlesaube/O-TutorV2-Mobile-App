@@ -21,10 +21,7 @@ class CoursesListContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               SizedBox(height: 50, child: Image.network(group.image)),
-              Text(
-                  " " +
-                      group
-                          .description, //Affiche la description car le courseName est vide
+              Text(" " + group.description, //Affiche la description car le courseName est vide
                   style: TextStyle(color: Colors.white, fontSize: 20)),
             ],
           ),
@@ -55,18 +52,12 @@ class QuizListContainer extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(" " + _quiz.quizTitle,
-                  style: TextStyle(color: Colors.white, fontSize: 20)),
+              Text(" " + _quiz.quizTitle, style: TextStyle(color: Colors.white, fontSize: 20)),
             ],
           ),
           Row(
             children: <Widget>[
-              Text(
-                  AppLocalizations.of(context)!
-                          .translate('Questions')
-                          .toString() +
-                      ": " +
-                      _quiz.noOfQuestions,
+              Text(AppLocalizations.of(context)!.translate('Questions').toString() + ": " + _quiz.noOfQuestions,
                   style: TextStyle(color: Colors.white, fontSize: 15)),
               Icon(Icons.navigate_next, color: Colors.white),
             ],

@@ -80,6 +80,7 @@ class _QuizState extends State<QuizPage> {
     } else {
       print('No more questions!');
     }
+    widget._quizAttempt.questionAttempts = _questionAttempts;
   }
 
   //Méthode callback utiliser par les widget de type de question pour set la réponse de la question en cours
@@ -232,7 +233,9 @@ class _QuizState extends State<QuizPage> {
                                   ),
                                 ),
                               if (_questionIndex >= widget._questions.length)
-                                ScoreDetails(questionAttempts: _questionAttempts),
+                                ScoreDetails(
+                                  quizAttempt: widget._quizAttempt,
+                                ),
                             ],
                           );
                           break;
@@ -244,7 +247,7 @@ class _QuizState extends State<QuizPage> {
                     return Text("No data");
                   }),
             ),
-            if (_questionIndex < widget._questions.length)
+            if (_questionIndex < widget._questions.length || _questionIndex == 0)
               Align(
                 //Countdown timer
                 child: CircularCountDownTimer(
