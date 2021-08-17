@@ -1,21 +1,32 @@
 import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/model/question_attempt.dart';
+import 'package:demo3/model/quiz_attempt.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
-class ScoreDetails extends StatelessWidget {
-  final List<QuestionAttempt> _questionAttempts;
+class ScoreDetails extends StatefulWidget {
+  late final List<QuestionAttempt> _questionAttempts;
+  final QuizAttempt _quizAttempt;
 
-  ScoreDetails({required List<QuestionAttempt> questionAttempts}) : this._questionAttempts = questionAttempts;
+  ScoreDetails({required QuizAttempt quizAttempt}) : this._quizAttempt = quizAttempt {
+    this._questionAttempts = quizAttempt.questionAttempts;
+  }
+
+  @override
+  _ScoreDetailsState createState() => _ScoreDetailsState();
+}
+
+class _ScoreDetailsState extends State<ScoreDetails> {
+  int numOfGoodAnswer = 0;
 
   double calculateScore() {
     double score = 0.0;
-    int numOfGoodAnswer = 0;
-    _questionAttempts.forEach((element) {
+    numOfGoodAnswer = 0;
+    widget._questionAttempts.forEach((element) {
       if (element.goodAnswer) numOfGoodAnswer++;
     });
-    score = numOfGoodAnswer / _questionAttempts.length;
+    score = numOfGoodAnswer / widget._questionAttempts.length;
     return score;
   }
 
@@ -26,22 +37,30 @@ class ScoreDetails extends StatelessWidget {
     return Color(0xFFFA2424);
   }
 
+  String fetchIconPath(int index) {
+    if (widget._questionAttempts[index].goodAnswer) {
+      return 'assets/checkMark.png';
+    }
+    return 'assets/xIcon.jpg';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height,
+      color: Colors.white,
       child: Container(
         child: Column(
           children: <Widget>[
             Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [0.6, 1.9],
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  stops: [0.6, 1],
                   colors: [
                     Color(0xff03C3FF),
-                    Colors.lightBlue,
+                    Colors.blue.shade700,
                   ],
                 ),
               ),
@@ -80,116 +99,100 @@ class ScoreDetails extends StatelessWidget {
                     circularStrokeCap: CircularStrokeCap.round,
                     progressColor: getColor(),
                   ),
-                  // Container(
-                  //   height: 150,
-                  //   width: 150,
-                  //   padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  //   decoration: BoxDecoration(
-                  //       shape: BoxShape.circle,
-                  //       border: Border.all(
-                  //         width: 3,
-                  //         color: Colors.orange,
-                  //       )),
-                  //   child: Align(
-                  //       alignment: Alignment.center,
-                  //       child: Column(
-                  //         children: [
-                  //           Text(
-                  //             "Score",
-                  //             style: TextStyle(color: Colors.black, fontSize: 30),
-                  //           ),
-                  //           Text(
-                  //             "75%",
-                  //             style: TextStyle(color: Colors.lightGreenAccent[400], fontSize: 40),
-                  //           ),
-                  //         ],
-                  //       )),
-                  // ),
-                  Row(
-                    children: [
-                      Container(
-                          margin: EdgeInsets.fromLTRB(60, 30, 0, 0),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.star,
-                                color: Colors.yellow,
-                                size: 30,
-                              ),
-                              Text(
-                                "102/50",
-                                style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          )),
-                      Spacer(),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(0, 30, 60, 0),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.timer,
-                              color: Colors.black,
-                              size: 30,
+                  Container(
+                    margin: EdgeInsets.all(30),
+                    child: IntrinsicHeight(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Container(
+                              margin: EdgeInsets.fromLTRB(90, 0, 0, 0),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.star,
+                                    color: Colors.yellow,
+                                    size: 20,
+                                  ),
+                                  Text(
+                                    numOfGoodAnswer.toString() + " / " + widget._questionAttempts.length.toString(),
+                                    style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              )),
+                          const VerticalDivider(
+                            color: Colors.white,
+                            thickness: 1.5,
+                            width: 20,
+                          ),
+                          Container(
+                            margin: EdgeInsets.fromLTRB(0, 0, 60, 0),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.timer,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                                Text(
+                                  " 7:13 min",
+                                  style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
+                                )
+                              ],
                             ),
-                            Text(
-                              "7:13 min",
-                              style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                  IntrinsicHeight(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          width: 100,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                Icons.timer,
-                                color: Colors.white,
-                                size: 25.0,
-                              ),
-                              Text("allo ",
-                                  style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold)),
-                              Text(" min",
-                                  style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                        ),
-                        const VerticalDivider(
-                          color: Colors.white,
-                          thickness: 1.5,
-                          width: 20,
-                        ),
-                        Container(
-                          width: 100,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text("allo",
-                                  style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold)),
-                              Text(" Questions",
-                                  style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                        ),
-                      ],
+                          )
+                        ],
+                      ),
                     ),
                   )
                 ],
+              ),
+            ),
+            //Boutons
+            Expanded(
+              child: ListView.builder(
+                physics: BouncingScrollPhysics(),
+                itemCount: widget._questionAttempts.length,
+                itemBuilder: (
+                  BuildContext context,
+                  int index,
+                ) {
+                  return Container(
+                    margin: EdgeInsets.only(left: 30, right: 30),
+                    height: 30,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text.rich(
+                          TextSpan(children: [
+                            TextSpan(text: "Q" + (index + 1).toString() + " : ", style: TextStyle(fontSize: 15)),
+                            TextSpan(
+                                text: widget._quizAttempt.questions[index].content,
+                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black))
+                          ]),
+                        ),
+                        Row(
+                          children: [
+                            Image.asset(fetchIconPath(index), height: 15, width: 15),
+                            Icon(
+                              Icons.navigate_next,
+                              color: Colors.black,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
             ),
             Expanded(
               child: Container(
                 color: Colors.white,
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 40.0),
+                  padding: const EdgeInsets.only(
+                    bottom: 0.0,
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -203,7 +206,7 @@ class ScoreDetails extends StatelessWidget {
                             onPressed: () {},
                             child: Text(
                               "Try Again",
-                              style: TextStyle(color: Color(0xff03C3FF), fontSize: 15),
+                              style: TextStyle(color: Color(0xff03C3FF), fontSize: 15, fontWeight: FontWeight.bold),
                             )),
                       ),
                       SizedBox(
@@ -219,7 +222,7 @@ class ScoreDetails extends StatelessWidget {
                           onPressed: () {},
                           child: Text(
                             "Submit",
-                            style: TextStyle(color: Color(0xff03C3FF), fontSize: 15),
+                            style: TextStyle(color: Color(0xff03C3FF), fontSize: 15, fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
