@@ -86,7 +86,7 @@ class QuizRepository extends IQuizRepository {
         }
       ]
     };
-    Map<String, dynamic> body = quizAttempt.toJson();
+    Map<String, dynamic> body = quizAttempt.questionAttempts[1].toJson();
     print(body);
     try {
       response = await http.post(Uri.parse("http://8g9dz.mocklab.io/saveQuizAttempt/12"), body: quizAttempt.toJson());
