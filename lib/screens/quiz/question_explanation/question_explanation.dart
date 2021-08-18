@@ -1,7 +1,7 @@
 import 'package:demo3/model/question_attempt.dart';
 import 'package:demo3/model/quiz_attempt.dart';
 import 'package:demo3/model/quiz_attempt.dart';
-import 'package:demo3/screens/quiz/question_explanation/widget/short_answer.dart';
+import 'package:demo3/screens/quiz/question_explanation/widget/short_answer_explanation.dart';
 import 'package:demo3/screens/quiz/quiz_process/widgets/multiple_choice.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +42,11 @@ class QuestionExplanation extends StatelessWidget {
               ),
               if (_quizAttempt.questions[_questionId].questionType == "multiplechoice")
                 MultipleChoiceExplanation(question: _quizAttempt.questions[_questionId]),
-              if (_quizAttempt.questions[_questionId].questionType == "shortanswer") ShortAnswerExplanation(),
+              if (_quizAttempt.questions[_questionId].questionType == "shortanswer")
+                ShortAnswerExplanation(
+                  quizAttempt: _quizAttempt,
+                  quizId: _questionId,
+                ),
             ],
           ),
         ),
