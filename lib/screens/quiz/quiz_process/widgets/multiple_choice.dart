@@ -23,7 +23,6 @@ class _MultipleChoiceState extends State<MultipleChoice> {
       width: 330,
       height: MediaQuery.of(context).size.width / 1.5,
       child: ListView.builder(
-        physics: NeverScrollableScrollPhysics(),
         itemCount: this.widget.question.multipleAnswers!.length,
         itemBuilder: (
           BuildContext context,
