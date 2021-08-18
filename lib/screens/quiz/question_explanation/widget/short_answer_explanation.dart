@@ -16,7 +16,6 @@ class ShortAnswerExplanation extends StatelessWidget {
       child: Column(
         children: [
           Text("You have answered Wrong"),
-          Spacer(),
           Text("The question Was: "),
           Text(_quizAttempt.questions[index].content),
           Text("your answer: " + _quizAttempt.questionAttempts[index].answer),
