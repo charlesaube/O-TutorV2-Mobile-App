@@ -258,8 +258,8 @@ class _QuizState extends State<QuizPage> {
                 //Countdown timer
                 child: CircularCountDownTimer(
                   duration: Duration(
-                          minutes: int.parse(widget._quizAttempt.duration.substring(0, 2)),
-                          seconds: int.parse(widget._quizAttempt.duration.substring(3, 5)))
+                          minutes: 10 /*int.parse(widget._quizAttempt.duration.substring(0, 2))*/,
+                          seconds: 0 /*int.parse(widget._quizAttempt.duration.substring(3, 5))*/)
                       .inSeconds,
                   initialDuration: 0,
                   controller: CountDownController(),

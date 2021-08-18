@@ -77,7 +77,7 @@ class QuizRepository extends IQuizRepository {
         },
         {
           "question_id": 25,
-          "is_answer": "0",
+          "is_answer": 0,
           "answer_time": 44,
           "obtained_mark": 1,
           "good_answer": true,
@@ -89,14 +89,13 @@ class QuizRepository extends IQuizRepository {
     Map<String, dynamic> body = quizAttempt.questionAttempts[1].toJson();
     print(body);
     try {
-      response = await http.post(Uri.parse("http://8g9dz.mocklab.io/saveQuizAttempt/12"), body: quizAttempt.toJson());
+      response = await http.post(Uri.parse("http://8g9dz.mocklab.io/saveQuizAttempt/12"), body: jsonEncode(qa));
       responseJson = _helper.returnResponse(response);
     } on SocketException catch (e) {
       print(e);
       throw FetchDataException('No internet');
     }
-    print(responseJson['message']);
 
-    return responseJson;
+    return responseJson['message'];
   }
 }
