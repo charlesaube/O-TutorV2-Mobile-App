@@ -31,8 +31,6 @@ class QuizPage extends StatefulWidget {
   late QuizAttempt _quizAttempt;
   //Liste des questions du quiz en cours
   List<Question> _questions = [];
-  //Liste des réponses choisi par l'utilisateur
-  List<String> _submitedAnswers = [];
 
   QuizPage({Key? key, required this.quiz}) : super(key: key);
 
@@ -61,13 +59,10 @@ class _QuizState extends State<QuizPage> {
     });
   }
 
-  //late Answer _questionAnswer;
-  String _questionAnswer = ""; //Réponse de la question en cours
+  //Réponse de la question en cours
   late String _answer = "";
   late bool _isTrue = false;
   var _questionIndex = 0; //Index de la question en cours
-  Color _colorContainer = Colors.blue;
-  List<QuestionAttempt> _questionAttempts = [];
 
   //Méthode callback pour enregistrer définitivement la réponse de la question en cours
   //et ensuite passer a la prochaine question
@@ -75,24 +70,29 @@ class _QuizState extends State<QuizPage> {
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
-    print(_questionIndex);
-    widget._submitedAnswers.add(_questionAnswer); //Ajout de la réponse a la liste de réponse choisie
-    if (_questionIndex < widget._questions.length) {
-      print('We have more questions!');
+
+    String type;
+    int obtainedMark = 0;
+    Question currentQuestion = widget._questions[_questionIndex - 1];
+
+    //Ajout de la réponse a la liste de réponse choisie
+    if (currentQuestion.shortAnswers!.isEmpty) {
+      type = "multiplechoice";
     } else {
-      print('No more questions!');
+      type = "shortanswer";
     }
-    widget._quizAttempt.questionAttempts = _questionAttempts;
+    if (_isTrue) {
+      obtainedMark = currentQuestion.weight;
+    }
+    widget._quizAttempt.questionAttempts
+        .add(QuestionAttempt(currentQuestion.questionId, 1, obtainedMark, _isTrue, 10, type, _answer));
+    widget._quizAttempt.currentQuestionId = currentQuestion.questionId;
+    print(widget._quizAttempt);
+    _answer = "";
+    _isTrue = false;
   }
 
-  //Méthode callback utiliser par les widget de type de question pour set la réponse de la question en cours
-  // void _setQuestionAnswer(dynamic newAnswer) {
-  //   setState(() {
-  //     _questionAnswer = newAnswer;
-  //   });
-  //   print('New Answer for question ' + _questionIndex.toString() + ' was set');
-  //   print('Choosed Answer is: ' + _questionAnswer);
-  // }
+  //Méthode callback pour set la réponse (ShortAnswer) choisie de la question en cours
   void _setShortAnswer(dynamic newAnswer) {
     setState(() {
       _answer = newAnswer;
@@ -102,23 +102,7 @@ class _QuizState extends State<QuizPage> {
     print('Choosed Answer is: ' + _answer);
   }
 
-//permet de creer un question attempt et de l'ajouter a la liste.
-  void _addQuestionAttempt() {
-    String type;
-    int obtainedMark = 0;
-    if (widget._questions[_questionIndex].shortAnswers!.isEmpty) {
-      type = "MultipleChoice";
-    } else {
-      type = "ShortAnswer";
-    }
-    if (_isTrue) {
-      obtainedMark = 1;
-    }
-    _questionAttempts.add(
-        QuestionAttempt(widget._questions[_questionIndex].questionId, 1, obtainedMark, _isTrue, 10, type, _answer));
-    print(_questionAttempts.toString());
-  }
-
+  //Méthode callback pour set la réponse (MultipleChoice) choisie de la question en cours
   void _setQuestionAnswer(Answer newAnswer) {
     setState(() {
       _answer = newAnswer.answer;
@@ -169,7 +153,14 @@ class _QuizState extends State<QuizPage> {
                         case Status.COMPLETED:
                           widget._quizAttempt = snapshot.data!.data;
                           widget._questions = snapshot.data!.data.questions;
-                          _questionAttempts = snapshot.data!.data.questionAttempts;
+                          /*if (widget._quizAttempt.currentQuestionId != 0) {
+                            //Cherche le bon index de la question si le quiz avait deja commencer.
+
+                            _questionIndex = widget._questions
+                                .indexWhere((q) => q.questionId == widget._quizAttempt.currentQuestionId);
+                            print("Starting Index set to: " + _questionIndex.toString());
+                            _indexIsSet = true;
+                          }*/
                           return Column(
                             children: [
                               if (_questionIndex < widget._questions.length)
@@ -225,9 +216,7 @@ class _QuizState extends State<QuizPage> {
                                         padding: EdgeInsets.only(left: 40, right: 40),
                                         child: AnswerDetailsButton(
                                           onPressed: () {
-                                            _addQuestionAttempt();
                                             _answerQuestion();
-
                                             Navigator.pop(context);
                                           },
                                           answerText: _answer,
