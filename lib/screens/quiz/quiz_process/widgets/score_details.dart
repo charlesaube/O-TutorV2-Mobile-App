@@ -3,6 +3,7 @@ import 'package:demo3/model/question_attempt.dart';
 import 'package:demo3/model/quiz_attempt.dart';
 import 'package:demo3/network/api_response.dart';
 import 'package:demo3/screens/quiz/quiz_process/blocs/quiz_attempt_bloc.dart';
+import 'package:demo3/screens/quiz/question_explanation/question_explanation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -169,33 +170,43 @@ class _ScoreDetailsState extends State<ScoreDetails> {
                   return Container(
                     margin: EdgeInsets.only(left: 30, right: 30),
                     height: 30,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text.rich(
-                          TextSpan(children: [
-                            TextSpan(text: "Q" + (index + 1).toString() + " : ", style: TextStyle(fontSize: 15)),
-                            TextSpan(
-                                text: widget._quizAttempt.questions[index].content,
-                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black))
-                          ]),
-                        ),
-                        Row(
-                          children: [
-                            Image.asset(fetchIconPath(index), height: 15, width: 15),
-                            Icon(
-                              Icons.navigate_next,
-                              color: Colors.black,
-                            ),
-                          ],
-                        ),
-                      ],
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  QuestionExplanation(quizAttempt: widget._quizAttempt, questionId: index)),
+                        );
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text.rich(
+                            TextSpan(children: [
+                              TextSpan(text: "Q" + (index + 1).toString() + " : ", style: TextStyle(fontSize: 15)),
+                              TextSpan(
+                                  text: widget._quizAttempt.questions[index].content,
+                                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black))
+                            ]),
+                          ),
+                          Row(
+                            children: [
+                              Image.asset(fetchIconPath(index), height: 15, width: 15),
+                              Icon(
+                                Icons.navigate_next,
+                                color: Colors.black,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
               ),
             ),
-
+            //Bouton
             Expanded(
               child: Container(
                 color: Colors.white,
