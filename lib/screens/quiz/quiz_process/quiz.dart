@@ -124,6 +124,10 @@ class _QuizState extends State<QuizPage> {
     return isTrue;
   }
 
+  void saveQuizAttempt() {
+    _bloc!.saveQuizAttempt(widget._quizAttempt);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -175,9 +179,8 @@ class _QuizState extends State<QuizPage> {
                                           IconButton(
                                             padding: EdgeInsets.only(top: 40, right: 20),
                                             onPressed: () {
-                                              var popupDialog = ExitQuizDialog(context);
+                                              var popupDialog = ExitQuizDialog(context, saveQuizAttempt);
                                               popupDialog.showMyDialog();
-                                              //Navigator.pop(context);
                                             },
                                             icon: Icon(
                                               Icons.close,

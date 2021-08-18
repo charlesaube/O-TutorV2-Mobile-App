@@ -5,11 +5,8 @@ typedef void VoidCallback();
 
 class ExitQuizDialog {
   BuildContext context;
-  //final VoidCallback saveQuizAttemptCallback;
-  ExitQuizDialog(
-    this.context,
-    /*this.saveQuizAttemptCallback*/
-  );
+  final VoidCallback saveQuizAttemptCallback;
+  ExitQuizDialog(this.context, this.saveQuizAttemptCallback);
 
   Future<String?> showMyDialog() {
     return showDialog<String>(

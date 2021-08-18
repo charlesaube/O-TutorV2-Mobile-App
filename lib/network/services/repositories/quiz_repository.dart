@@ -46,7 +46,7 @@ class QuizRepository extends IQuizRepository {
   }
 
   @override
-  Future<String> saveQuizAttempt(QuizAttempt quizAttempt, int quizId) async {
+  Future<String> saveQuizAttempt(QuizAttempt quizAttempt) async {
     http.Response response;
     var responseJson;
     Map<String, dynamic> qa = {

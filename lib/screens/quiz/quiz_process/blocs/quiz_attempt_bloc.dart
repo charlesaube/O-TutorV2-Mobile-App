@@ -31,10 +31,10 @@ class QuizAttemptBloc {
     }
   }
 
-  saveQuizAttempt(QuizAttempt quizAttempt, int quizId) async {
+  saveQuizAttempt(QuizAttempt quizAttempt) async {
     quizAttemptSink.add(ApiResponse.loading('Creating'));
     try {
-      await _quizRepository.saveQuizAttempt(quizAttempt, quizId);
+      await _quizRepository.saveQuizAttempt(quizAttempt);
       quizAttemptSink.add(ApiResponse.completed(quizAttempt));
     } catch (e) {
       quizAttemptSink.add(ApiResponse.error(e.toString()));

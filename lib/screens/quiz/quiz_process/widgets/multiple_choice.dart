@@ -31,14 +31,14 @@ class _MultipleChoiceState extends State<MultipleChoice> {
           //Change la couleur du container ClickÃ© ------------------------
           print(_clicked);
           _colorContainer = Colors.grey.shade200;
-          if (index == _clicked) _colorContainer = Colors.lightBlue;
+          if (index == _clicked) _colorContainer = Colors.orange;
 
           return Container(
             height: 50,
             margin: EdgeInsets.all(15),
             child: Card(
               shape: RoundedRectangleBorder(
-                side: BorderSide(color: _colorContainer, width: 2),
+                side: BorderSide(color: _colorContainer, width: 3),
                 borderRadius: BorderRadius.circular(8),
               ),
               elevation: 6,

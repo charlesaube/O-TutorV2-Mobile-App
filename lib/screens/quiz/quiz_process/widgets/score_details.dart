@@ -14,6 +14,7 @@ class ScoreDetails extends StatefulWidget {
 
   ScoreDetails({required QuizAttempt quizAttempt}) : this._quizAttempt = quizAttempt {
     this._questionAttempts = quizAttempt.questionAttempts;
+    this._quizAttempt.isOver = true;
   }
 
   @override
@@ -241,7 +242,7 @@ class _ScoreDetailsState extends State<ScoreDetails> {
                         ),
                         child: TextButton(
                           onPressed: () {
-                            _bloc!.saveQuizAttempt(widget._quizAttempt, widget._quizAttempt.quizId);
+                            _bloc!.saveQuizAttempt(widget._quizAttempt);
                           },
                           child: Text(
                             "Submit",
