@@ -16,9 +16,18 @@ class ShortAnswerExplanation extends StatelessWidget {
       child: Column(
         children: [
           Text("You have answered Wrong"),
+          Spacer(),
+          Text("The question Was: "),
+          Text(_quizAttempt.questions[index].content),
           Text("your answer: " + _quizAttempt.questionAttempts[index].answer),
           Text("The good answer is " + _quizAttempt.questions[index].shortAnswers!.first.answerText.toString()),
-          Text(_quizAttempt.questions[index].explanation),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Text(
+              _quizAttempt.questions[index].explanation,
+              textAlign: TextAlign.justify,
+            ),
+          ),
         ],
       ),
     );
