@@ -48,7 +48,8 @@
   "Exit Quiz":"Quitter le Quiz",
   "Exit Quiz Message": "Êtes-vous sûr de vouloir quitter? Votre progression sera sauvegardée.",
   "Time Up":"Temps Écoulé",
-  "Time Up Message":"Le temps limite s'est écoulé, le quiz est terminé."
+  "Time Up Message":"Le temps limite s'est écoulé, le quiz est terminé.",
+  "Quiz Over":"Le Quiz est Terminé!"
 
 
 

@@ -1,3 +1,4 @@
+import 'package:demo3/model/question.dart';
 import 'package:demo3/model/question_attempt.dart';
 import 'package:demo3/model/quiz_attempt.dart';
 import 'package:demo3/model/quiz_attempt.dart';
@@ -10,16 +11,23 @@ import 'widget/multiplechoice_explanation.dart';
 
 class QuestionExplanation extends StatelessWidget {
   final QuizAttempt _quizAttempt;
-  final int _questionId;
+  final Question _question;
+  late int _index;
   late final Color borderColor;
 
-  QuestionExplanation({required QuizAttempt quizAttempt, required int questionId})
+  QuestionExplanation({required QuizAttempt quizAttempt, required Question question})
       : this._quizAttempt = quizAttempt,
-        this._questionId = questionId {
-    if (!quizAttempt.questionAttempts[questionId].goodAnswer) {
-      this.borderColor = Colors.red;
+        this._question = question {
+    _index = _quizAttempt.questionAttempts.indexWhere((q) => q.questionId == question.questionId);
+    if (_index != -1) {
+      //Si index = -1 alors il n'y a pas de questionAttempt(utilisateur pas eu le temps de répondre)
+      if (quizAttempt.questionAttempts[_index].goodAnswer) {
+        this.borderColor = Colors.green;
+      } else {
+        this.borderColor = Colors.red;
+      }
     } else {
-      this.borderColor = Colors.green;
+      this.borderColor = Colors.red;
     }
   }
 
@@ -40,12 +48,12 @@ class QuestionExplanation extends StatelessWidget {
                   icon: Icon(Icons.close),
                 ),
               ),
-              if (_quizAttempt.questions[_questionId].questionType == "multiplechoice")
-                MultipleChoiceExplanation(question: _quizAttempt.questions[_questionId]),
-              if (_quizAttempt.questions[_questionId].questionType == "shortanswer")
+              if (_question.questionType == "multiplechoice") MultipleChoiceExplanation(question: _question),
+              if (_question.questionType == "shortanswer")
                 ShortAnswerExplanation(
                   quizAttempt: _quizAttempt,
-                  quizId: _questionId,
+                  question: _question,
+                  index: _index,
                 ),
             ],
           ),

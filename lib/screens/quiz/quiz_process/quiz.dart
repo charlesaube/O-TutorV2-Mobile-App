@@ -43,6 +43,7 @@ class QuizPage extends StatefulWidget {
 
 class _QuizState extends State<QuizPage> {
   QuizAttemptBloc? _bloc;
+  CountDownController _timerController = CountDownController();
 
   @override
   QuizPage get widget => super.widget;
@@ -65,18 +66,31 @@ class _QuizState extends State<QuizPage> {
   late bool _isTrue = false;
   var _questionIndex = 0; //Index de la question en cours
 
-  //Méthode callback pour enregistrer définitivement la réponse de la question en cours
+  //Retourne le temps écoulés depuis la derniere question répondu
+  int _getElapsedTime() {
+    int lastTimeAnswered = Duration(
+            minutes: int.parse(widget._quizAttempt.duration.substring(0, 2)),
+            seconds: int.parse(widget._quizAttempt.duration.substring(3, 5)))
+        .inSeconds;
+
+    int currentTime = Duration(
+            minutes: int.parse(_timerController.getTime().substring(0, 2)),
+            seconds: int.parse(_timerController.getTime().substring(3, 5)))
+        .inSeconds;
+
+    return lastTimeAnswered - currentTime;
+  }
+
+  //Méthode pour enregistrer définitivement la réponse de la question en cours
   //et ensuite passer a la prochaine question
   void _answerQuestion() {
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
-
     String type;
     int obtainedMark = 0;
     Question currentQuestion = widget._questions[_questionIndex - 1];
 
-    //Ajout de la réponse a la liste de réponse choisie
     if (currentQuestion.shortAnswers!.isEmpty) {
       type = "multiplechoice";
     } else {
@@ -85,10 +99,15 @@ class _QuizState extends State<QuizPage> {
     if (_isTrue) {
       obtainedMark = currentQuestion.weight;
     }
+    //Ajout de la réponse a la liste de réponse choisie
     widget._quizAttempt.questionAttempts
-        .add(QuestionAttempt(currentQuestion.questionId, 1, obtainedMark, _isTrue, 10, type, _answer));
+        .add(QuestionAttempt(currentQuestion.questionId, 1, obtainedMark, _isTrue, _getElapsedTime(), type, _answer));
+
     widget._quizAttempt.currentQuestionId = currentQuestion.questionId;
+    widget._quizAttempt.duration = _timerController.getTime(); //Mise a jour de la durée restante
+
     print(widget._quizAttempt);
+
     _answer = "";
     _isTrue = false;
   }
@@ -125,6 +144,7 @@ class _QuizState extends State<QuizPage> {
     return isTrue;
   }
 
+  //Méthod appeler lorsque le temps limite du quiz est écoulé
   void saveQuizAttempt() {
     _bloc!.saveQuizAttempt(widget._quizAttempt);
   }
@@ -170,22 +190,62 @@ class _QuizState extends State<QuizPage> {
                             children: [
                               if (_questionIndex < widget._questions.length)
                                 Container(
+                                  padding: EdgeInsets.only(top: 10),
                                   width: MediaQuery.of(context).size.width,
                                   height: MediaQuery.of(context).size.height,
                                   child: Column(
                                     children: <Widget>[
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
+                                      Stack(
                                         children: [
-                                          IconButton(
-                                            padding: EdgeInsets.only(top: 40, right: 20),
-                                            onPressed: () {
-                                              var popupDialog = ExitQuizDialog(context, saveQuizAttempt);
-                                              popupDialog.showMyDialog();
-                                            },
-                                            icon: Icon(
-                                              Icons.close,
-                                              color: Colors.white,
+                                          Align(
+                                            //Countdown timer
+
+                                            child: CircularCountDownTimer(
+                                              duration: Duration(
+                                                      minutes: int.parse(widget._quizAttempt.duration.substring(0, 2)),
+                                                      seconds: int.parse(widget._quizAttempt.duration.substring(3, 5)))
+                                                  .inSeconds,
+                                              initialDuration: 0,
+                                              controller: _timerController,
+                                              width: MediaQuery.of(context).size.width / 7,
+                                              height: MediaQuery.of(context).size.height / 7,
+                                              ringColor: Colors.transparent,
+                                              ringGradient: null,
+                                              fillColor: Colors.orange,
+                                              fillGradient: null,
+                                              backgroundColor: null,
+                                              backgroundGradient: null,
+                                              strokeWidth: 3.0,
+                                              strokeCap: StrokeCap.round,
+                                              textStyle: TextStyle(
+                                                  fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
+                                              textFormat: CountdownTextFormat.MM_SS,
+                                              isReverse: true,
+                                              isReverseAnimation: true,
+                                              isTimerTextShown: true,
+                                              autoStart: true,
+                                              onStart: () {
+                                                print('Quiz Started');
+                                              },
+                                              onComplete: () {
+                                                _answerQuestion();
+                                                _questionIndex = widget._questions.length + 1;
+                                                TimerEndedDialog.showMyDialog(context);
+                                              },
+                                            ),
+                                          ),
+                                          Align(
+                                            alignment: Alignment.bottomRight,
+                                            child: IconButton(
+                                              padding: EdgeInsets.only(top: 40, right: 20),
+                                              onPressed: () {
+                                                var popupDialog = ExitQuizDialog(context, saveQuizAttempt);
+                                                popupDialog.showMyDialog();
+                                              },
+                                              icon: Icon(
+                                                Icons.close,
+                                                color: Colors.white,
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -246,40 +306,6 @@ class _QuizState extends State<QuizPage> {
                     return Text("No data");
                   }),
             ),
-            if (_questionIndex < widget._questions.length || _questionIndex == 0)
-              Align(
-                //Countdown timer
-                child: CircularCountDownTimer(
-                  duration: Duration(
-                          minutes: 5 /*int.parse(widget._quizAttempt.duration.substring(0, 2))*/,
-                          seconds: 2 /*int.parse(widget._quizAttempt.duration.substring(3, 5))*/)
-                      .inSeconds,
-                  initialDuration: 0,
-                  controller: CountDownController(),
-                  width: MediaQuery.of(context).size.width / 6,
-                  height: MediaQuery.of(context).size.height / 6,
-                  ringColor: Colors.transparent,
-                  ringGradient: null,
-                  fillColor: Colors.orange,
-                  fillGradient: null,
-                  backgroundColor: null,
-                  backgroundGradient: null,
-                  strokeWidth: 3.0,
-                  strokeCap: StrokeCap.round,
-                  textStyle: TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
-                  textFormat: CountdownTextFormat.MM_SS,
-                  isReverse: true,
-                  isReverseAnimation: true,
-                  isTimerTextShown: true,
-                  autoStart: true,
-                  onStart: () {
-                    print('Countdown Started');
-                  },
-                  onComplete: () {
-                    TimerEndedDialog.showMyDialog(context);
-                  },
-                ),
-              ),
           ],
         ),
       ),

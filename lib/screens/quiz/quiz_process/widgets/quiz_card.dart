@@ -14,7 +14,7 @@ class QuizCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.only(left: 10, top: 40, right: 10, bottom: 10),
+      margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(13))),
       child: Container(
         width: MediaQuery.of(context).size.width / 1.1,

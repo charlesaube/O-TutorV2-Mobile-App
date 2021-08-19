@@ -48,7 +48,8 @@
   "Exit Quiz":"Exiting Quiz",
   "Exit Quiz Message": "Are you sure you want to exit? Your progress will be saved.",
   "Time Up":"Time's Up!",
-  "Time Up Message":"You ran out of time, the quiz is over."
+  "Time Up Message":"You ran out of time, the quiz is over.",
+  "Quiz Over":"Quiz is Over!"
 
 
 

@@ -6,11 +6,22 @@ import 'package:flutter/material.dart';
 
 class ShortAnswerExplanation extends StatelessWidget {
   final QuizAttempt _quizAttempt;
-  final int index;
+  final Question _question;
+  final int _index;
 
-  ShortAnswerExplanation({required QuizAttempt quizAttempt, required int quizId})
+  ShortAnswerExplanation({required QuizAttempt quizAttempt, required Question question, required int index})
       : this._quizAttempt = quizAttempt,
-        this.index = quizId;
+        this._question = question,
+        this._index = index;
+
+  String fetchUserAnswer() {
+    if (_index != -1) {
+      //Si index = -1 alors il n'y a pas de questionAttempt(utilisateur pas eu le temps de répondre)
+      return _quizAttempt.questionAttempts[_index].answer;
+    }
+    return "";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,13 +38,13 @@ class ShortAnswerExplanation extends StatelessWidget {
               margin: EdgeInsets.only(left: 40, right: 40),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10), border: Border.all(color: Colors.black, width: 2)),
-              child: Align(alignment: Alignment.center, child: Text(_quizAttempt.questions[index].content))),
-          Text("your answer: " + _quizAttempt.questionAttempts[index].answer),
-          Text("The good answer is " + _quizAttempt.questions[index].shortAnswers!.first.answerText.toString()),
+              child: Align(alignment: Alignment.center, child: Text(_question.content))),
+          Text("your answer: " + fetchUserAnswer()),
+          Text("The good answer is " + _question.shortAnswers!.first.answerText.toString()),
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: Text(
-              _quizAttempt.questions[index].explanation,
+              _question.explanation,
               textAlign: TextAlign.justify,
             ),
           ),

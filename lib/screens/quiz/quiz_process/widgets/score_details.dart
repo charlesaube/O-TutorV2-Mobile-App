@@ -1,4 +1,5 @@
 import 'package:demo3/localization/app_localizations.dart';
+import 'package:demo3/model/question.dart';
 import 'package:demo3/model/question_attempt.dart';
 import 'package:demo3/model/quiz_attempt.dart';
 import 'package:demo3/network/api_response.dart';
@@ -10,10 +11,12 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class ScoreDetails extends StatefulWidget {
   late final List<QuestionAttempt> _questionAttempts;
+  late final List<Question> _questions;
   final QuizAttempt _quizAttempt;
 
   ScoreDetails({required QuizAttempt quizAttempt}) : this._quizAttempt = quizAttempt {
     this._questionAttempts = quizAttempt.questionAttempts;
+    this._questions = quizAttempt.questions;
     this._quizAttempt.isOver = true;
   }
 
@@ -23,6 +26,8 @@ class ScoreDetails extends StatefulWidget {
 
 class _ScoreDetailsState extends State<ScoreDetails> {
   int numOfGoodAnswer = 0;
+  int scoredPoints = 0;
+  int maxPoints = 0;
   QuizAttemptBloc? _bloc;
 
   @override
@@ -31,16 +36,45 @@ class _ScoreDetailsState extends State<ScoreDetails> {
     _bloc = QuizAttemptBloc();
   }
 
+  //Calcul le score final du quiz
   double calculateScore() {
     double score = 0.0;
+    scoredPoints = 0;
+    maxPoints = 0;
     numOfGoodAnswer = 0;
-    widget._questionAttempts.forEach((element) {
-      if (element.goodAnswer) numOfGoodAnswer++;
-    });
-    score = numOfGoodAnswer / widget._questionAttempts.length;
+    for (Question q in widget._questions) {
+      maxPoints += q.weight;
+    }
+    for (QuestionAttempt qa in widget._questionAttempts) {
+      if (qa.goodAnswer) {
+        numOfGoodAnswer++;
+        scoredPoints += qa.obtainedMark;
+      }
+    }
+    score = scoredPoints / maxPoints;
     return score;
   }
 
+  //Récupere le nombre de point score d'une question
+  int fetchScoredPointOfQuestion(int index) {
+    if (index >= widget._questionAttempts.length) {
+      //Si question pas répondu
+      return 0;
+    } else {
+      return widget._questionAttempts[index].obtainedMark;
+    }
+  }
+
+  //Récupere le temps écoulés pour compléter le quiz
+  String getCompletionTime() {
+    int duration = 0;
+    for (QuestionAttempt q in widget._questionAttempts) {
+      duration = duration + q.answerTime;
+    }
+    return Duration(seconds: duration).toString().substring(2, 7);
+  }
+
+  //Permet de varier la couleur selon le score obtenu
   Color getColor() {
     if (calculateScore() >= 0.6) {
       return Colors.orange.shade400;
@@ -49,9 +83,12 @@ class _ScoreDetailsState extends State<ScoreDetails> {
   }
 
   String fetchIconPath(int index) {
-    if (widget._questionAttempts[index].goodAnswer) {
-      return 'assets/checkMark.png';
+    if (widget._questionAttempts.length > index) {
+      if (widget._questionAttempts[index].goodAnswer) {
+        return 'assets/checkMark.png';
+      }
     }
+
     return 'assets/xIcon.jpg';
   }
 
@@ -93,7 +130,7 @@ class _ScoreDetailsState extends State<ScoreDetails> {
                   Padding(
                     padding: EdgeInsets.only(top: 20, bottom: 20),
                     child: Text(
-                      "Quiz is Over!",
+                      AppLocalizations.of(context)!.translate("Quiz Over").toString(),
                       style: TextStyle(color: Colors.white, fontSize: 35, fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -126,7 +163,7 @@ class _ScoreDetailsState extends State<ScoreDetails> {
                                     size: 20,
                                   ),
                                   Text(
-                                    numOfGoodAnswer.toString() + " / " + widget._questionAttempts.length.toString(),
+                                    numOfGoodAnswer.toString() + " / " + widget._questions.length.toString(),
                                     style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
                                   )
                                 ],
@@ -146,7 +183,7 @@ class _ScoreDetailsState extends State<ScoreDetails> {
                                   size: 20,
                                 ),
                                 Text(
-                                  " 7:13 min",
+                                  getCompletionTime(),
                                   style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
                                 )
                               ],
@@ -163,7 +200,7 @@ class _ScoreDetailsState extends State<ScoreDetails> {
             Expanded(
               child: ListView.builder(
                 physics: BouncingScrollPhysics(),
-                itemCount: widget._questionAttempts.length,
+                itemCount: widget._questions.length,
                 itemBuilder: (
                   BuildContext context,
                   int index,
@@ -176,8 +213,8 @@ class _ScoreDetailsState extends State<ScoreDetails> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  QuestionExplanation(quizAttempt: widget._quizAttempt, questionId: index)),
+                              builder: (context) => QuestionExplanation(
+                                  quizAttempt: widget._quizAttempt, question: widget._questions[index])),
                         );
                       },
                       child: Row(
@@ -187,12 +224,21 @@ class _ScoreDetailsState extends State<ScoreDetails> {
                             TextSpan(children: [
                               TextSpan(text: "Q" + (index + 1).toString() + " : ", style: TextStyle(fontSize: 15)),
                               TextSpan(
-                                  text: widget._quizAttempt.questions[index].content,
+                                  text: widget._questions[index].title,
                                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black))
                             ]),
                           ),
                           Row(
                             children: [
+                              Text(
+                                fetchScoredPointOfQuestion(index).toString() +
+                                    "/" +
+                                    widget._questions[index].weight.toString(),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                               Image.asset(fetchIconPath(index), height: 15, width: 15),
                               Icon(
                                 Icons.navigate_next,
