@@ -101,7 +101,12 @@ class CorrectAnswerDialog extends StatelessWidget {
             margin: EdgeInsets.all(25),
             child: Image.asset('assets/checkMark.png', height: 60, width: 60),
           ),
-          Text(AppLocalizations.of(context)!.translate('Congrats').toString(), style: TextStyle(fontSize: 25)),
+          Text(
+            AppLocalizations.of(context)!.translate('Congrats').toString(),
+            style: TextStyle(
+              fontSize: 25,
+            ),
+          ),
           Spacer(),
           Text(AppLocalizations.of(context)!.translate('Correct Answer').toString() + ' ' + _answer,
               style: TextStyle(fontSize: 17)),

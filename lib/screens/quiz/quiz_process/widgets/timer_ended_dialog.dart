@@ -1,21 +1,18 @@
 import 'package:demo3/localization/app_localizations.dart';
 import 'package:flutter/material.dart';
 
-typedef void VoidCallback();
-
-//Classe utiliser pour faire apparaitre le popup pour sauvegarder et quitter le quiz en cours
-class ExitQuizDialog {
+class TimerEndedDialog {
   BuildContext context;
-  final VoidCallback saveQuizAttemptCallback;
-  ExitQuizDialog(this.context, this.saveQuizAttemptCallback);
+  TimerEndedDialog(this.context);
 
-  Future<String?> showMyDialog() {
+  static Future<String?> showMyDialog(BuildContext context) {
     return showDialog<String>(
-      //barrierDismissible: false,
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) => AlertDialog(
           insetPadding: EdgeInsets.zero,
           contentPadding: EdgeInsets.zero,
+          backgroundColor: Colors.orange,
           clipBehavior: Clip.antiAliasWithSaveLayer,
           shape: RoundedRectangleBorder(
             side: BorderSide(width: 3, color: Colors.amber),
@@ -27,22 +24,31 @@ class ExitQuizDialog {
               var height = MediaQuery.of(context).size.height;
               var width = MediaQuery.of(context).size.width;
               return Container(
-                height: height / 2.5,
+                height: height / 2,
                 width: width / 1.2,
                 child: Column(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: 25, right: 25, top: 25),
+                      margin: EdgeInsets.only(left: 25, right: 25),
                       width: double.infinity,
-                      height: 100,
+                      height: 200,
                       child: Column(
                         children: [
+                          Container(
+                            margin: EdgeInsets.only(top: 25),
+                            child: Icon(
+                              Icons.timer,
+                              size: 60,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Spacer(),
                           Text(
-                            AppLocalizations.of(context)!.translate('Exit Quiz').toString(),
+                            AppLocalizations.of(context)!.translate('Time Up').toString(),
                             style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                           ),
                           Spacer(),
-                          Text(AppLocalizations.of(context)!.translate('Exit Quiz Message').toString(),
+                          Text(AppLocalizations.of(context)!.translate('Time Up Message').toString(),
                               style: TextStyle(
                                 fontSize: 17,
                               )),
@@ -51,27 +57,14 @@ class ExitQuizDialog {
                     ),
                     Spacer(),
                     Container(
+                      alignment: Alignment.center,
                       margin: EdgeInsets.all(35),
-                      padding: EdgeInsets.only(left: 10, right: 10),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            //Cancel button
-                            decoration: BoxDecoration(
-                              color: Colors.orange,
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                            ),
-                            child: TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text(AppLocalizations.of(context)!.translate('Cancel').toString(),
-                                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 17)),
-                            ),
-                          ),
-                          Spacer(),
-                          Container(
                             //Confirm button
+
                             decoration: BoxDecoration(
                               color: Colors.lightBlue,
                               borderRadius: BorderRadius.all(Radius.circular(10)),

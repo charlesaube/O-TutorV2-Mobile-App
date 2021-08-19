@@ -16,6 +16,7 @@ import 'package:demo3/screens/quiz/quiz_process/widgets/quiz_card.dart';
 import 'package:demo3/custom_painter/bg_circles.dart';
 import 'package:demo3/screens/quiz/quiz_process/widgets/score_details.dart';
 import 'package:demo3/screens/quiz/quiz_process/widgets/short_answer.dart';
+import 'package:demo3/screens/quiz/quiz_process/widgets/timer_ended_dialog.dart';
 import 'package:demo3/screens/util/error_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -250,8 +251,8 @@ class _QuizState extends State<QuizPage> {
                 //Countdown timer
                 child: CircularCountDownTimer(
                   duration: Duration(
-                          minutes: 10 /*int.parse(widget._quizAttempt.duration.substring(0, 2))*/,
-                          seconds: 0 /*int.parse(widget._quizAttempt.duration.substring(3, 5))*/)
+                          minutes: 5 /*int.parse(widget._quizAttempt.duration.substring(0, 2))*/,
+                          seconds: 2 /*int.parse(widget._quizAttempt.duration.substring(3, 5))*/)
                       .inSeconds,
                   initialDuration: 0,
                   controller: CountDownController(),
@@ -275,7 +276,7 @@ class _QuizState extends State<QuizPage> {
                     print('Countdown Started');
                   },
                   onComplete: () {
-                    print('Countdown Ended');
+                    TimerEndedDialog.showMyDialog(context);
                   },
                 ),
               ),

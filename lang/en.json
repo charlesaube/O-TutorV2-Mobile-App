@@ -46,7 +46,9 @@
   "Incorrect" : "Incorrect !",
   "Incorrect Answer" : "is not the correct answer",
   "Exit Quiz":"Exiting Quiz",
-  "Exit Quiz Message": "Are you sure you want to exit? Your progress will be saved."
+  "Exit Quiz Message": "Are you sure you want to exit? Your progress will be saved.",
+  "Time Up":"Time's Up!",
+  "Time Up Message":"You ran out of time, the quiz is over."
 
 
 

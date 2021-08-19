@@ -31,6 +31,12 @@ class QuizCard extends StatelessWidget {
                 Text(questions.length.toString(), style: TextStyle(fontSize: 12, color: Colors.orangeAccent)),
               ],
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(questions[questionIndex].weight.toString() + " pts", style: TextStyle(color: Colors.lightGreen)),
+              ],
+            ),
             Spacer(),
             Text(questions[questionIndex].content, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w400)),
             Spacer(),
