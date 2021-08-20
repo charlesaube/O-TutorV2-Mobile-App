@@ -49,7 +49,11 @@
   "Exit Quiz Message": "Êtes-vous sûr de vouloir quitter? Votre progression sera sauvegardée.",
   "Time Up":"Temps Écoulé",
   "Time Up Message":"Le temps limite s'est écoulé, le quiz est terminé.",
-  "Quiz Over":"Le Quiz est Terminé!"
+  "Quiz Over":"Le Quiz est Terminé!",
+  "Duration":"Durée",
+  "Assigned Quiz":"Quiz(s) à faire",
+  "New Quiz":"Nouveau Quiz",
+  "Quiz Attempt":"Tentative de Quiz"
 
 
 

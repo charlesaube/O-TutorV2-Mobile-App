@@ -1,4 +1,6 @@
+import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/model/Category.dart';
+import 'package:demo3/model/group.dart';
 import 'package:demo3/model/quiz.dart';
 import 'package:demo3/network/api_response.dart';
 import 'package:demo3/network/services/IQuiz_repository.dart';
@@ -12,16 +14,14 @@ import 'package:demo3/screens/quiz/widget/list_container.dart';
 import 'package:demo3/screens/util/error_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class BrowseQuizPage extends StatefulWidget {
-  late int groupId;
+  late Group group;
 
-  BrowseQuizPage({
-    Key? key,
-    required this.groupId,
-  }) : super(key: key) {
-    this.groupId = 23; //Hard coded parce que le groupe 24(le vrai groupe de laura) est unauthorize
+  BrowseQuizPage({Key? key, required this.group}) : super(key: key) {
+    this.group.id = 23; //Hard coded parce que le groupe 24(le vrai groupe de laura) est unauthorize
   }
 
   @override
@@ -37,18 +37,26 @@ class _BrowseQuizPageState extends State<BrowseQuizPage> {
   @override
   void initState() {
     super.initState();
-    _bloc = BrowseQuizBloc(widget.groupId);
+    _bloc = BrowseQuizBloc(widget.group.id);
   }
 
   void refresh() {
     setState(() {
-      _bloc!.fetchQuizByGroupId(widget.groupId);
+      _bloc!.fetchQuizByGroupId(widget.group.id);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          widget.group.courseName != "" ? widget.group.courseName : widget.group.description,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25, color: Colors.white),
+        ),
+        automaticallyImplyLeading: true,
+        backgroundColor: Colors.orange[700],
+      ),
       body: Center(
         child: Stack(
           children: <Widget>[
@@ -61,32 +69,46 @@ class _BrowseQuizPageState extends State<BrowseQuizPage> {
                 painter: RPSCustomPainter180(),
               ),
             ),
-            RefreshIndicator(
-              onRefresh: () => _bloc!.fetchQuizByGroupId(widget.groupId),
-              child: StreamBuilder<ApiResponse<List<Quiz>>>(
-                  stream: _bloc!.quizListStream,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      switch (snapshot.data!.status) {
-                        case Status.LOADING:
-                          return Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height,
-                            child: SpinKitDoubleBounce(color: Colors.lightBlue.shade100),
-                          );
-                        case Status.COMPLETED:
-                          _quizzes = snapshot.data!.data;
+            Column(
+              children: [
+                RefreshIndicator(
+                  onRefresh: () => _bloc!.fetchQuizByGroupId(widget.group.id),
+                  child: StreamBuilder<ApiResponse<List<Quiz>>>(
+                      stream: _bloc!.quizListStream,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          switch (snapshot.data!.status) {
+                            case Status.LOADING:
+                              return Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height / 3,
+                                child: SpinKitDoubleBounce(color: Colors.lightBlue.shade100),
+                              );
+                            case Status.COMPLETED:
+                              _quizzes = snapshot.data!.data;
+                              _quizzes.add(Quiz(2, "Quiz 2", "", "", "", "", "", "", "12:00", "", "",
+                                  "Complete this quiz as fast as possible", "", "", "", ""));
 
-                          return SingleChildScrollView(
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: MediaQuery.of(context).size.height,
-                                  child: Column(
-                                    children: <Widget>[
-                                      HeaderCategory("Quiz"),
-                                      ListView.builder(
+                              return Container(
+                                child: Column(
+                                  children: <Widget>[
+                                    Container(
+                                      alignment: Alignment.center,
+                                      padding: EdgeInsets.all(10),
+                                      color: Color.fromARGB(230, 252, 147, 0),
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Text(
+                                        AppLocalizations.of(context)!.translate("New Quiz").toString() +
+                                            " (" +
+                                            _quizzes.length.toString() +
+                                            ")",
+                                        style: TextStyle(fontSize: 20, color: Colors.white),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: MediaQuery.of(context).size.height / 3,
+                                      child: ListView.builder(
                                         scrollDirection: Axis.vertical,
                                         shrinkWrap: true,
                                         physics: BouncingScrollPhysics(),
@@ -109,21 +131,32 @@ class _BrowseQuizPageState extends State<BrowseQuizPage> {
                                               child: QuizListContainer(_quizzes[index]));
                                         },
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          );
-                          break;
+                              );
+                              break;
 
-                        case Status.ERROR:
-                          return ErrorPopUp(snapshot, refresh);
-                          break;
-                      }
-                    }
-                    return Text("No data");
-                  }),
+                            case Status.ERROR:
+                              return ErrorPopUp(snapshot, refresh);
+                              break;
+                          }
+                        }
+                        return Text("No data");
+                      }),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.zero,
+                  color: Color.fromARGB(230, 252, 147, 0),
+                  width: MediaQuery.of(context).size.width,
+                  child: Text(
+                    AppLocalizations.of(context)!.translate("Quiz Attempt").toString(),
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

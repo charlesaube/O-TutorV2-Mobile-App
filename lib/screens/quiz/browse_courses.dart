@@ -43,6 +43,14 @@ class _BrowseCoursesState extends State<BrowseCoursesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          AppLocalizations.of(context)!.translate("Cours").toString(),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25, color: Colors.white),
+        ),
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.orange[700],
+      ),
       body: Center(
           child: Stack(
         children: <Widget>[
@@ -62,8 +70,7 @@ class _BrowseCoursesState extends State<BrowseCoursesPage> {
                   if (snapshot.hasData) {
                     switch (snapshot.data!.status) {
                       case Status.LOADING:
-                        return SpinKitDoubleBounce(
-                            color: Colors.lightBlue.shade100);
+                        return SpinKitDoubleBounce(color: Colors.lightBlue.shade100);
                         break;
                       case Status.COMPLETED:
                         _groups = snapshot.data!.data.groups;
@@ -71,12 +78,12 @@ class _BrowseCoursesState extends State<BrowseCoursesPage> {
                         return SingleChildScrollView(
                           child: Column(
                             children: <Widget>[
+                              //HeaderCategory("Cours", "Cours"),
                               Container(
                                 width: MediaQuery.of(context).size.width,
                                 height: MediaQuery.of(context).size.height,
                                 child: Column(
                                   children: <Widget>[
-                                    HeaderCategory("Cours"),
                                     ListView.builder(
                                       scrollDirection: Axis.vertical,
                                       shrinkWrap: true,
@@ -92,15 +99,11 @@ class _BrowseCoursesState extends State<BrowseCoursesPage> {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (context) =>
-                                                    BrowseQuizPage(
-                                                  groupId: _groups[index].id,
-                                                ),
+                                                builder: (context) => BrowseQuizPage(group: _groups[index]),
                                               ),
                                             );
                                           },
-                                          child: CoursesListContainer(
-                                              _groups[index]),
+                                          child: CoursesListContainer(_groups[index]),
                                         );
                                       },
                                     ),

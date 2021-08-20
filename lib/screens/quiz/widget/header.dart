@@ -4,39 +4,19 @@ import 'package:flutter/material.dart';
 
 class HeaderCategory extends StatelessWidget {
   final String _title;
+  final String _headerType;
 
-  HeaderCategory(this._title);
+  HeaderCategory(this._title, this._headerType);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(
-        top: 57,
-        right: 17,
-        left: 17,
+    return AppBar(
+      title: Text(
+        _headerType == "Quiz" ? _title : AppLocalizations.of(context)!.translate(_headerType).toString(),
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25, color: Colors.white),
       ),
-      child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              AppLocalizations.of(context)!.translate(_title).toString(),
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
-                  color: Colors.white),
-            ),
-            if (_title == "Quiz")
-              TextButton(
-                child: Text(
-                  AppLocalizations.of(context)!.translate("Back").toString(),
-                  style: TextStyle(
-                      color: Colors.white, fontSize: 17),
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-          ]),
+      automaticallyImplyLeading: _headerType == "Quiz",
+      backgroundColor: Colors.orange,
     );
   }
 }

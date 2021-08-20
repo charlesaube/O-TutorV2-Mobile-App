@@ -20,6 +20,14 @@ class QuizAssessmentState extends State<QuizAssessmentsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          AppLocalizations.of(context)!.translate("Exercise").toString(),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25, color: Colors.white),
+        ),
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.orange[700],
+      ),
       body: Center(
         child: Stack(
           children: <Widget>[
@@ -39,7 +47,7 @@ class QuizAssessmentState extends State<QuizAssessmentsPage> {
                   Container(
                     child: Column(
                       children: <Widget>[
-                        HeaderCategory("Exercise"),
+                        //HeaderCategory("Exercise", "Exercise"),
                         SizedBox(height: 20),
                         QuizAssessmentsForm(),
                       ],

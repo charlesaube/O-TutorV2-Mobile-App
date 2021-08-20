@@ -21,15 +21,29 @@ class CoursesListContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               SizedBox(height: 50, child: Image.network(group.image)),
-              Text(" " + group.description, //Affiche la description car le courseName est vide
-                  style: TextStyle(color: Colors.white, fontSize: 20)),
+              Column(
+                children: [
+                  Text(" " + group.description, //Affiche la description car le courseName est vide
+                      style: TextStyle(color: Colors.white, fontSize: 20)),
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Text(
+                        group.assignedQuizzes!.length.toString() +
+                            " " +
+                            AppLocalizations.of(context)!.translate('Assigned Quiz').toString(),
+                        style: TextStyle(color: Colors.white, fontSize: 15)),
+                  )
+                ],
+              )
             ],
           ),
           Row(
             children: <Widget>[
-              Text("(" + group.assignedQuizzes!.length.toString() + ")",
-                  style: TextStyle(color: Colors.white, fontSize: 15)),
-              Icon(Icons.navigate_next, color: Colors.white),
+              Icon(
+                Icons.navigate_next,
+                color: Colors.orange,
+                size: 50,
+              ),
             ],
           ),
         ],
@@ -52,14 +66,19 @@ class QuizListContainer extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(" " + _quiz.quizTitle, style: TextStyle(color: Colors.white, fontSize: 20)),
+              Text(" " + _quiz.quizTitle,
+                  style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
             ],
           ),
           Row(
             children: <Widget>[
               Text(AppLocalizations.of(context)!.translate('Questions').toString() + ": " + _quiz.noOfQuestions,
                   style: TextStyle(color: Colors.white, fontSize: 15)),
-              Icon(Icons.navigate_next, color: Colors.white),
+              Icon(
+                Icons.navigate_next,
+                color: Colors.orange,
+                size: 50,
+              ),
             ],
           ),
         ],
@@ -77,7 +96,7 @@ class BaseContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
-        padding: EdgeInsets.only(left: 15, right: 15, top: 45, bottom: 45),
+        padding: EdgeInsets.only(left: 15, right: 15, top: 25, bottom: 25),
         decoration: BoxDecoration(
           color: Colors.lightBlue.shade200,
           borderRadius: BorderRadius.only(
