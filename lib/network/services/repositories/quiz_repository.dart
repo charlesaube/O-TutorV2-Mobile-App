@@ -98,4 +98,25 @@ class QuizRepository extends IQuizRepository {
     //comemet;
     return responseJson['message'];
   }
+
+  @override
+  Future<List<QuizAttempt>> getQuizAttemptsOfUser() async {
+    http.Response response;
+    var responseJson;
+    try {
+      response = await http.get(
+        Uri.parse("http://8g9dz.mocklab.io/quiz_attempts"),
+      );
+      responseJson = _helper.returnResponse(response);
+    } on SocketException catch (e) {
+      print(e);
+      print(responseJson);
+      throw FetchDataException('No internet');
+    }
+    var quizObjJson = responseJson as List;
+    List<QuizAttempt> quizAttempts =
+        List<QuizAttempt>.from(quizObjJson.map((quizJson) => QuizAttempt.fromJson(quizJson)));
+    print(quizAttempts);
+    return quizAttempts;
+  }
 }

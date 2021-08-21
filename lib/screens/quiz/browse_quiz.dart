@@ -2,6 +2,7 @@ import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/model/Category.dart';
 import 'package:demo3/model/group.dart';
 import 'package:demo3/model/quiz.dart';
+import 'package:demo3/model/quiz_attempt.dart';
 import 'package:demo3/network/api_response.dart';
 import 'package:demo3/network/services/IQuiz_repository.dart';
 import 'package:demo3/network/services/service_providers/service_provider.dart';
@@ -32,7 +33,8 @@ class BrowseQuizPage extends StatefulWidget {
 
 class _BrowseQuizPageState extends State<BrowseQuizPage> {
   BrowseQuizBloc? _bloc;
-  late List<Quiz> _quizzes;
+  late List<Quiz> _quizzes = [];
+  late List<QuizAttempt> _quizAttempts;
 
   @override
   void initState() {
@@ -43,6 +45,7 @@ class _BrowseQuizPageState extends State<BrowseQuizPage> {
   void refresh() {
     setState(() {
       _bloc!.fetchQuizByGroupId(widget.group.id);
+      _bloc!.fetchQuizAttemptsOfUser();
     });
   }
 
@@ -71,6 +74,21 @@ class _BrowseQuizPageState extends State<BrowseQuizPage> {
             ),
             Column(
               children: [
+                Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.all(10),
+                  color: Color.fromARGB(230, 252, 147, 0),
+                  width: MediaQuery.of(context).size.width,
+                  child: Text(
+                    _quizzes.isEmpty
+                        ? AppLocalizations.of(context)!.translate("New Quiz").toString()
+                        : AppLocalizations.of(context)!.translate("New Quiz").toString() +
+                            " (" +
+                            _quizzes.length.toString() +
+                            ")",
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
+                ),
                 RefreshIndicator(
                   onRefresh: () => _bloc!.fetchQuizByGroupId(widget.group.id),
                   child: StreamBuilder<ApiResponse<List<Quiz>>>(
@@ -92,19 +110,6 @@ class _BrowseQuizPageState extends State<BrowseQuizPage> {
                               return Container(
                                 child: Column(
                                   children: <Widget>[
-                                    Container(
-                                      alignment: Alignment.center,
-                                      padding: EdgeInsets.all(10),
-                                      color: Color.fromARGB(230, 252, 147, 0),
-                                      width: MediaQuery.of(context).size.width,
-                                      child: Text(
-                                        AppLocalizations.of(context)!.translate("New Quiz").toString() +
-                                            " (" +
-                                            _quizzes.length.toString() +
-                                            ")",
-                                        style: TextStyle(fontSize: 20, color: Colors.white),
-                                      ),
-                                    ),
                                     Container(
                                       width: MediaQuery.of(context).size.width,
                                       height: MediaQuery.of(context).size.height / 3,
@@ -142,7 +147,10 @@ class _BrowseQuizPageState extends State<BrowseQuizPage> {
                               break;
                           }
                         }
-                        return Text("No data");
+                        return Text(
+                          "No data",
+                          style: TextStyle(color: Colors.black, fontSize: 40),
+                        );
                       }),
                 ),
                 Container(
@@ -155,6 +163,69 @@ class _BrowseQuizPageState extends State<BrowseQuizPage> {
                     AppLocalizations.of(context)!.translate("Quiz Attempt").toString(),
                     style: TextStyle(fontSize: 20, color: Colors.white),
                   ),
+                ),
+                RefreshIndicator(
+                  onRefresh: () => _bloc!.fetchQuizAttemptsOfUser(),
+                  child: StreamBuilder<ApiResponse<List<QuizAttempt>>>(
+                      stream: _bloc!.quizAttemptListStream,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          switch (snapshot.data!.status) {
+                            case Status.LOADING:
+                              return Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height / 2.5,
+                                child: SpinKitDoubleBounce(color: Colors.lightBlue.shade100),
+                              );
+                            case Status.COMPLETED:
+                              _quizAttempts = snapshot.data!.data;
+
+                              return Container(
+                                child: Column(
+                                  children: <Widget>[
+                                    Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: MediaQuery.of(context).size.height / 2.5,
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.vertical,
+                                        shrinkWrap: true,
+                                        physics: BouncingScrollPhysics(),
+                                        itemCount: _quizAttempts.length,
+                                        itemBuilder: (
+                                          BuildContext context,
+                                          int index,
+                                        ) {
+                                          return GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => QuizDetailsPage(
+                                                      quiz: Quiz(2, "Quiz 2", "", "", "", "", "", "", "12:00", "", "",
+                                                          "Complete this quiz as fast as possible", "", "", "", ""),
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                              child: QuizAttemptListContainer(_quizAttempts[index]));
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                              break;
+
+                            case Status.ERROR:
+                              return ErrorPopUp(snapshot, refresh);
+                              break;
+                          }
+                        }
+                        return Text(
+                          "No data",
+                          style: TextStyle(color: Colors.black, fontSize: 40),
+                        );
+                      }),
                 ),
               ],
             ),

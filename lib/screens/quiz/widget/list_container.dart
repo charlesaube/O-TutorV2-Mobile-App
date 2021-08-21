@@ -1,10 +1,12 @@
 import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/model/group.dart';
 import 'package:demo3/model/quiz.dart';
+import 'package:demo3/model/quiz_attempt.dart';
 
 import 'package:demo3/network/services/service_providers/service_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class CoursesListContainer extends StatelessWidget {
   final Group group;
@@ -74,6 +76,44 @@ class QuizListContainer extends StatelessWidget {
             children: <Widget>[
               Text(AppLocalizations.of(context)!.translate('Questions').toString() + ": " + _quiz.noOfQuestions,
                   style: TextStyle(color: Colors.white, fontSize: 15)),
+              Icon(
+                Icons.navigate_next,
+                color: Colors.orange,
+                size: 50,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class QuizAttemptListContainer extends StatelessWidget {
+  final QuizAttempt _quizAttempt;
+
+  QuizAttemptListContainer(this._quizAttempt);
+
+  @override
+  Widget build(BuildContext context) {
+    return BaseContainer(
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(" " + _quizAttempt.id.toString(),
+                  style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Text(_quizAttempt.isOver ? _quizAttempt.computeScore().toString() + '%' : "Quiz not finished!",
+                  style: TextStyle(
+                      color: _quizAttempt.isOver ? Colors.orange[400] : Colors.red,
+                      fontSize: _quizAttempt.isOver ? 25 : 10,
+                      fontWeight: FontWeight.bold)),
               Icon(
                 Icons.navigate_next,
                 color: Colors.orange,

@@ -27,8 +27,7 @@ class DashboardPage extends StatefulWidget {
 
 class DashboardSate extends State<DashboardPage> {
   StartupBloc? _bloc;
-  final IStartupRepository _startupRepository =
-      ServiceProvider().fetchStartupRepository();
+  final IStartupRepository _startupRepository = ServiceProvider().fetchStartupRepository();
   late Startup _startup;
   late User user;
 
@@ -51,83 +50,77 @@ class DashboardSate extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Stack(
-          children: <Widget>[
-            CustomPaint(
-              size: Size(370, (360 * 1.6666666666666667).toDouble()),
-              painter: RPSCustomPainter(),
-            ),
-            RefreshIndicator(
-                onRefresh: () => _bloc!.fetchStartup(),
-                child: StreamBuilder<ApiResponse<Startup>>(
-                    stream: _bloc!.startupStream,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        switch (snapshot.data!.status) {
-                          case Status.LOADING:
-                            return SpinKitDoubleBounce(
-                                color: Colors.lightBlue.shade100);
-                            break;
-                          case Status.COMPLETED:
-                            user = snapshot.data!.data.user;
-                            return SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.93,
-                                    child: Stack(
-                                      children: <Widget>[
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Expanded(child: Header(user)),
-                                            CustomContainer(
-                                              Stack(
-                                                children: <Widget>[
-                                                  DashboardTitle(
-                                                      AppLocalizations.of(
-                                                              context)!
-                                                          .translate('Quizzes')
-                                                          .toString()),
-                                                  Positioned(
-                                                      top: 50.0,
-                                                      left: 0,
-                                                      right: 0.0,
-                                                      bottom: 0.0,
-                                                      child:
-                                                          (DashboardQuizList())),
-                                                ],
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: Center(
+          child: Stack(
+            children: <Widget>[
+              CustomPaint(
+                size: Size(370, (360 * 1.6666666666666667).toDouble()),
+                painter: RPSCustomPainter(),
+              ),
+              RefreshIndicator(
+                  onRefresh: () => _bloc!.fetchStartup(),
+                  child: StreamBuilder<ApiResponse<Startup>>(
+                      stream: _bloc!.startupStream,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          switch (snapshot.data!.status) {
+                            case Status.LOADING:
+                              return SpinKitDoubleBounce(color: Colors.lightBlue.shade100);
+                              break;
+                            case Status.COMPLETED:
+                              user = snapshot.data!.data.user;
+                              return SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: MediaQuery.of(context).size.height * 0.93,
+                                      child: Stack(
+                                        children: <Widget>[
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Expanded(child: Header(user)),
+                                              CustomContainer(
+                                                Stack(
+                                                  children: <Widget>[
+                                                    DashboardTitle(
+                                                        AppLocalizations.of(context)!.translate('Quizzes').toString()),
+                                                    Positioned(
+                                                        top: 50.0,
+                                                        left: 0,
+                                                        right: 0.0,
+                                                        bottom: 0.0,
+                                                        child: (DashboardQuizList())),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                            CustomContainer(
-                                              DashboardTitle(AppLocalizations
-                                                      .of(context)!
-                                                  .translate(
-                                                      'Dashboard Statistics')
-                                                  .toString()),
-                                            ),
-                                            WeaklyGoal(user),
-                                          ],
-                                        ),
-                                      ],
+                                              CustomContainer(
+                                                DashboardTitle(AppLocalizations.of(context)!
+                                                    .translate('Dashboard Statistics')
+                                                    .toString()),
+                                              ),
+                                              WeaklyGoal(user),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          case Status.ERROR:
-                            return ErrorPopUp(snapshot as dynamic, refresh);
-                            break;
+                                  ],
+                                ),
+                              );
+                            case Status.ERROR:
+                              return ErrorPopUp(snapshot as dynamic, refresh);
+                              break;
+                          }
                         }
-                      }
-                      return Container();
-                    })),
-          ],
+                        return Container();
+                      })),
+            ],
+          ),
         ),
       ),
     );

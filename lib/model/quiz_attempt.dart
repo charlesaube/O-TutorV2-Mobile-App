@@ -9,7 +9,7 @@ class QuizAttempt {
   String duration;
   bool isOver;
   int currentQuestionId;
-  List<int>? questionsOrder;
+  List<int> questionsOrder;
   List<QuestionAttempt> questionAttempts;
   List<Question> questions;
 
@@ -19,7 +19,7 @@ class QuizAttempt {
       required this.duration,
       required this.isOver,
       required this.currentQuestionId,
-      this.questionsOrder,
+      required this.questionsOrder,
       required this.questionAttempts,
       required this.questions});
 
@@ -29,12 +29,18 @@ class QuizAttempt {
     dynamic duration = json["duration"];
     dynamic isOver = json["is_over"];
     dynamic currentQuestionId = json["current_question"];
-    dynamic questionsOrder = json["questions_order"];
+
+    List<int> questionsOrder = [];
+    if (json["questions_order"] != null) {
+      //Si provient de requete create quiz attempt il n'y a pas de question_order
+      questionsOrder = json["questions_order"].cast<int>();
+    }
+
     var groupObjJson = json['question_attempts'] as List;
     List<QuestionAttempt> questionAttempts =
-        groupObjJson.map((groupJson) => QuestionAttempt.fromJson(groupJson)).toList();
+        List<QuestionAttempt>.from(groupObjJson.map((groupJson) => QuestionAttempt.fromJson(groupJson)));
     groupObjJson = json['questions'] as List;
-    List<Question> questions = groupObjJson.map((groupJson) => Question.fromJson(groupJson)).toList();
+    List<Question> questions = List<Question>.from(groupObjJson.map((groupJson) => Question.fromJson(groupJson)));
 
     return QuizAttempt(
         id: id,
@@ -60,5 +66,21 @@ class QuizAttempt {
   @override
   String toString() {
     return 'QuizAttempt{id: $id, quizId: $quizId, duration: $duration, isOver: $isOver, currentQuestionId: $currentQuestionId, questionsOrder: $questionsOrder, questionAttempts: $questionAttempts, questions: $questions}';
+  }
+
+  int computeScore() {
+    int scoredPoints = 0;
+    int maxPoints = 0;
+    for (Question q in this.questions) {
+      maxPoints += q.weight;
+    }
+    for (QuestionAttempt qa in this.questionAttempts) {
+      if (qa.goodAnswer) {
+        scoredPoints += qa.obtainedMark;
+      }
+    }
+
+    int roundedScore = (scoredPoints / maxPoints * 100).floor();
+    return roundedScore;
   }
 }

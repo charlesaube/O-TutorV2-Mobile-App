@@ -19,47 +19,50 @@ class QuizAssessmentState extends State<QuizAssessmentsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          AppLocalizations.of(context)!.translate("Exercise").toString(),
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25, color: Colors.white),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            AppLocalizations.of(context)!.translate("Exercise").toString(),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25, color: Colors.white),
+          ),
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.orange[700],
         ),
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.orange[700],
-      ),
-      body: Center(
-        child: Stack(
-          children: <Widget>[
-            Positioned(
-              bottom: -600,
-              right: -350,
-              child: CustomPaint(
-                size: Size(370, (360 * 1.6666666666666667).toDouble()),
-                painter: RPSCustomPainter180(),
+        body: Center(
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+                bottom: -600,
+                right: -350,
+                child: CustomPaint(
+                  size: Size(370, (360 * 1.6666666666666667).toDouble()),
+                  painter: RPSCustomPainter180(),
+                ),
               ),
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                children: [
-                  Container(
-                    child: Column(
-                      children: <Widget>[
-                        //HeaderCategory("Exercise", "Exercise"),
-                        SizedBox(height: 20),
-                        QuizAssessmentsForm(),
-                      ],
+              Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: [
+                    Container(
+                      child: Column(
+                        children: <Widget>[
+                          //HeaderCategory("Exercise", "Exercise"),
+                          SizedBox(height: 20),
+                          QuizAssessmentsForm(),
+                        ],
+                      ),
                     ),
-                  ),
-                  Spacer(),
-                  LoginButton(onPressed: () {}, text: AppLocalizations.of(context)!.translate("Start").toString()),
-                  Spacer(),
-                ],
+                    Spacer(),
+                    LoginButton(onPressed: () {}, text: AppLocalizations.of(context)!.translate("Start").toString()),
+                    Spacer(),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

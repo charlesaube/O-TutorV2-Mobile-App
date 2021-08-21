@@ -136,49 +136,62 @@ class _QuizState extends State<QuizPage> {
   bool isShortAnswerTrue(String answer) {
     List<ShortAnswer> shortAnswers = widget._questions[_questionIndex].shortAnswers!;
     bool isTrue = false;
-    shortAnswers.forEach((element) {
-      if (element.answer == answer) {
-        isTrue = true;
-      }
-    });
+    if (widget._questions[_questionIndex].caseSensitive) {
+      //Si la réponse est case sensitive
+      shortAnswers.forEach((element) {
+        if (element.answer == answer) {
+          isTrue = true;
+        }
+      });
+    } else {
+      //Si la réponse n'est pas case sensitive
+      shortAnswers.forEach((element) {
+        if (element.answer!.toLowerCase() == answer.toLowerCase()) {
+          isTrue = true;
+        }
+      });
+    }
+
     return isTrue;
   }
 
-  //Méthod appeler lorsque le temps limite du quiz est écoulé
+  //Méthod appeler lorsque l'utilisateur souhaite quitter et sauvegarder le quiz
   void saveQuizAttempt() {
     _bloc!.saveQuizAttempt(widget._quizAttempt);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Stack(
-          children: <Widget>[
-            Positioned(
-              bottom: -600,
-              right: -350,
-              height: 620,
-              child: CustomPaint(
-                size: Size(370, (360 * 1.6666666666666667).toDouble()),
-                painter: RPSCustomPainter180(),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+                bottom: -600,
+                right: -350,
+                height: 620,
+                child: CustomPaint(
+                  size: Size(370, (360 * 1.6666666666666667).toDouble()),
+                  painter: RPSCustomPainter180(),
+                ),
               ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: StreamBuilder<ApiResponse<QuizAttempt>>(
-                  stream: _bloc!.quizAttemptStream,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      switch (snapshot.data!.status) {
-                        case Status.LOADING:
-                          return Container(
-                            child: SpinKitDoubleBounce(color: Colors.lightBlue.shade100),
-                          );
-                        case Status.COMPLETED:
-                          widget._quizAttempt = snapshot.data!.data;
-                          widget._questions = snapshot.data!.data.questions;
-                          /*if (widget._quizAttempt.currentQuestionId != 0) {
+              SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: StreamBuilder<ApiResponse<QuizAttempt>>(
+                    stream: _bloc!.quizAttemptStream,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        switch (snapshot.data!.status) {
+                          case Status.LOADING:
+                            return Container(
+                              child: SpinKitDoubleBounce(color: Colors.lightBlue.shade100),
+                            );
+                          case Status.COMPLETED:
+                            widget._quizAttempt = snapshot.data!.data;
+                            widget._questions = snapshot.data!.data.questions;
+                            /*if (widget._quizAttempt.currentQuestionId != 0) {
                             //Cherche le bon index de la question si le quiz avait deja commencer.
 
                             _questionIndex = widget._questions
@@ -186,127 +199,130 @@ class _QuizState extends State<QuizPage> {
                             print("Starting Index set to: " + _questionIndex.toString());
                             _indexIsSet = true;
                           }*/
-                          return Column(
-                            children: [
-                              if (_questionIndex < widget._questions.length)
-                                Container(
-                                  padding: EdgeInsets.only(top: 10),
-                                  width: MediaQuery.of(context).size.width,
-                                  height: MediaQuery.of(context).size.height,
-                                  child: Column(
-                                    children: <Widget>[
-                                      Stack(
-                                        children: [
-                                          Align(
-                                            //Countdown timer
+                            return Column(
+                              children: [
+                                if (_questionIndex < widget._questions.length)
+                                  Container(
+                                    padding: EdgeInsets.only(top: 10),
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height,
+                                    child: Column(
+                                      children: <Widget>[
+                                        Stack(
+                                          children: [
+                                            Align(
+                                              //Countdown timer
 
-                                            child: CircularCountDownTimer(
-                                              duration: Duration(
-                                                      minutes: int.parse(widget._quizAttempt.duration.substring(0, 2)),
-                                                      seconds: int.parse(widget._quizAttempt.duration.substring(3, 5)))
-                                                  .inSeconds,
-                                              initialDuration: 0,
-                                              controller: _timerController,
-                                              width: MediaQuery.of(context).size.width / 7,
-                                              height: MediaQuery.of(context).size.height / 7,
-                                              ringColor: Colors.transparent,
-                                              ringGradient: null,
-                                              fillColor: Colors.orange,
-                                              fillGradient: null,
-                                              backgroundColor: null,
-                                              backgroundGradient: null,
-                                              strokeWidth: 3.0,
-                                              strokeCap: StrokeCap.round,
-                                              textStyle: TextStyle(
-                                                  fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
-                                              textFormat: CountdownTextFormat.MM_SS,
-                                              isReverse: true,
-                                              isReverseAnimation: true,
-                                              isTimerTextShown: true,
-                                              autoStart: true,
-                                              onStart: () {
-                                                print('Quiz Started');
-                                              },
-                                              onComplete: () {
-                                                _answerQuestion();
-                                                _questionIndex = widget._questions.length + 1;
-                                                TimerEndedDialog.showMyDialog(context);
-                                              },
-                                            ),
-                                          ),
-                                          Align(
-                                            alignment: Alignment.bottomRight,
-                                            child: IconButton(
-                                              padding: EdgeInsets.only(top: 40, right: 20),
-                                              onPressed: () {
-                                                var popupDialog = ExitQuizDialog(context, saveQuizAttempt);
-                                                popupDialog.showMyDialog();
-                                              },
-                                              icon: Icon(
-                                                Icons.close,
-                                                color: Colors.white,
+                                              child: CircularCountDownTimer(
+                                                duration: Duration(
+                                                        minutes:
+                                                            int.parse(widget._quizAttempt.duration.substring(0, 2)),
+                                                        seconds:
+                                                            int.parse(widget._quizAttempt.duration.substring(3, 5)))
+                                                    .inSeconds,
+                                                initialDuration: 0,
+                                                controller: _timerController,
+                                                width: MediaQuery.of(context).size.width / 7,
+                                                height: MediaQuery.of(context).size.height / 7,
+                                                ringColor: Colors.transparent,
+                                                ringGradient: null,
+                                                fillColor: Colors.orange,
+                                                fillGradient: null,
+                                                backgroundColor: null,
+                                                backgroundGradient: null,
+                                                strokeWidth: 3.0,
+                                                strokeCap: StrokeCap.round,
+                                                textStyle: TextStyle(
+                                                    fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
+                                                textFormat: CountdownTextFormat.MM_SS,
+                                                isReverse: true,
+                                                isReverseAnimation: true,
+                                                isTimerTextShown: true,
+                                                autoStart: true,
+                                                onStart: () {
+                                                  print('Quiz Started');
+                                                },
+                                                onComplete: () {
+                                                  _answerQuestion();
+                                                  _questionIndex = widget._questions.length + 1;
+                                                  TimerEndedDialog.showMyDialog(context);
+                                                },
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      Container(
-                                        child: Column(
-                                          children: <Widget>[
-                                            QuizCard(questions: widget._questions, questionIndex: _questionIndex),
-                                            //Affichage varie selon type de question
-                                            //Choix de Réponse ------------------------------
-                                            if (widget._questions[_questionIndex].multipleAnswers!.isNotEmpty)
-                                              MultipleChoice(
-                                                  question: widget._questions[_questionIndex],
-                                                  setAnswerCallback: _setQuestionAnswer),
-                                            //Réponse Courte ------------------------------
-                                            if (widget._questions[_questionIndex].shortAnswers!.isNotEmpty)
-                                              ShortAnswerWidget(
-                                                setAnswerCallback: _setShortAnswer,
+                                            Align(
+                                              alignment: Alignment.bottomRight,
+                                              child: IconButton(
+                                                padding: EdgeInsets.only(top: 40, right: 20),
+                                                onPressed: () {
+                                                  var popupDialog = ExitQuizDialog(context, saveQuizAttempt);
+                                                  popupDialog.showMyDialog();
+                                                },
+                                                icon: Icon(
+                                                  Icons.close,
+                                                  color: Colors.white,
+                                                ),
                                               ),
+                                            ),
                                           ],
                                         ),
-                                      ),
+                                        Container(
+                                          child: Column(
+                                            children: <Widget>[
+                                              QuizCard(questions: widget._questions, questionIndex: _questionIndex),
+                                              //Affichage varie selon type de question
+                                              //Choix de Réponse ------------------------------
+                                              if (widget._questions[_questionIndex].multipleAnswers!.isNotEmpty)
+                                                MultipleChoice(
+                                                    question: widget._questions[_questionIndex],
+                                                    setAnswerCallback: _setQuestionAnswer),
+                                              //Réponse Courte ------------------------------
+                                              if (widget._questions[_questionIndex].shortAnswers!.isNotEmpty)
+                                                ShortAnswerWidget(
+                                                  setAnswerCallback: _setShortAnswer,
+                                                ),
+                                            ],
+                                          ),
+                                        ),
 
-                                      Spacer(),
-                                      // Bouton suivant
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.lightBlue,
-                                          borderRadius: BorderRadius.all(Radius.circular(90)),
+                                        Spacer(),
+                                        // Bouton suivant
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.lightBlue,
+                                            borderRadius: BorderRadius.all(Radius.circular(90)),
+                                          ),
+                                          margin: EdgeInsets.all(40),
+                                          padding: EdgeInsets.only(left: 40, right: 40),
+                                          child: AnswerDetailsButton(
+                                            onPressed: () {
+                                              _answerQuestion();
+                                              Navigator.pop(context);
+                                            },
+                                            answerText: _answer,
+                                            isTrue: _isTrue,
+                                          ),
                                         ),
-                                        margin: EdgeInsets.all(40),
-                                        padding: EdgeInsets.only(left: 40, right: 40),
-                                        child: AnswerDetailsButton(
-                                          onPressed: () {
-                                            _answerQuestion();
-                                            Navigator.pop(context);
-                                          },
-                                          answerText: _answer,
-                                          isTrue: _isTrue,
-                                        ),
-                                      ),
-                                      Spacer(flex: 3),
-                                    ],
+                                        Spacer(flex: 3),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              if (_questionIndex >= widget._questions.length)
-                                ScoreDetails(
-                                  quizAttempt: widget._quizAttempt,
-                                ),
-                            ],
-                          );
-                          break;
-                        case Status.ERROR:
-                          return ErrorPopUp(snapshot, refresh);
-                          break;
+                                if (_questionIndex >= widget._questions.length)
+                                  ScoreDetails(
+                                    quizAttempt: widget._quizAttempt,
+                                  ),
+                              ],
+                            );
+                            break;
+                          case Status.ERROR:
+                            return ErrorPopUp(snapshot, refresh);
+                            break;
+                        }
                       }
-                    }
-                    return Text("No data");
-                  }),
-            ),
-          ],
+                      return Text("No data");
+                    }),
+              ),
+            ],
+          ),
         ),
       ),
     );

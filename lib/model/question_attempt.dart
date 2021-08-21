@@ -27,7 +27,9 @@ class QuestionAttempt {
     if (type == "shortanswer") {
       answer = json['answer'];
     } else {
-      answers = json['answers'] as List<int>;
+      var groupObjJson = json['answers'].cast<int>();
+      print(groupObjJson);
+      answers = List<int>.from(groupObjJson);
     }
 
     return QuestionAttempt(questionId, isAnswer, obtainedMark, goodAnswer, answerTime, type, answer, answers);

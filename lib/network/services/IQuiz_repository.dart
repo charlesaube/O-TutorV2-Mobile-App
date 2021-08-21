@@ -5,4 +5,5 @@ abstract class IQuizRepository {
   fetchQuizById(int id);
   Future<QuizAttempt> createQuizAttempt(Map<String, int> body);
   Future<String> saveQuizAttempt(QuizAttempt quizAttempt);
+  Future<List<QuizAttempt>> getQuizAttemptsOfUser();
 }
