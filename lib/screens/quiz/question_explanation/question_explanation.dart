@@ -48,7 +48,11 @@ class QuestionExplanation extends StatelessWidget {
                   icon: Icon(Icons.close),
                 ),
               ),
-              if (_question.questionType == "multiplechoice") MultipleChoiceExplanation(question: _question),
+              if (_question.questionType == "multiplechoice")
+                MultipleChoiceExplanation(
+                  question: _question,
+                  questionAttempt: _quizAttempt.questionAttempts[_index],
+                ),
               if (_question.questionType == "shortanswer")
                 ShortAnswerExplanation(
                   quizAttempt: _quizAttempt,
