@@ -74,8 +74,8 @@ class QuizListContainer extends StatelessWidget {
           ),
           Row(
             children: <Widget>[
-              Text(AppLocalizations.of(context)!.translate('Questions').toString() + ": " + _quiz.noOfQuestions,
-                  style: TextStyle(color: Colors.white, fontSize: 15)),
+              // Text(AppLocalizations.of(context)!.translate('Questions').toString() + ": " + _quiz.noOfQuestions,
+              //     style: TextStyle(color: Colors.white, fontSize: 15)),
               Icon(
                 Icons.navigate_next,
                 color: Colors.orange,

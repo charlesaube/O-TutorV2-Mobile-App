@@ -5,25 +5,24 @@ import 'package:demo3/model/quiz_attempt.dart';
 import 'package:demo3/network/api_response.dart';
 import 'package:demo3/network/services/IQuiz_repository.dart';
 import 'package:demo3/network/services/service_providers/service_provider.dart';
+import 'package:rxdart/rxdart.dart';
 
 class BrowseQuizBloc {
   late IQuizRepository _quizRepository;
   static List<Quiz> _cachedQuizzes = [];
   static List<QuizAttempt> _cachedQuizAttempts = [];
 
-  var _quizListController = StreamController<ApiResponse<List<Quiz>>>();
+  var _quizListController = BehaviorSubject<ApiResponse<List<Quiz>>>();
   StreamSink<ApiResponse<List<Quiz>>> get quizListSink => _quizListController.sink;
-
   Stream<ApiResponse<List<Quiz>>> get quizListStream => _quizListController.stream;
 
-  var _quizAttemptListController = StreamController<ApiResponse<List<QuizAttempt>>>();
+  var _quizAttemptListController = BehaviorSubject<ApiResponse<List<QuizAttempt>>>();
   StreamSink<ApiResponse<List<QuizAttempt>>> get quizAttemptListSink => _quizAttemptListController.sink;
-
   Stream<ApiResponse<List<QuizAttempt>>> get quizAttemptListStream => _quizAttemptListController.stream;
 
   BrowseQuizBloc(int groupId) {
-    _quizListController = StreamController<ApiResponse<List<Quiz>>>();
-    _quizAttemptListController = StreamController<ApiResponse<List<QuizAttempt>>>();
+    _quizListController = BehaviorSubject<ApiResponse<List<Quiz>>>();
+    _quizAttemptListController = BehaviorSubject<ApiResponse<List<QuizAttempt>>>();
 
     _quizRepository = ServiceProvider().fetchQuizRepository();
     if (_cachedQuizzes.isEmpty) {
@@ -65,5 +64,6 @@ class BrowseQuizBloc {
 
   dispose() {
     _quizListController.close();
+    _quizAttemptListController.close();
   }
 }
