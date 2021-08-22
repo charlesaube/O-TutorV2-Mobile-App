@@ -50,44 +50,48 @@ class MultipleChoiceExplanation extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Container(
-              height: MediaQuery.of(context).size.height / 3,
-              child: Expanded(
-                child: ListView.builder(
-                  itemCount: question.multipleAnswers!.length,
-                  itemBuilder: (
-                    BuildContext context,
-                    int index,
-                  ) {
-                    //Change la couleur du container ClickÃ© ------------------------
-                    _colorContainer = Colors.grey.shade200;
-                    if (question.multipleAnswers![index].isTrue) {
-                      _colorContainer = Colors.green;
-                    }
+            child: MediaQuery.removePadding(
+              context: context,
+              removeTop: true,
+              child: Container(
+                height: MediaQuery.of(context).size.height / 3,
+                child: Expanded(
+                  child: ListView.builder(
+                    itemCount: question.multipleAnswers!.length,
+                    itemBuilder: (
+                      BuildContext context,
+                      int index,
+                    ) {
+                      //Change la couleur du container ClickÃ© ------------------------
+                      _colorContainer = Colors.grey.shade200;
+                      if (question.multipleAnswers![index].isTrue) {
+                        _colorContainer = Colors.green;
+                      }
 
-                    return Container(
-                      height: 50,
-                      margin: EdgeInsets.all(15),
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(color: _colorContainer, width: 2),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        elevation: 6,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              this.question.multipleAnswers![index].answer,
-                              style: TextStyle(
-                                fontSize: 15,
+                      return Container(
+                        height: 50,
+                        margin: EdgeInsets.all(15),
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(color: _colorContainer, width: 2),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          elevation: 6,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                this.question.multipleAnswers![index].answer,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
