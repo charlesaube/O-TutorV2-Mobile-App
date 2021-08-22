@@ -254,7 +254,8 @@ class _QuizState extends State<QuizPage> {
                                               child: IconButton(
                                                 padding: EdgeInsets.only(top: 40, right: 20),
                                                 onPressed: () {
-                                                  var popupDialog = ExitQuizDialog(context, saveQuizAttempt);
+                                                  var popupDialog =
+                                                      ExitQuizDialog(context, saveQuizAttempt, widget.quiz);
                                                   popupDialog.showMyDialog();
                                                 },
                                                 icon: Icon(

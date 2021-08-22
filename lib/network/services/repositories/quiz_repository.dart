@@ -95,7 +95,7 @@ class QuizRepository extends IQuizRepository {
       print(e);
       throw FetchDataException('No internet');
     }
-    //comemet;
+    print(responseJson['message']);
     return responseJson['message'];
   }
 

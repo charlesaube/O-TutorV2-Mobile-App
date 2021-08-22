@@ -23,16 +23,6 @@ class QuizDetailsPage extends StatelessWidget {
         children: [
           Stack(
             children: <Widget>[
-              // Positioned(
-              //   bottom: -600,
-              //   right: -350,
-              //   height: 620,
-              //   child: CustomPaint(
-              //     size: Size(370, (360 * 1.6666666666666667).toDouble()),
-              //     painter: RPSCustomPainter180(),
-              //   ),
-              // ),
-
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
@@ -56,10 +46,16 @@ class QuizDetailsPage extends StatelessWidget {
                             padding: const EdgeInsets.all(8.0),
                             child: Align(
                               alignment: Alignment.topRight,
-                              child: IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.close, color: Colors.white,)),
+                              child: IconButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  icon: Icon(
+                                    Icons.close,
+                                    color: Colors.white,
+                                  )),
                             ),
                           ),
-
                           Text(
                             quiz.quizTitle,
                             textAlign: TextAlign.center,
@@ -82,14 +78,10 @@ class QuizDetailsPage extends StatelessWidget {
                                       ),
                                       Text(" " + quiz.timelimit,
                                           style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold)),
+                                              color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold)),
                                       Text(" min",
                                           style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold)),
+                                              color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold)),
                                     ],
                                   ),
                                 ),
@@ -105,14 +97,10 @@ class QuizDetailsPage extends StatelessWidget {
                                     children: <Widget>[
                                       Text(quiz.noOfQuestions,
                                           style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold)),
+                                              color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold)),
                                       Text(" Questions",
                                           style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold)),
+                                              color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold)),
                                     ],
                                   ),
                                 ),
@@ -141,9 +129,7 @@ class QuizDetailsPage extends StatelessWidget {
                                       ),
                                     ),
                                     Container(
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              3,
+                                      height: MediaQuery.of(context).size.height / 3,
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                         border: Border.all(
@@ -160,17 +146,18 @@ class QuizDetailsPage extends StatelessWidget {
                               ),
                             ],
                           ),
-                          LoginButton(onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    QuizPage(
+                          LoginButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => QuizPage(
                                       quiz: quiz,
                                     ),
-                              ),
-                            );
-                          }, text: AppLocalizations.of(context)!.translate("Start").toString()),
+                                  ),
+                                );
+                              },
+                              text: AppLocalizations.of(context)!.translate("Start").toString()),
                         ],
                       ),
                     ),

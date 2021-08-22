@@ -1,4 +1,7 @@
 import 'package:demo3/localization/app_localizations.dart';
+import 'package:demo3/model/quiz.dart';
+import 'package:demo3/screens/navigation/navbar.dart';
+import 'package:demo3/screens/quiz/quiz_details.dart';
 import 'package:flutter/material.dart';
 
 typedef void VoidCallback();
@@ -7,7 +10,9 @@ typedef void VoidCallback();
 class ExitQuizDialog {
   BuildContext context;
   final VoidCallback saveQuizAttemptCallback;
-  ExitQuizDialog(this.context, this.saveQuizAttemptCallback);
+  final Quiz _quiz;
+
+  ExitQuizDialog(this.context, this.saveQuizAttemptCallback, this._quiz);
 
   Future<String?> showMyDialog() {
     return showDialog<String>(
@@ -42,10 +47,13 @@ class ExitQuizDialog {
                             style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                           ),
                           Spacer(),
-                          Text(AppLocalizations.of(context)!.translate('Exit Quiz Message').toString(),
-                              style: TextStyle(
-                                fontSize: 17,
-                              )),
+                          Text(
+                            AppLocalizations.of(context)!.translate('Exit Quiz Message').toString(),
+                            style: TextStyle(
+                              fontSize: 17,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
                         ],
                       ),
                     ),
@@ -78,8 +86,11 @@ class ExitQuizDialog {
                             ),
                             child: TextButton(
                               onPressed: () {
-                                //this.saveQuizAttemptCallback();
-                                Navigator.pop(context);
+                                this.saveQuizAttemptCallback();
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => QuizDetailsPage(quiz: _quiz)),
+                                );
                               },
                               child: Text(AppLocalizations.of(context)!.translate('Confirm').toString(),
                                   style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 17)),

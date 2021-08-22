@@ -35,54 +35,52 @@ class AnswerDetailsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      child: Text(AppLocalizations.of(context)!.translate('Next').toString(),
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 17)),
-      onPressed: () {
-        if (answerText != "") {
-          showDialog<String>(
-            //barrierDismissible: false,
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-                insetPadding: EdgeInsets.zero,
-                contentPadding: EdgeInsets.zero,
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(width: 3, color: dialogColor),
-                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                ),
-                content: Builder(
-                  builder: (context) {
-                    // Get available height and width of the build area of this widget. Make a choice depending on the size.
-                    var height = MediaQuery.of(context).size.height;
-                    var width = MediaQuery.of(context).size.width;
-                    return Container(
-                      height: height / 2,
-                      width: width / 1.2,
-                      child: Column(
-                        children: [
-                          Container(child: fetchAlertDialog()),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: dialogColor,
-                              borderRadius: BorderRadius.all(Radius.circular(90)),
+        child: Text(AppLocalizations.of(context)!.translate('Next').toString(),
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 17)),
+        onPressed: () {
+          if (answerText != "")
+            showDialog<String>(
+              //barrierDismissible: false,
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                  insetPadding: EdgeInsets.zero,
+                  contentPadding: EdgeInsets.zero,
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(width: 3, color: dialogColor),
+                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                  ),
+                  content: Builder(
+                    builder: (context) {
+                      // Get available height and width of the build area of this widget. Make a choice depending on the size.
+                      var height = MediaQuery.of(context).size.height;
+                      var width = MediaQuery.of(context).size.width;
+                      return Container(
+                        height: height / 2,
+                        width: width / 1.2,
+                        child: Column(
+                          children: [
+                            Container(child: fetchAlertDialog()),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: dialogColor,
+                                borderRadius: BorderRadius.all(Radius.circular(90)),
+                              ),
+                              margin: EdgeInsets.all(35),
+                              padding: EdgeInsets.only(left: 10, right: 10),
+                              child: TextButton(
+                                onPressed: _callback,
+                                child: Text(AppLocalizations.of(context)!.translate('Next Question').toString(),
+                                    style: TextStyle(color: Colors.white)),
+                              ),
                             ),
-                            margin: EdgeInsets.all(35),
-                            padding: EdgeInsets.only(left: 10, right: 10),
-                            child: TextButton(
-                              onPressed: _callback,
-                              child: Text(AppLocalizations.of(context)!.translate('Next Question').toString(),
-                                  style: TextStyle(color: Colors.white)),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                )),
-          );
-        }
-      },
-    );
+                          ],
+                        ),
+                      );
+                    },
+                  )),
+            );
+        });
   }
 }
 

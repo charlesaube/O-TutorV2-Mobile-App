@@ -32,7 +32,7 @@ class QuizAttemptBloc {
   }
 
   saveQuizAttempt(QuizAttempt quizAttempt) async {
-    quizAttemptSink.add(ApiResponse.loading('Creating'));
+    quizAttemptSink.add(ApiResponse.loading('Saving'));
     try {
       await _quizRepository.saveQuizAttempt(quizAttempt);
       quizAttemptSink.add(ApiResponse.completed(quizAttempt));
