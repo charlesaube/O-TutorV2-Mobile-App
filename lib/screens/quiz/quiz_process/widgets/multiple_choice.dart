@@ -24,9 +24,12 @@ class _MultipleChoiceState extends State<MultipleChoice> {
     return Container(
       width: 330,
       height: MediaQuery.of(context).size.width / 1.5,
-      child: Scrollbar(
+      child: RawScrollbar(
         controller: _scrollController,
         isAlwaysShown: true,
+        radius: Radius.circular(20),
+        thumbColor: Color(0xff03C3FF),
+        thickness: 4,
         child: ListView.builder(
           controller: _scrollController,
           itemCount: this.widget.question.multipleAnswers!.length,
