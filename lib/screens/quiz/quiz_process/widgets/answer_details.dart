@@ -61,7 +61,6 @@ class AnswerDetailsButton extends StatelessWidget {
                       child: Column(
                         children: [
                           Container(child: fetchAlertDialog()),
-                          Spacer(),
                           Container(
                             decoration: BoxDecoration(
                               color: dialogColor,
@@ -108,8 +107,11 @@ class CorrectAnswerDialog extends StatelessWidget {
             ),
           ),
           Spacer(),
-          Text(AppLocalizations.of(context)!.translate('Correct Answer').toString() + ' ' + _answer,
-              style: TextStyle(fontSize: 17)),
+          Padding(
+            padding: const EdgeInsets.only(left: 15, right: 15),
+            child: Text(AppLocalizations.of(context)!.translate('Correct Answer').toString() + ' ' + _answer,
+                style: TextStyle(fontSize: 17)),
+          ),
         ],
       ),
     );
@@ -132,8 +134,11 @@ class IncorrectAnswerDialog extends StatelessWidget {
           ),
           Text(AppLocalizations.of(context)!.translate('Incorrect').toString(), style: TextStyle(fontSize: 25)),
           Spacer(),
-          Text(_answer + ' ' + AppLocalizations.of(context)!.translate('Incorrect Answer').toString(),
-              style: TextStyle(fontSize: 17)),
+          Padding(
+            padding: const EdgeInsets.only(left: 15, right: 15),
+            child: Text(_answer + ' ' + AppLocalizations.of(context)!.translate('Incorrect Answer').toString(),
+                style: TextStyle(fontSize: 17)),
+          ),
         ],
       ),
     );

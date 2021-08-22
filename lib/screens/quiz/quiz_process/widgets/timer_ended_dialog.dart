@@ -12,10 +12,10 @@ class TimerEndedDialog {
       builder: (BuildContext context) => AlertDialog(
           insetPadding: EdgeInsets.zero,
           contentPadding: EdgeInsets.zero,
-          backgroundColor: Colors.orange,
+          backgroundColor: Colors.white,
           clipBehavior: Clip.antiAliasWithSaveLayer,
           shape: RoundedRectangleBorder(
-            side: BorderSide(width: 3, color: Colors.amber),
+            side: BorderSide(width: 3, color: Colors.orange),
             borderRadius: BorderRadius.all(Radius.circular(15.0)),
           ),
           content: Builder(
