@@ -10,9 +10,8 @@ typedef void VoidCallback();
 class ExitQuizDialog {
   BuildContext context;
   final VoidCallback saveQuizAttemptCallback;
-  final Quiz _quiz;
 
-  ExitQuizDialog(this.context, this.saveQuizAttemptCallback, this._quiz);
+  ExitQuizDialog(this.context, this.saveQuizAttemptCallback);
 
   Future<String?> showMyDialog() {
     return showDialog<String>(
@@ -87,10 +86,8 @@ class ExitQuizDialog {
                             child: TextButton(
                               onPressed: () {
                                 this.saveQuizAttemptCallback();
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => QuizDetailsPage(quiz: _quiz)),
-                                );
+                                int count = 0;
+                                Navigator.of(context).popUntil((_) => count++ >= 2);
                               },
                               child: Text(AppLocalizations.of(context)!.translate('Confirm').toString(),
                                   style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 17)),
