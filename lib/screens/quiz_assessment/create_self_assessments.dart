@@ -22,6 +22,7 @@ class _CreateSelfAssessmentsState extends State<CreateSelfAssessmentsPage> {
   double _currentSliderValue = 0;
 
   SelfAssessmentBloc? _bloc;
+  bool loading = true;
 
   @override
   void initState() {
@@ -75,18 +76,13 @@ class _CreateSelfAssessmentsState extends State<CreateSelfAssessmentsPage> {
                     ),
                     Spacer(),
                     LoginButton(
-                        onPressed: () {
-                          _bloc!.createSelfAssessments(1, [3, 54, 6], "10:00", 3);
-                          SelfAssessment? sa;
-                          _bloc!.selfAssessmentStream.listen((value) {
-                            sa = value.data;
-                          });
-
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SelfAssessmentPage(selfAssessment: sa!),
-                              ));
+                        onPressed: () async {
+                          var result = await _bloc!.createSelfAssessments(1, [3, 54, 6], "10:00", 3);
+                          // _bloc!.createSelfAssessments(1, [3, 54, 6], "10:00", 3);
+                          // SelfAssessment? sa;
+                          // _bloc!.selfAssessmentStream.listen((value) async {
+                          //   sa = await value.data;
+                          // });
                         },
                         text: AppLocalizations.of(context)!.translate("Start").toString()),
                     Spacer(),
