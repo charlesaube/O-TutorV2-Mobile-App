@@ -26,14 +26,14 @@ class CoursesListContainer extends StatelessWidget {
               Column(
                 children: [
                   Text(" " + group.description, //Affiche la description car le courseName est vide
-                      style: TextStyle(color: Colors.white, fontSize: 20)),
+                      style: TextStyle(color: Colors.black, fontSize: 20)),
                   Align(
                     alignment: Alignment.bottomLeft,
                     child: Text(
                         group.assignedQuizzes!.length.toString() +
                             " " +
                             AppLocalizations.of(context)!.translate('Assigned Quiz').toString(),
-                        style: TextStyle(color: Colors.white, fontSize: 15)),
+                        style: TextStyle(color: Colors.black, fontSize: 15)),
                   )
                 ],
               )
@@ -69,7 +69,7 @@ class QuizListContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(" " + _quiz.quizTitle,
-                  style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+                  style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold)),
             ],
           ),
           Row(
@@ -104,7 +104,7 @@ class QuizAttemptListContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(" " + _quizAttempt.id.toString(),
-                  style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+                  style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold)),
             ],
           ),
           Row(
@@ -138,7 +138,7 @@ class BaseContainer extends StatelessWidget {
         margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
         padding: EdgeInsets.only(left: 15, right: 15, top: 25, bottom: 25),
         decoration: BoxDecoration(
-          color: Colors.lightBlue.shade200,
+          color: Colors.white,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10),
               topRight: Radius.circular(10),

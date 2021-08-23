@@ -68,7 +68,8 @@ class QuizAttempt {
     return 'QuizAttempt{id: $id, quizId: $quizId, duration: $duration, isOver: $isOver, currentQuestionId: $currentQuestionId, questionsOrder: $questionsOrder, questionAttempts: $questionAttempts, questions: $questions}';
   }
 
-  int computeScore() {
+  //Retourne le score du quiz
+  double computeScore() {
     int scoredPoints = 0;
     int maxPoints = 0;
     for (Question q in this.questions) {
@@ -79,8 +80,27 @@ class QuizAttempt {
         scoredPoints += qa.obtainedMark;
       }
     }
+    return scoredPoints / maxPoints;
+  }
 
-    int roundedScore = (scoredPoints / maxPoints * 100).floor();
-    return roundedScore;
+  //Retourne le nombre de questions non répondu
+  int getNumOfQuestionsLeft() {
+    return this.questions.length - this.questionAttempts.length;
+  }
+
+  //Retourne le pourcentage de completion du quiz
+  double getCompletionRate() {
+    int numberOfQuestions = this.questions.length;
+    int numberOfAnsweredQuestions = this.questionAttempts.length;
+    return numberOfAnsweredQuestions / numberOfQuestions;
+  }
+
+  //Retourne le temps écoulés depuis le début du quiz
+  String getEllapsedTime() {
+    int duration = 0;
+    for (QuestionAttempt q in this.questionAttempts) {
+      duration = duration + q.answerTime;
+    }
+    return Duration(seconds: duration).toString().substring(2, 7);
   }
 }

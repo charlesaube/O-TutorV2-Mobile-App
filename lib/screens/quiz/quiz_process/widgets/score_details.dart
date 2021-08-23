@@ -65,15 +65,6 @@ class _ScoreDetailsState extends State<ScoreDetails> {
     }
   }
 
-  //Récupere le temps écoulés pour compléter le quiz
-  String getCompletionTime() {
-    int duration = 0;
-    for (QuestionAttempt q in widget._questionAttempts) {
-      duration = duration + q.answerTime;
-    }
-    return Duration(seconds: duration).toString().substring(2, 7);
-  }
-
   //Permet de varier la couleur selon le score obtenu
   Color getColor() {
     if (calculateScore() >= 0.6) {
@@ -183,7 +174,7 @@ class _ScoreDetailsState extends State<ScoreDetails> {
                                   size: 20,
                                 ),
                                 Text(
-                                  getCompletionTime(),
+                                  widget._quizAttempt.getEllapsedTime(),
                                   style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
                                 )
                               ],

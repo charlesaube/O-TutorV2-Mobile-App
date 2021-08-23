@@ -54,7 +54,11 @@
   "Assigned Quiz":"Assigned Quizzes",
   "New Quiz":"New Quizzes",
   "Quiz Attempt":"Quiz Attempt",
-  "Unfinished Quizzes": "Unfinished Quizzes"
+  "Unfinished Quizzes": "Unfinished Quizzes",
+  "Continue":"Continue",
+  "Question Left":"Question(s) left",
+  "Times left":"left",
+  "Completion Rate":"Completion rate"
 
 
 
