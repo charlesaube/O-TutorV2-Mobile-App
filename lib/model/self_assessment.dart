@@ -5,7 +5,7 @@ import 'question_attempt.dart';
 class SelfAssessment {
   int id;
   int courseId;
-  List<String> topics;
+  List<int> topics;
   String duration;
   String timelimit;
   bool isOver;
@@ -29,18 +29,22 @@ class SelfAssessment {
   factory SelfAssessment.fromJson(dynamic json) {
     int id = json["id"];
     dynamic courseId = json["course_id"];
-    dynamic topics = json["topics"];
+
+    var topicObjJson = json['topics'].cast<int>();
+    print(topicObjJson);
+    List<int> topics = List<int>.from(topicObjJson);
     dynamic duration = json["duration"];
     dynamic timelimit = json["timelimit"];
     dynamic isOver = json["is_over"];
     dynamic totalQuestions = json["total_questions"];
     dynamic currentQuestionId = json["current_question_id"];
 
-    var groupObjJson = json['question_attempts'] as List;
+    var questionAttemptObjJson = json['question_attempts'] as List;
     List<QuestionAttempt> questionAttempts =
-        List<QuestionAttempt>.from(groupObjJson.map((groupJson) => QuestionAttempt.fromJson(groupJson)));
-    groupObjJson = json['questions'] as List;
-    List<Question> questions = List<Question>.from(groupObjJson.map((groupJson) => Question.fromJson(groupJson)));
+        List<QuestionAttempt>.from(questionAttemptObjJson.map((groupJson) => QuestionAttempt.fromJson(groupJson)));
+    questionAttemptObjJson = json['questions'] as List;
+    List<Question> questions =
+        List<Question>.from(questionAttemptObjJson.map((groupJson) => Question.fromJson(groupJson)));
 
     return SelfAssessment(
         id: id,

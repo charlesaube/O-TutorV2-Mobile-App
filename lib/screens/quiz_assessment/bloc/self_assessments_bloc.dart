@@ -9,7 +9,7 @@ import 'package:demo3/network/services/service_providers/service_provider.dart';
 import 'package:demo3/screens/quiz_assessment/create_self_assessments.dart';
 
 class SelfAssessmentBloc {
-  late ISelfAssesmentsRepository _selfAssesmentRepository;
+  late ISelfAssessmentsRepository _selfAssessmentRepository = ServiceProvider().fetchSelfAssessmentsRepository();
 
   var _selfAssessmentController = StreamController<ApiResponse<SelfAssessment>>();
   StreamSink<ApiResponse<SelfAssessment>> get selfAssessmentSink => _selfAssessmentController.sink;
@@ -17,7 +17,7 @@ class SelfAssessmentBloc {
 
   selfAssessmentBloc() {
     _selfAssessmentController = StreamController<ApiResponse<SelfAssessment>>();
-    _selfAssesmentRepository = ServiceProvider().fetchSelfAssessmentsRepository();
+    _selfAssessmentRepository = ServiceProvider().fetchSelfAssessmentsRepository();
   }
 
   createSelfAssessments(int courseId, List<int> topics, String duration, int totalQuestion) async {
@@ -36,7 +36,7 @@ class SelfAssessmentBloc {
     selfAssessmentSink.add(ApiResponse.loading('Creating'));
     SelfAssessment? selfAssessment;
     try {
-      selfAssessment = await _selfAssesmentRepository.createSelfAssesment(body);
+      selfAssessment = await _selfAssessmentRepository.createSelfAssesment(body);
       selfAssessmentSink.add(ApiResponse.completed(selfAssessment));
     } catch (e) {
       selfAssessmentSink.add(ApiResponse.error(e.toString()));

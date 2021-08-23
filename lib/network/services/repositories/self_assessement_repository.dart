@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import '../../api_client.dart';
 import '../../api_exceptions.dart';
 
-class SelfAssessmentRepository extends ISelfAssesmentsRepository {
+class SelfAssessmentRepository extends ISelfAssessmentsRepository {
   ApiClient _helper = new ApiClient();
 
   @override
@@ -16,7 +16,7 @@ class SelfAssessmentRepository extends ISelfAssesmentsRepository {
     http.Response response;
     var responseJson;
     try {
-      response = await http.post(Uri.parse("http://8g9dz.mocklab.io//self-assessments"), body: jsonEncode(body));
+      response = await http.post(Uri.parse("http://8g9dz.mocklab.io/self-assessments"), body: jsonEncode(body));
       responseJson = _helper.returnResponse(response);
     } on SocketException catch (e) {
       print(e);
