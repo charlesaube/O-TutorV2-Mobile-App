@@ -42,6 +42,16 @@ class QuizAttemptBloc {
     }
   }
 
+  continueQuizAttempt(QuizAttempt quizAttempt) async {
+    quizAttemptSink.add(ApiResponse.loading('Intializing'));
+    try {
+      quizAttemptSink.add(ApiResponse.completed(quizAttempt));
+    } catch (e) {
+      quizAttemptSink.add(ApiResponse.error(e.toString()));
+      print(e);
+    }
+  }
+
   dispose() {
     _quizAttemptController.close();
   }

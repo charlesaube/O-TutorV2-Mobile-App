@@ -57,7 +57,7 @@ class _BrowseQuizPageState extends State<BrowseQuizPage> {
       child: Scaffold(
         appBar: AppBar(
           bottom: const TabBar(
-            indicatorColor: Colors.orangeAccent,
+            indicatorColor: Colors.lightBlueAccent,
             indicatorWeight: 3,
             tabs: [
               Tab(text: "New Quiz"),

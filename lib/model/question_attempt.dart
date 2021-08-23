@@ -39,6 +39,11 @@ class QuestionAttempt {
     return "Is Answer: ${this.isAnswer} obtained mark: ${this.obtainedMark} goodAnswer: ${this.goodAnswer} answerTime: ${this.answerTime} ";
   }
 
+  QuestionAttempt clone() {
+    return QuestionAttempt(this.questionId, this.isAnswer, this.obtainedMark, this.goodAnswer, this.answerTime,
+        this.type, this.answer, this.type == "multiplechoice" ? this.answers : null);
+  }
+
   Map<String, dynamic> toJson() => {
         'question_id': questionId,
         'is_answer': isAnswer,

@@ -83,6 +83,19 @@ class QuizAttempt {
     return scoredPoints / maxPoints;
   }
 
+  QuizAttempt clone() {
+    QuizAttempt clonedQuizAttempt = QuizAttempt(
+        id: this.id,
+        quizId: this.quizId,
+        duration: this.duration,
+        isOver: this.isOver,
+        currentQuestionId: this.currentQuestionId,
+        questionsOrder: this.questionsOrder,
+        questionAttempts: this.questionAttempts.map((e) => e.clone()).toList(),
+        questions: this.questions);
+    return clonedQuizAttempt;
+  }
+
   //Retourne le nombre de questions non répondu
   int getNumOfQuestionsLeft() {
     return this.questions.length - this.questionAttempts.length;

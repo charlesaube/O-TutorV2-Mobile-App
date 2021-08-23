@@ -28,12 +28,13 @@ import 'blocs/quiz_attempt_bloc.dart';
 class QuizPage extends StatefulWidget {
   //Quiz en cours
   final Quiz quiz;
+  final bool isAlreadyStarted;
+  QuizAttempt? quizAttempt; //Peut etre null, utilisé si le quiz attempt est deja commencer
 
-  late QuizAttempt _quizAttempt;
   //Liste des questions du quiz en cours
   List<Question> _questions = [];
 
-  QuizPage({Key? key, required this.quiz}) : super(key: key);
+  QuizPage({Key? key, required this.quiz, required this.isAlreadyStarted, this.quizAttempt}) : super(key: key);
 
   @override
   _QuizState createState() {
@@ -42,8 +43,12 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizState extends State<QuizPage> {
+  //Bloc pour faire les requetes
   QuizAttemptBloc? _bloc;
+  //Controlleur du timer
   CountDownController _timerController = CountDownController();
+  //Quiz attempt
+  late QuizAttempt _quizAttempt;
 
   @override
   QuizPage get widget => super.widget;
@@ -52,12 +57,25 @@ class _QuizState extends State<QuizPage> {
   void initState() {
     super.initState();
     _bloc = QuizAttemptBloc();
-    _bloc!.createQuizAttempt(widget.quiz.id);
+    if (widget.isAlreadyStarted) {
+      //Si le quiz est deja commencer, on le continue
+      _bloc!.continueQuizAttempt(widget.quizAttempt!);
+      _questionIndex =
+          widget.quizAttempt!.questions.indexWhere((q) => q.questionId == widget.quizAttempt!.currentQuestionId);
+    } else {
+      //Ou sinon , on crée un nouveau quiz attempt
+      _bloc!.createQuizAttempt(widget.quiz.id);
+    }
   }
 
   void refresh() {
     setState(() {
-      _bloc!.createQuizAttempt(widget.quiz.id);
+      if (widget.isAlreadyStarted) {
+        _bloc!.continueQuizAttempt(widget.quizAttempt!);
+        _questionIndex = widget._questions.indexWhere((q) => q.questionId == widget.quizAttempt!.currentQuestionId);
+      } else {
+        _bloc!.createQuizAttempt(widget.quiz.id);
+      }
     });
   }
 
@@ -69,8 +87,8 @@ class _QuizState extends State<QuizPage> {
   //Retourne le temps écoulés depuis la derniere question répondu
   int _getElapsedTime() {
     int lastTimeAnswered = Duration(
-            minutes: int.parse(widget._quizAttempt.duration.substring(0, 2)),
-            seconds: int.parse(widget._quizAttempt.duration.substring(3, 5)))
+            minutes: int.parse(_quizAttempt.duration.substring(0, 2)),
+            seconds: int.parse(_quizAttempt.duration.substring(3, 5)))
         .inSeconds;
 
     int currentTime = Duration(
@@ -100,13 +118,13 @@ class _QuizState extends State<QuizPage> {
       obtainedMark = currentQuestion.weight;
     }
     //Ajout de la réponse a la liste de réponse choisie
-    widget._quizAttempt.questionAttempts
+    _quizAttempt.questionAttempts
         .add(QuestionAttempt(currentQuestion.questionId, 1, obtainedMark, _isTrue, _getElapsedTime(), type, _answer));
 
-    widget._quizAttempt.currentQuestionId = currentQuestion.questionId;
-    widget._quizAttempt.duration = _timerController.getTime(); //Mise a jour de la durée restante
+    _quizAttempt.currentQuestionId = currentQuestion.questionId;
+    _quizAttempt.duration = _timerController.getTime(); //Mise a jour de la durée restante
 
-    print(widget._quizAttempt);
+    print(_quizAttempt);
 
     _answer = "";
     _isTrue = false;
@@ -157,7 +175,7 @@ class _QuizState extends State<QuizPage> {
 
   //Méthod appeler lorsque l'utilisateur souhaite quitter et sauvegarder le quiz
   void saveQuizAttempt() {
-    _bloc!.saveQuizAttempt(widget._quizAttempt);
+    _bloc!.saveQuizAttempt(_quizAttempt);
   }
 
   @override
@@ -189,7 +207,7 @@ class _QuizState extends State<QuizPage> {
                               child: SpinKitDoubleBounce(color: Colors.lightBlue.shade100),
                             );
                           case Status.COMPLETED:
-                            widget._quizAttempt = snapshot.data!.data;
+                            _quizAttempt = snapshot.data!.data;
                             widget._questions = snapshot.data!.data.questions;
                             /*if (widget._quizAttempt.currentQuestionId != 0) {
                             //Cherche le bon index de la question si le quiz avait deja commencer.
@@ -215,10 +233,8 @@ class _QuizState extends State<QuizPage> {
 
                                               child: CircularCountDownTimer(
                                                 duration: Duration(
-                                                        minutes:
-                                                            int.parse(widget._quizAttempt.duration.substring(0, 2)),
-                                                        seconds:
-                                                            int.parse(widget._quizAttempt.duration.substring(3, 5)))
+                                                        minutes: int.parse(_quizAttempt.duration.substring(0, 2)),
+                                                        seconds: int.parse(_quizAttempt.duration.substring(3, 5)))
                                                     .inSeconds,
                                                 initialDuration: 0,
                                                 controller: _timerController,
@@ -308,7 +324,7 @@ class _QuizState extends State<QuizPage> {
                                   ),
                                 if (_questionIndex >= widget._questions.length)
                                   ScoreDetails(
-                                    quizAttempt: widget._quizAttempt,
+                                    quizAttempt: _quizAttempt,
                                   ),
                               ],
                             );

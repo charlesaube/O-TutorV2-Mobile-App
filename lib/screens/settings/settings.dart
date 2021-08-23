@@ -27,6 +27,14 @@ class SettingsState extends State<SettingsPage> {
               tileMode: TileMode.clamp),
         ),
         child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              AppLocalizations.of(context)!.translate("Settings").toString(),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25, color: Colors.white),
+            ),
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.orange[700],
+          ),
           backgroundColor: Colors.transparent,
           body: Center(
             child: Column(
@@ -36,15 +44,6 @@ class SettingsState extends State<SettingsPage> {
                     top: 57,
                     right: 17,
                     left: 17,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        AppLocalizations.of(context)!.translate("Settings").toString(),
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.grey.shade100),
-                      ),
-                    ],
                   ),
                 ),
                 Container(

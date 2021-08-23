@@ -237,6 +237,8 @@ class _QuizAttemptDetailsPageState extends State<QuizAttemptDetailsPage> {
                                                 MaterialPageRoute(
                                                   builder: (context) => QuizPage(
                                                     quiz: _quiz,
+                                                    isAlreadyStarted: true,
+                                                    quizAttempt: widget.quizAttempt.clone(),
                                                   ),
                                                 ),
                                               );

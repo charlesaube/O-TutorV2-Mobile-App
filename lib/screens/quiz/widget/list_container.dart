@@ -109,7 +109,10 @@ class QuizAttemptListContainer extends StatelessWidget {
           ),
           Row(
             children: <Widget>[
-              Text(_quizAttempt.isOver ? _quizAttempt.computeScore().toString() + '%' : "Quiz not finished!",
+              Text(
+                  _quizAttempt.isOver
+                      ? (_quizAttempt.computeScore() * 100).floor().toString() + '%'
+                      : "Quiz not finished!",
                   style: TextStyle(
                       color: _quizAttempt.isOver ? Colors.orange[400] : Colors.red,
                       fontSize: _quizAttempt.isOver ? 25 : 10,

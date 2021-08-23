@@ -153,6 +153,7 @@ class QuizDetailsPage extends StatelessWidget {
                                   MaterialPageRoute(
                                     builder: (context) => QuizPage(
                                       quiz: quiz,
+                                      isAlreadyStarted: false,
                                     ),
                                   ),
                                 );
