@@ -22,9 +22,21 @@ class QuizRepository extends IQuizRepository {
   }
 
   @override
-  fetchQuizById(int id) {
-    // TODO: implement fetchQuizById
-    throw UnimplementedError();
+  Future<Quiz> fetchQuizById(int id) async {
+    http.Response response;
+    var responseJson;
+    try {
+      response = await http.get(Uri.parse("http://8g9dz.mocklab.io/quiz/2"));
+      responseJson = _helper.returnResponse(response);
+    } on SocketException catch (e) {
+      print(e);
+      throw FetchDataException('No internet');
+    }
+    print("FetchQuizId response:");
+    print(responseJson);
+    Quiz quiz = Quiz.fromJson(responseJson);
+
+    return quiz;
   }
 
   @override

@@ -11,6 +11,7 @@ class BrowseQuizBloc {
   late IQuizRepository _quizRepository;
   static List<Quiz> _cachedQuizzes = [];
   static List<QuizAttempt> _cachedQuizAttempts = [];
+  static Quiz? _cachedQuiz;
 
   var _quizListController = BehaviorSubject<ApiResponse<List<Quiz>>>();
   StreamSink<ApiResponse<List<Quiz>>> get quizListSink => _quizListController.sink;
@@ -20,9 +21,14 @@ class BrowseQuizBloc {
   StreamSink<ApiResponse<List<QuizAttempt>>> get quizAttemptListSink => _quizAttemptListController.sink;
   Stream<ApiResponse<List<QuizAttempt>>> get quizAttemptListStream => _quizAttemptListController.stream;
 
+  var _quizController = BehaviorSubject<ApiResponse<Quiz>>();
+  StreamSink<ApiResponse<Quiz>> get quizSink => _quizController.sink;
+  Stream<ApiResponse<Quiz>> get quizStream => _quizController.stream;
+
   BrowseQuizBloc(int groupId) {
     _quizListController = BehaviorSubject<ApiResponse<List<Quiz>>>();
     _quizAttemptListController = BehaviorSubject<ApiResponse<List<QuizAttempt>>>();
+    _quizController = BehaviorSubject<ApiResponse<Quiz>>();
 
     _quizRepository = ServiceProvider().fetchQuizRepository();
     if (_cachedQuizzes.isEmpty) {
@@ -62,8 +68,21 @@ class BrowseQuizBloc {
     }
   }
 
+  fetchQuizById(int id) async {
+    quizSink.add(ApiResponse.loading("Fetching quiz by id"));
+    try {
+      Quiz quiz = await _quizRepository.fetchQuizById(id);
+      _cachedQuiz = quiz;
+      quizSink.add(ApiResponse.completed(quiz));
+    } catch (e) {
+      quizSink.add(ApiResponse.error(e.toString()));
+      print(e);
+    }
+  }
+
   dispose() {
     _quizListController.close();
     _quizAttemptListController.close();
+    _quizController.close();
   }
 }
