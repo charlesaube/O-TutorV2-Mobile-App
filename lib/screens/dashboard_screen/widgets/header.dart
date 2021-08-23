@@ -12,87 +12,94 @@ class Header extends StatefulWidget {
 
   Header(this._user);
 
-
   @override
   _HeaderState createState() => _HeaderState();
 }
 
-class _HeaderState extends State<Header> {
+class _HeaderState extends State<Header> with TickerProviderStateMixin {
   late AuthenticationBloc? _bloc;
+
+  late AnimationController _animationController;
 
   @override
   void initState() {
+    _animationController = AnimationController(vsync: this, duration: Duration(seconds: 1));
+    _animationController.forward();
     super.initState();
     _bloc = AuthenticationBloc();
   }
 
   //Retourne une image par défault si l'image est null
-  String fetchProfilPicture(){
-    if(widget._user.profileImage != null)
-      {
-        return widget._user.profileImage;
-      }
+  String fetchProfilPicture() {
+    if (widget._user.profileImage != null) {
+      return widget._user.profileImage;
+    }
     return 'assets/defaultAvatar.png';
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 50, right: 17, left: 17, bottom: 20),
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(
-          "Bonjour " + widget._user.firstName ,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-        ),
-
-        InkWell(
-          onTap: () => showDialog<String>(
-            context: context,
-            builder: (BuildContext context) => CupertinoAlertDialog(
-              title: Text(AppLocalizations.of(context)!.translate('Logout').toString()),
-              content: Text(AppLocalizations.of(context)!.translate('Confirmation Logout').toString()),
-              actions: <Widget>[
-                StreamBuilder<ApiResponse<String>>(
-                    stream: _bloc!.authStream,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        switch (snapshot.data!.status) {
-                          case Status.COMPLETED:
-                            SchedulerBinding.instance!.addPostFrameCallback((_) {
-                              Navigator.push(
-                                  context,
-                                  new MaterialPageRoute(
-                                      builder: (context) => WelcomePage()));
-                            });
-                            break;
+    return SlideTransition(
+      position: Tween<Offset>(
+        begin: const Offset(-1.5, 0),
+        end: Offset.zero,
+      ).animate(CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.elasticOut,
+      )),
+      child: Container(
+        margin: EdgeInsets.only(top: 50, right: 17, left: 17, bottom: 20),
+        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Text(
+            "Bonjour " + widget._user.firstName,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+          ),
+          InkWell(
+            onTap: () => showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => CupertinoAlertDialog(
+                title: Text(AppLocalizations.of(context)!.translate('Logout').toString()),
+                content: Text(AppLocalizations.of(context)!.translate('Confirmation Logout').toString()),
+                actions: <Widget>[
+                  StreamBuilder<ApiResponse<String>>(
+                      stream: _bloc!.authStream,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          switch (snapshot.data!.status) {
+                            case Status.COMPLETED:
+                              SchedulerBinding.instance!.addPostFrameCallback((_) {
+                                Navigator.push(context, new MaterialPageRoute(builder: (context) => WelcomePage()));
+                              });
+                              break;
+                          }
                         }
-                      }
-                      return Container();
-                    }),
-                TextButton(
-                  onPressed: () => Navigator.pop(context, 'Cancel'),
-                  child:  Text(AppLocalizations.of(context)!.translate('Cancel').toString()),
-                ),
-                TextButton(
-                  onPressed: () {
-                    _bloc!.logout();
-                  },
-                  child: Text(AppLocalizations.of(context)!.translate('Confirm').toString()),
-                ),
-              ],
+                        return Container();
+                      }),
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'Cancel'),
+                    child: Text(AppLocalizations.of(context)!.translate('Cancel').toString()),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      _bloc!.logout();
+                    },
+                    child: Text(AppLocalizations.of(context)!.translate('Confirm').toString()),
+                  ),
+                ],
+              ),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: Image.asset(
+                fetchProfilPicture(),
+                height: 50,
+                width: 50,
+                fit: BoxFit.fill,
+              ),
             ),
           ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(100),
-            child: Image.asset(
-            fetchProfilPicture(),
-              height: 50,
-              width: 50,
-              fit: BoxFit.fill,
-            ),
-          ),
-        ),
-      ]),
+        ]),
+      ),
     );
   }
 
@@ -100,5 +107,6 @@ class _HeaderState extends State<Header> {
   void dispose() {
     super.dispose();
     _bloc!.dispose();
+    _animationController.dispose();
   }
 }

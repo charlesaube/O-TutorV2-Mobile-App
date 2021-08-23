@@ -36,7 +36,7 @@ class WeaklyGoal extends StatelessWidget {
                     (fetchWeeklyGoal() * 100).toString() + "%",
                     style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                   ),
-                  progressColor: Colors.orangeAccent,
+                  progressColor: Color(0xffFF8F00),
                 ),
                 Text(
                   AppLocalizations.of(context)!.translate('Weekly Goal Sentence1').toString() +

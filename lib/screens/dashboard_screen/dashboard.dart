@@ -25,7 +25,7 @@ class DashboardPage extends StatefulWidget {
   }
 }
 
-class DashboardSate extends State<DashboardPage> {
+class DashboardSate extends State<DashboardPage> with TickerProviderStateMixin {
   StartupBloc? _bloc;
   final IStartupRepository _startupRepository = ServiceProvider().fetchStartupRepository();
   late Startup _startup;
