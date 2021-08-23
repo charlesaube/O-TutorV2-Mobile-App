@@ -72,7 +72,7 @@ class _DashboardQuizListState extends State<DashboardQuizList> {
                         return Material(
                           color: Colors.transparent,
                           child: InkWell(
-                            splashColor: Colors.lightBlue.shade300,
+                            splashColor: Colors.amber.shade800,
                             onTap: () {
                               Navigator.push(
                                   context,
