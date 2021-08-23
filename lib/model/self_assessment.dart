@@ -1,15 +1,17 @@
 import 'package:demo3/model/question.dart';
 
+import 'question_attempt.dart';
+
 class SelfAssessment {
   int id;
   int courseId;
-  List<Null> topics;
+  List<String> topics;
   String duration;
   String timelimit;
   bool isOver;
   int totalQuestions;
   int currentQuestionId;
-  List<Question> questionAttempts;
+  List<QuestionAttempt> questionAttempts;
   List<Question> questions;
 
   SelfAssessment(
@@ -24,53 +26,32 @@ class SelfAssessment {
       required this.questionAttempts,
       required this.questions});
 
-  // SelfAssessment.fromJson(Map<String, dynamic> json) {
-  //   id = json['id'];
-  //   courseId = json['course_id'];
-  //   if (json['topics'] != null) {
-  //     topics = new List<Null>();
-  //     json['topics'].forEach((v) {
-  //       topics.add(new Null.fromJson(v));
-  //     });
-  //   }
-  //   duration = json['duration'];
-  //   timelimit = json['timelimit'];
-  //   isOver = json['is_over'];
-  //   totalQuestions = json['total_questions'];
-  //   currentQuestionId = json['current_question_id'];
-  //   if (json['question_attempts'] != null) {
-  //     questionAttempts = new List<Null>();
-  //     json['question_attempts'].forEach((v) {
-  //       questionAttempts.add(new Null.fromJson(v));
-  //     });
-  //   }
-  //   if (json['questions'] != null) {
-  //     questions = new List<Null>();
-  //     json['questions'].forEach((v) {
-  //       questions.add(new Null.fromJson(v));
-  //     });
-  //   }
-  // }
+  factory SelfAssessment.fromJson(dynamic json) {
+    int id = json["id"];
+    dynamic courseId = json["course_id"];
+    dynamic topics = json["topics"];
+    dynamic duration = json["duration"];
+    dynamic timelimit = json["timelimit"];
+    dynamic isOver = json["is_over"];
+    dynamic totalQuestions = json["total_questions"];
+    dynamic currentQuestionId = json["current_question_id"];
 
-  // Map<String, dynamic> toJson() {
-  //   final Map<String, dynamic> data = new Map<String, dynamic>();
-  //   data['id'] = this.id;
-  //   data['course_id'] = this.courseId;
-  //   if (this.topics != null) {
-  //     data['topics'] = this.topics.map((v) => v.toJson()).toList();
-  //   }
-  //   data['duration'] = this.duration;
-  //   data['timelimit'] = this.timelimit;
-  //   data['is_over'] = this.isOver;
-  //   data['total_questions'] = this.totalQuestions;
-  //   data['current_question_id'] = this.currentQuestionId;
-  //   if (this.questionAttempts != null) {
-  //     data['question_attempts'] =
-  //         this.questionAttempts.map((v) => v.toJson()).toList();
-  //   }
-  //   if (this.questions != null) {
-  //     data['questions'] = this.questions.map((v) => v.toJson()).toList();
-  //   }
-  //   return data;
-  // }
+    var groupObjJson = json['question_attempts'] as List;
+    List<QuestionAttempt> questionAttempts =
+        List<QuestionAttempt>.from(groupObjJson.map((groupJson) => QuestionAttempt.fromJson(groupJson)));
+    groupObjJson = json['questions'] as List;
+    List<Question> questions = List<Question>.from(groupObjJson.map((groupJson) => Question.fromJson(groupJson)));
+
+    return SelfAssessment(
+        id: id,
+        courseId: courseId,
+        topics: topics,
+        duration: duration,
+        timelimit: timelimit,
+        isOver: isOver,
+        totalQuestions: totalQuestions,
+        currentQuestionId: currentQuestionId,
+        questionAttempts: questionAttempts,
+        questions: questions);
+  }
 }

@@ -1,21 +1,39 @@
 import 'package:demo3/custom_painter/bg_circles.dart';
 import 'package:demo3/localization/app_localizations.dart';
+import 'package:demo3/model/self_assessment.dart';
 import 'package:demo3/screens/dashboard_screen/widgets/header.dart';
 import 'package:demo3/screens/quiz/widget/header.dart';
-import 'package:demo3/screens/quiz_assigment/widgets/quiz_assessments_form.dart';
 import 'package:demo3/screens/welcome_screen/widgets/buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class QuizAssessmentsPage extends StatefulWidget {
+import 'bloc/self_assessments_bloc.dart';
+import 'self_assessment_process/self_assessment.dart';
+import 'widgets/quiz_assessments_form.dart';
+
+class CreateSelfAssessmentsPage extends StatefulWidget {
   @override
-  QuizAssessmentState createState() {
-    return QuizAssessmentState();
+  _CreateSelfAssessmentsState createState() {
+    return _CreateSelfAssessmentsState();
   }
 }
 
-class QuizAssessmentState extends State<QuizAssessmentsPage> {
+class _CreateSelfAssessmentsState extends State<CreateSelfAssessmentsPage> {
   double _currentSliderValue = 0;
+
+  SelfAssessmentBloc? _bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc = SelfAssessmentBloc();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _bloc!.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +74,21 @@ class QuizAssessmentState extends State<QuizAssessmentsPage> {
                       ),
                     ),
                     Spacer(),
-                    LoginButton(onPressed: () {}, text: AppLocalizations.of(context)!.translate("Start").toString()),
+                    LoginButton(
+                        onPressed: () {
+                          _bloc!.createSelfAssessments(1, [3, 54, 6], "10:00", 3);
+                          SelfAssessment? sa;
+                          _bloc!.selfAssessmentStream.listen((value) {
+                            sa = value.data;
+                          });
+
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SelfAssessmentPage(selfAssessment: sa!),
+                              ));
+                        },
+                        text: AppLocalizations.of(context)!.translate("Start").toString()),
                     Spacer(),
                   ],
                 ),
