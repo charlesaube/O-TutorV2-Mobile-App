@@ -90,11 +90,11 @@ class _DashboardQuizListState extends State<DashboardQuizList> {
                                 children: <Widget>[
                                   Text(
                                     _quizAttempts[index].id.toString() + " (" + ")",
-                                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white),
+                                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black),
                                   ),
                                   Icon(
                                     Icons.navigate_next,
-                                    color: Colors.white,
+                                    color: Colors.black,
                                   ),
                                 ],
                               ),

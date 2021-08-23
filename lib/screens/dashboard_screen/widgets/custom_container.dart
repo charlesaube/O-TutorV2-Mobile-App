@@ -8,14 +8,13 @@ class CustomContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       margin: EdgeInsets.all(15),
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height/5,
-
+      height: MediaQuery.of(context).size.height / 5,
       decoration: BoxDecoration(
-          color: Colors.lightBlue.shade200,
+        border: Border.all(color: Color(0xffFF8F00), width: 2.5),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
@@ -27,7 +26,6 @@ class CustomContainer extends StatelessWidget {
         ],
       ),
       child: _child,
-
     );
   }
 }

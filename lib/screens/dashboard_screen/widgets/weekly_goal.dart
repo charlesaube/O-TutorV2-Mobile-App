@@ -21,9 +21,7 @@ class WeaklyGoal extends StatelessWidget {
     return CustomContainer(
       Stack(
         children: <Widget>[
-          DashboardTitle(AppLocalizations.of(context)!
-              .translate('Weekly Goal')
-              .toString()),
+          DashboardTitle(AppLocalizations.of(context)!.translate('Weekly Goal').toString()),
           Container(
             margin: EdgeInsets.only(top: 45, right: 15, left: 15),
             child: Row(
@@ -36,25 +34,17 @@ class WeaklyGoal extends StatelessWidget {
                   backgroundColor: Colors.lightBlue.shade500,
                   center: new Text(
                     (fetchWeeklyGoal() * 100).toString() + "%",
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                   ),
                   progressColor: Colors.orangeAccent,
                 ),
                 Text(
-                  AppLocalizations.of(context)!
-                          .translate('Weekly Goal Sentence1')
-                          .toString() +
+                  AppLocalizations.of(context)!.translate('Weekly Goal Sentence1').toString() +
                       _user.weeklyGoalProgress.toString() +
                       " " +
-                      AppLocalizations.of(context)!
-                          .translate('Weekly Goal Sentence2')
-                          .toString() +
+                      AppLocalizations.of(context)!.translate('Weekly Goal Sentence2').toString() +
                       _user.weeklyGoal.toString(),
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold),
+                  style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
                 ),
               ],
             ),

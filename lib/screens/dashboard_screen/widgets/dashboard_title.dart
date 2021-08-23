@@ -8,12 +8,11 @@ class DashboardTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
         margin: EdgeInsets.all(10),
         child: Text(
-      _text,
-      style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold, color: Colors.white),
-    ));
+          _text,
+          style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold, color: Colors.black),
+        ));
   }
 }
