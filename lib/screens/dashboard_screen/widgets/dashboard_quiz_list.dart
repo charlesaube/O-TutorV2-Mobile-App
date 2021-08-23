@@ -16,11 +16,9 @@ class DashboardQuizList extends StatefulWidget {
 }
 
 class _DashboardQuizListState extends State<DashboardQuizList> {
-  final List<String> litems = ["Algèbre 1", "Trigonométrie", "Physique Quantique", "4", "5"];
   BrowseQuizBloc? _bloc;
   late List<QuizAttempt> _quizAttempts;
   final bool isHover = false;
-  late String quizTitle = "";
 
   @override
   void initState() {
@@ -35,17 +33,8 @@ class _DashboardQuizListState extends State<DashboardQuizList> {
         qa.remove(element);
       }
     });
-    return qa;
-  }
 
-  Future<String> getQuizTitle(int quizId) async {
-    String quizName = "Error";
-    _bloc!.fetchQuizById(quizId);
-    _bloc!.quizStream.listen((event) {
-      quizTitle = event.data.quizTitle;
-    });
-    print(quizName);
-    return quizName;
+    return qa;
   }
 
   @override
@@ -94,7 +83,7 @@ class _DashboardQuizListState extends State<DashboardQuizList> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
-                                    quizTitle + " (" + ")",
+                                    _quizAttempts[index].id.toString() + " (" + ")",
                                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white),
                                   ),
                                   Icon(
