@@ -87,8 +87,9 @@ class DashboardSate extends State<DashboardPage> {
                                               CustomContainer(
                                                 Stack(
                                                   children: <Widget>[
-                                                    DashboardTitle(
-                                                        AppLocalizations.of(context)!.translate('Quizzes').toString()),
+                                                    DashboardTitle(AppLocalizations.of(context)!
+                                                        .translate('Unfinished Quizzes')
+                                                        .toString()),
                                                     Positioned(
                                                         top: 50.0,
                                                         left: 0,
