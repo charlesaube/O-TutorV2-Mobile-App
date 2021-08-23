@@ -20,6 +20,7 @@ class _DashboardQuizListState extends State<DashboardQuizList> {
   BrowseQuizBloc? _bloc;
   late List<QuizAttempt> _quizAttempts;
   final bool isHover = false;
+  late String quizTitle = "";
 
   @override
   void initState() {
@@ -35,6 +36,16 @@ class _DashboardQuizListState extends State<DashboardQuizList> {
       }
     });
     return qa;
+  }
+
+  Future<String> getQuizTitle(int quizId) async {
+    String quizName = "Error";
+    _bloc!.fetchQuizById(quizId);
+    _bloc!.quizStream.listen((event) {
+      quizTitle = event.data.quizTitle;
+    });
+    print(quizName);
+    return quizName;
   }
 
   @override
@@ -83,7 +94,7 @@ class _DashboardQuizListState extends State<DashboardQuizList> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
-                                    _quizAttempts[index].quizId.toString() + " (" + ")",
+                                    quizTitle + " (" + ")",
                                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white),
                                   ),
                                   Icon(
