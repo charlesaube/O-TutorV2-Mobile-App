@@ -190,7 +190,8 @@ class _QuizAttemptDetailsPageState extends State<QuizAttemptDetailsPage> {
                                               ),
                                             ],
                                           ),
-                                        )
+                                        ),
+                                        Spacer(),
                                       ],
                                     ),
                                   ),
