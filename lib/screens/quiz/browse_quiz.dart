@@ -56,13 +56,16 @@ class _BrowseQuizPageState extends State<BrowseQuizPage> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          bottom: const TabBar(
+          bottom: TabBar(
+            labelStyle: TextStyle(fontSize: 18),
             indicatorColor: Colors.lightBlueAccent,
             indicatorWeight: 3,
             tabs: [
-              Tab(text: "New Quiz"),
               Tab(
-                text: "Quiz Attempt",
+                text: AppLocalizations.of(context)!.translate("New Quiz").toString(),
+              ),
+              Tab(
+                text: AppLocalizations.of(context)!.translate("Quiz Attempt").toString(),
               ),
             ],
           ),
