@@ -8,25 +8,29 @@ class LoginButton extends StatelessWidget {
   final VoidCallback _callback;
   final String _text;
 
-  LoginButton({
-    required VoidCallback onPressed,
-    required String text
-  }) : this._callback = onPressed, this._text = text;
+  LoginButton({required VoidCallback onPressed, required String text})
+      : this._callback = onPressed,
+        this._text = text;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: TextButton(
-      onPressed: _callback,
-      child: Ink(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-              stops: [0.1, 0.8, 0.9],
-              colors: [Color(0xffff5050), Colors.orange, Colors.orangeAccent],
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
-            ),
-            borderRadius: BorderRadius.circular(30.0)),
+        child: Ink(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+            stops: [0.1, 0.8, 0.9],
+            colors: [Color(0xffff5050), Colors.orange, Colors.orangeAccent],
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
+          ),
+          borderRadius: BorderRadius.circular(30.0)),
+      child: InkWell(
+        customBorder: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        splashColor: Colors.deepOrangeAccent,
+        highlightColor: Colors.transparent,
+        onTap: _callback,
         child: Container(
           constraints: BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
           alignment: Alignment.center,
@@ -48,8 +52,7 @@ class SignupButton extends StatelessWidget {
       child: UnicornOutlineButton(
         strokeWidth: 2,
         radius: 24,
-        gradient: LinearGradient(
-            colors: [Color(0xffff5050), Colors.orange, Colors.orangeAccent]),
+        gradient: LinearGradient(colors: [Color(0xffff5050), Colors.orange, Colors.orangeAccent]),
         child: Text(AppLocalizations.of(context)!.translate('Sign up').toString(), style: TextStyle(fontSize: 13)),
         onPressed: () {
           Navigator.push(
