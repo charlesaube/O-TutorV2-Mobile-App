@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:demo3/model/question.dart';
 
 import 'question_attempt.dart';
@@ -58,4 +60,15 @@ class SelfAssessment {
         questionAttempts: questionAttempts,
         questions: questions);
   }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'course_id:': courseId,
+        'topics:': topics,
+        'duration': duration,
+        'is_over': isOver,
+        'total_questions': totalQuestions,
+        'current_question_id': currentQuestionId,
+        'question_attempts': jsonEncode(questionAttempts),
+      };
 }

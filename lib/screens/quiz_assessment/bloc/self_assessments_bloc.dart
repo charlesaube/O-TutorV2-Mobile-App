@@ -45,6 +45,18 @@ class SelfAssessmentBloc {
     return selfAssessment;
   }
 
+  saveSelfAssessments(SelfAssessment selfAssessment) async {
+    selfAssessmentSink.add(ApiResponse.loading('Saving'));
+    var response;
+    try {
+      response = await _selfAssessmentRepository.saveSelfAssesment(selfAssessment);
+      selfAssessmentSink.add(ApiResponse.completed(selfAssessment));
+    } catch (e) {
+      selfAssessmentSink.add(ApiResponse.error(e.toString()));
+      print(e);
+    }
+  }
+
   dispose() {
     _selfAssessmentController.close();
   }

@@ -19,6 +19,7 @@ import 'package:demo3/custom_painter/bg_circles.dart';
 import 'package:demo3/screens/quiz/quiz_process/widgets/score_details.dart';
 import 'package:demo3/screens/quiz/quiz_process/widgets/short_answer.dart';
 import 'package:demo3/screens/quiz/quiz_process/widgets/timer_ended_dialog.dart';
+import 'package:demo3/screens/quiz_assessment/bloc/self_assessments_bloc.dart';
 import 'package:demo3/screens/util/error_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,11 +30,12 @@ class SelfAssessmentPage extends StatefulWidget {
   //Quiz en cours
   final SelfAssessment selfAssessment;
 
-  late QuizAttempt _quizAttempt;
   //Liste des questions du quiz en cours
   List<Question> _questions = [];
 
-  SelfAssessmentPage({Key? key, required this.selfAssessment}) : super(key: key);
+  SelfAssessmentPage({Key? key, required this.selfAssessment}) : super(key: key) {
+    this._questions = this.selfAssessment.questions;
+  }
 
   @override
   _SelfAssessmentState createState() {
@@ -42,7 +44,7 @@ class SelfAssessmentPage extends StatefulWidget {
 }
 
 class _SelfAssessmentState extends State<SelfAssessmentPage> {
-  QuizAttemptBloc? _bloc;
+  SelfAssessmentBloc? _bloc;
   CountDownController _timerController = CountDownController();
 
   @override
@@ -51,14 +53,11 @@ class _SelfAssessmentState extends State<SelfAssessmentPage> {
   @override
   void initState() {
     super.initState();
-    _bloc = QuizAttemptBloc();
-    _bloc!.createQuizAttempt(widget.selfAssessment.id);
+    _bloc = SelfAssessmentBloc();
   }
 
   void refresh() {
-    setState(() {
-      _bloc!.createQuizAttempt(widget.selfAssessment.id);
-    });
+    setState(() {});
   }
 
   //Réponse de la question en cours
@@ -69,8 +68,8 @@ class _SelfAssessmentState extends State<SelfAssessmentPage> {
   //Retourne le temps écoulés depuis la derniere question répondu
   int _getElapsedTime() {
     int lastTimeAnswered = Duration(
-            minutes: int.parse(widget._quizAttempt.duration.substring(0, 2)),
-            seconds: int.parse(widget._quizAttempt.duration.substring(3, 5)))
+            minutes: int.parse(widget.selfAssessment.duration.substring(0, 2)),
+            seconds: int.parse(widget.selfAssessment.duration.substring(3, 5)))
         .inSeconds;
 
     int currentTime = Duration(
@@ -100,13 +99,13 @@ class _SelfAssessmentState extends State<SelfAssessmentPage> {
       obtainedMark = currentQuestion.weight;
     }
     //Ajout de la réponse a la liste de réponse choisie
-    widget._quizAttempt.questionAttempts
+    widget.selfAssessment.questionAttempts
         .add(QuestionAttempt(currentQuestion.questionId, 1, obtainedMark, _isTrue, _getElapsedTime(), type, _answer));
 
-    widget._quizAttempt.currentQuestionId = currentQuestion.questionId;
-    widget._quizAttempt.duration = _timerController.getTime(); //Mise a jour de la durée restante
+    widget.selfAssessment.currentQuestionId = currentQuestion.questionId;
+    widget.selfAssessment.duration = _timerController.getTime(); //Mise a jour de la durée restante
 
-    print(widget._quizAttempt);
+    print(widget.selfAssessment);
 
     _answer = "";
     _isTrue = false;
@@ -156,8 +155,8 @@ class _SelfAssessmentState extends State<SelfAssessmentPage> {
   }
 
   //Méthod appeler lorsque l'utilisateur souhaite quitter et sauvegarder le quiz
-  void saveQuizAttempt() {
-    _bloc!.saveQuizAttempt(widget._quizAttempt);
+  void saveSelfAssessment() {
+    _bloc!.saveSelfAssessments(widget.selfAssessment);
   }
 
   @override
@@ -179,147 +178,117 @@ class _SelfAssessmentState extends State<SelfAssessmentPage> {
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height,
-                child: StreamBuilder<ApiResponse<QuizAttempt>>(
-                    stream: _bloc!.quizAttemptStream,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        switch (snapshot.data!.status) {
-                          case Status.LOADING:
-                            return Container(
-                              child: SpinKitDoubleBounce(color: Colors.lightBlue.shade100),
-                            );
-                          case Status.COMPLETED:
-                            widget._quizAttempt = snapshot.data!.data;
-                            widget._questions = snapshot.data!.data.questions;
-                            /*if (widget._quizAttempt.currentQuestionId != 0) {
-                            //Cherche le bon index de la question si le quiz avait deja commencer.
-
-                            _questionIndex = widget._questions
-                                .indexWhere((q) => q.questionId == widget._quizAttempt.currentQuestionId);
-                            print("Starting Index set to: " + _questionIndex.toString());
-                            _indexIsSet = true;
-                          }*/
-                            return Column(
+                child: Column(
+                  children: [
+                    if (_questionIndex < widget._questions.length)
+                      Container(
+                        padding: EdgeInsets.only(top: 10),
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        child: Column(
+                          children: <Widget>[
+                            Stack(
                               children: [
-                                if (_questionIndex < widget._questions.length)
-                                  Container(
-                                    padding: EdgeInsets.only(top: 10),
-                                    width: MediaQuery.of(context).size.width,
-                                    height: MediaQuery.of(context).size.height,
-                                    child: Column(
-                                      children: <Widget>[
-                                        Stack(
-                                          children: [
-                                            Align(
-                                              //Countdown timer
+                                Align(
+                                  //Countdown timer
 
-                                              child: CircularCountDownTimer(
-                                                duration: Duration(
-                                                        minutes:
-                                                            int.parse(widget._quizAttempt.duration.substring(0, 2)),
-                                                        seconds:
-                                                            int.parse(widget._quizAttempt.duration.substring(3, 5)))
-                                                    .inSeconds,
-                                                initialDuration: 0,
-                                                controller: _timerController,
-                                                width: MediaQuery.of(context).size.width / 7,
-                                                height: MediaQuery.of(context).size.height / 7,
-                                                ringColor: Colors.transparent,
-                                                ringGradient: null,
-                                                fillColor: Colors.orange,
-                                                fillGradient: null,
-                                                backgroundColor: null,
-                                                backgroundGradient: null,
-                                                strokeWidth: 3.0,
-                                                strokeCap: StrokeCap.round,
-                                                textStyle: TextStyle(
-                                                    fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
-                                                textFormat: CountdownTextFormat.MM_SS,
-                                                isReverse: true,
-                                                isReverseAnimation: true,
-                                                isTimerTextShown: true,
-                                                autoStart: true,
-                                                onStart: () {
-                                                  print('Quiz Started');
-                                                },
-                                                onComplete: () {
-                                                  _answerQuestion();
-                                                  _questionIndex = widget._questions.length + 1;
-                                                  TimerEndedDialog.showMyDialog(context);
-                                                },
-                                              ),
-                                            ),
-                                            Align(
-                                              alignment: Alignment.bottomRight,
-                                              child: IconButton(
-                                                padding: EdgeInsets.only(top: 40, right: 20),
-                                                onPressed: () {
-                                                  var popupDialog = ExitQuizDialog(context, saveQuizAttempt);
-                                                  popupDialog.showMyDialog();
-                                                },
-                                                icon: Icon(
-                                                  Icons.close,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Container(
-                                          child: Column(
-                                            children: <Widget>[
-                                              QuizCard(questions: widget._questions, questionIndex: _questionIndex),
-                                              //Affichage varie selon type de question
-                                              //Choix de Réponse ------------------------------
-                                              if (widget._questions[_questionIndex].multipleAnswers!.isNotEmpty)
-                                                MultipleChoice(
-                                                    question: widget._questions[_questionIndex],
-                                                    setAnswerCallback: _setQuestionAnswer),
-                                              //Réponse Courte ------------------------------
-                                              if (widget._questions[_questionIndex].shortAnswers!.isNotEmpty)
-                                                ShortAnswerWidget(
-                                                  setAnswerCallback: _setShortAnswer,
-                                                ),
-                                            ],
-                                          ),
-                                        ),
-
-                                        Spacer(),
-                                        // Bouton suivant
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.lightBlue,
-                                            borderRadius: BorderRadius.all(Radius.circular(90)),
-                                          ),
-                                          margin: EdgeInsets.all(40),
-                                          padding: EdgeInsets.only(left: 40, right: 40),
-                                          child: AnswerDetailsButton(
-                                            onPressed: () {
-                                              _answerQuestion();
-                                              Navigator.pop(context);
-                                            },
-                                            answerText: _answer,
-                                            isTrue: _isTrue,
-                                          ),
-                                        ),
-                                        Spacer(flex: 3),
-                                      ],
+                                  child: CircularCountDownTimer(
+                                    duration: Duration(
+                                            minutes: int.parse(widget.selfAssessment.duration.substring(0, 2)),
+                                            seconds: int.parse(widget.selfAssessment.duration.substring(3, 5)))
+                                        .inSeconds,
+                                    initialDuration: 0,
+                                    controller: _timerController,
+                                    width: MediaQuery.of(context).size.width / 7,
+                                    height: MediaQuery.of(context).size.height / 7,
+                                    ringColor: Colors.transparent,
+                                    ringGradient: null,
+                                    fillColor: Colors.orange,
+                                    fillGradient: null,
+                                    backgroundColor: null,
+                                    backgroundGradient: null,
+                                    strokeWidth: 3.0,
+                                    strokeCap: StrokeCap.round,
+                                    textStyle:
+                                        TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
+                                    textFormat: CountdownTextFormat.MM_SS,
+                                    isReverse: true,
+                                    isReverseAnimation: true,
+                                    isTimerTextShown: true,
+                                    autoStart: true,
+                                    onStart: () {
+                                      print('Quiz Started');
+                                    },
+                                    onComplete: () {
+                                      _answerQuestion();
+                                      _questionIndex = widget._questions.length + 1;
+                                      TimerEndedDialog.showMyDialog(context);
+                                    },
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: IconButton(
+                                    padding: EdgeInsets.only(top: 40, right: 20),
+                                    onPressed: () {
+                                      var popupDialog = ExitQuizDialog(context, saveSelfAssessment);
+                                      popupDialog.showMyDialog();
+                                    },
+                                    icon: Icon(
+                                      Icons.close,
+                                      color: Colors.white,
                                     ),
                                   ),
-                                if (_questionIndex >= widget._questions.length)
-                                  ScoreDetails(
-                                    quizAttempt: widget._quizAttempt,
-                                  ),
+                                ),
                               ],
-                            );
-                            break;
-                          case Status.ERROR:
-                            return ErrorPopUp(snapshot, refresh);
-                            break;
-                        }
-                      }
-                      return Text("No data");
-                    }),
+                            ),
+                            Container(
+                              child: Column(
+                                children: <Widget>[
+                                  QuizCard(questions: widget._questions, questionIndex: _questionIndex),
+                                  //Affichage varie selon type de question
+                                  //Choix de Réponse ------------------------------
+                                  if (widget._questions[_questionIndex].multipleAnswers!.isNotEmpty)
+                                    MultipleChoice(
+                                        question: widget._questions[_questionIndex],
+                                        setAnswerCallback: _setQuestionAnswer),
+                                  //Réponse Courte ------------------------------
+                                  if (widget._questions[_questionIndex].shortAnswers!.isNotEmpty)
+                                    ShortAnswerWidget(
+                                      setAnswerCallback: _setShortAnswer,
+                                    ),
+                                ],
+                              ),
+                            ),
+
+                            Spacer(),
+                            // Bouton suivant
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.lightBlue,
+                                borderRadius: BorderRadius.all(Radius.circular(90)),
+                              ),
+                              margin: EdgeInsets.all(40),
+                              padding: EdgeInsets.only(left: 40, right: 40),
+                              child: AnswerDetailsButton(
+                                onPressed: () {
+                                  _answerQuestion();
+                                  Navigator.pop(context);
+                                },
+                                answerText: _answer,
+                                isTrue: _isTrue,
+                              ),
+                            ),
+                            Spacer(flex: 3),
+                          ],
+                        ),
+                      ),
+                    // if (_questionIndex >= widget._questions.length)
+                    //   ScoreDetails(
+                    //     quizAttempt: widget._quizAttempt!,
+                    //   ),
+                  ],
+                ),
               ),
             ],
           ),
