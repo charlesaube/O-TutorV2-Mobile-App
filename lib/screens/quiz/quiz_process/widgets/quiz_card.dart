@@ -1,6 +1,7 @@
 import 'package:demo3/model/question.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class QuizCard extends StatelessWidget {
   final int questionIndex;
@@ -18,7 +19,7 @@ class QuizCard extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(13))),
       child: Container(
         width: MediaQuery.of(context).size.width / 1.1,
-        height: MediaQuery.of(context).size.width / 3,
+        height: MediaQuery.of(context).size.height / 4,
         padding: EdgeInsets.all(30),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -37,9 +38,14 @@ class QuizCard extends StatelessWidget {
                 Text(questions[questionIndex].weight.toString() + " pts", style: TextStyle(color: Colors.lightGreen)),
               ],
             ),
-            Spacer(),
-            Text(questions[questionIndex].content, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w400)),
-            Spacer(),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Html(
+                  shrinkWrap: true,
+                  data: questions[questionIndex].content,
+                ),
+              ),
+            )
           ],
         ),
       ),

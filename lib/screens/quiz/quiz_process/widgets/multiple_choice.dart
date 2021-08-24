@@ -2,6 +2,7 @@ import 'package:demo3/model/answer.dart';
 import 'package:demo3/model/question.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 typedef void VoidCallback(Answer newAnswer);
 
@@ -28,7 +29,7 @@ class _MultipleChoiceState extends State<MultipleChoice> {
         controller: _scrollController,
         isAlwaysShown: true,
         radius: Radius.circular(20),
-        thumbColor: Color(0xff03C3FF),
+        thumbColor: Colors.orange,
         thickness: 4,
         child: ShaderMask(
           shaderCallback: (Rect rect) {
@@ -53,7 +54,9 @@ class _MultipleChoiceState extends State<MultipleChoice> {
               if (index == _clicked) _colorContainer = Colors.orange;
 
               return Container(
-                height: 50,
+                height: this.widget.question.multipleAnswers![index].answer.length <= 40
+                    ? 50
+                    : this.widget.question.multipleAnswers![index].answer.length * 0.7,
                 margin: EdgeInsets.all(15),
                 child: Card(
                   shape: RoundedRectangleBorder(
@@ -70,14 +73,14 @@ class _MultipleChoiceState extends State<MultipleChoice> {
                       widget.setAnswerCallback(this.widget.question.multipleAnswers![index]);
                     },
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
-                        Text(
-                          this.widget.question.multipleAnswers![index].answer,
-                          style: TextStyle(
-                            fontSize: 15,
+                        Expanded(
+                          child: Html(
+                            shrinkWrap: true,
+                            data: this.widget.question.multipleAnswers![index].answer,
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ),
