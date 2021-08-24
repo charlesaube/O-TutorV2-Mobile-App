@@ -283,10 +283,10 @@ class _SelfAssessmentState extends State<SelfAssessmentPage> {
                           ],
                         ),
                       ),
-                    // if (_questionIndex >= widget._questions.length)
-                    //   ScoreDetails(
-                    //     quizAttempt: widget._quizAttempt!,
-                    //   ),
+                    if (_questionIndex >= widget._questions.length)
+                      ScoreDetails(
+                        quizAttempt: widget.selfAssessment.convertToQuizAttempt(),
+                      ),
                   ],
                 ),
               ),

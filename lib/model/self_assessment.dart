@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:demo3/model/question.dart';
+import 'package:demo3/model/quiz_attempt.dart';
 
 import 'question_attempt.dart';
 
@@ -71,4 +72,18 @@ class SelfAssessment {
         'current_question_id': currentQuestionId,
         'question_attempts': jsonEncode(questionAttempts),
       };
+
+  QuizAttempt convertToQuizAttempt() {
+    QuizAttempt qa = QuizAttempt(
+        id: id,
+        quizId: 0,
+        duration: duration,
+        isOver: isOver,
+        currentQuestionId: currentQuestionId,
+        questionsOrder: [],
+        questionAttempts: questionAttempts,
+        questions: questions);
+
+    return qa;
+  }
 }

@@ -279,7 +279,11 @@ class _ScoreDetailsState extends State<ScoreDetails> {
                         ),
                         child: TextButton(
                           onPressed: () {
-                            _bloc!.saveQuizAttempt(widget._quizAttempt);
+                            if (widget._quizAttempt.quizId != 0) {
+                              _bloc!.saveQuizAttempt(widget._quizAttempt);
+                            } else {
+                              Navigator.pop(context);
+                            }
                           },
                           child: Text(
                             "Submit",
