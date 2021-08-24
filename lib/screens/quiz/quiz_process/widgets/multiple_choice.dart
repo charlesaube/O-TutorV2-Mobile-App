@@ -30,50 +30,61 @@ class _MultipleChoiceState extends State<MultipleChoice> {
         radius: Radius.circular(20),
         thumbColor: Color(0xff03C3FF),
         thickness: 4,
-        child: ListView.builder(
-          controller: _scrollController,
-          itemCount: this.widget.question.multipleAnswers!.length,
-          itemBuilder: (
-            BuildContext context,
-            int index,
-          ) {
-            //Change la couleur du container ClickÃ© ------------------------
-            print(_clicked);
-            _colorContainer = Colors.grey.shade200;
-            if (index == _clicked) _colorContainer = Colors.orange;
+        child: ShaderMask(
+          shaderCallback: (Rect rect) {
+            return LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Colors.purple, Colors.transparent, Colors.transparent, Colors.purple],
+              stops: [0.0, 0.1, 0.95, 1.0], // 10% purple, 80% transparent, 10% purple
+            ).createShader(rect);
+          },
+          blendMode: BlendMode.dstOut,
+          child: ListView.builder(
+            controller: _scrollController,
+            itemCount: this.widget.question.multipleAnswers!.length,
+            itemBuilder: (
+              BuildContext context,
+              int index,
+            ) {
+              //Change la couleur du container ClickÃ© ------------------------
+              print(_clicked);
+              _colorContainer = Colors.grey.shade200;
+              if (index == _clicked) _colorContainer = Colors.orange;
 
-            return Container(
-              height: 50,
-              margin: EdgeInsets.all(15),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(color: _colorContainer, width: 3),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                elevation: 6,
-                child: InkWell(
-                  splashColor: Colors.lightBlue.withAlpha(50),
-                  onTap: () {
-                    setState(() {
-                      _clicked = index;
-                    });
-                    widget.setAnswerCallback(this.widget.question.multipleAnswers![index]);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        this.widget.question.multipleAnswers![index].answer,
-                        style: TextStyle(
-                          fontSize: 15,
+              return Container(
+                height: 50,
+                margin: EdgeInsets.all(15),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: _colorContainer, width: 3),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  elevation: 6,
+                  child: InkWell(
+                    splashColor: Colors.lightBlue.withAlpha(50),
+                    onTap: () {
+                      setState(() {
+                        _clicked = index;
+                      });
+                      widget.setAnswerCallback(this.widget.question.multipleAnswers![index]);
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          this.widget.question.multipleAnswers![index].answer,
+                          style: TextStyle(
+                            fontSize: 15,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );
