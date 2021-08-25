@@ -30,14 +30,15 @@ class QuizPage extends StatefulWidget {
   final Quiz quiz;
   final bool isAlreadyStarted;
   QuizAttempt? quizAttempt;
-  late final isTimed; //Peut etre null, utilisé si le quiz attempt est deja commencer
+  late double opacity = 100; //Peut etre null, utilisé si le quiz attempt est deja commencer
 
   //Liste des questions du quiz en cours
   List<Question> _questions = [];
 
   QuizPage({Key? key, required this.quiz, required this.isAlreadyStarted, this.quizAttempt}) : super(key: key) {
-    if (quiz.timelimit == 0) {
-      this.isTimed = false;
+    print("TimeLimite: " + quiz.timelimit);
+    if (quiz.timelimit == 10.toString()) {
+      this.opacity = 0;
     }
   }
 
@@ -236,42 +237,40 @@ class _QuizState extends State<QuizPage> {
                                             Align(
                                               //Countdown timer
 
-                                              child: CircularCountDownTimer(
-                                                duration: Duration(
-                                                        minutes: int.parse(_quizAttempt.duration.substring(0, 2)),
-                                                        seconds: int.parse(_quizAttempt.duration.substring(3, 5)))
-                                                    .inSeconds,
-                                                initialDuration: 0,
-                                                controller: _timerController,
-                                                width: MediaQuery.of(context).size.width / 10,
-                                                height: MediaQuery.of(context).size.height / 10,
-                                                ringColor: Colors.transparent,
-                                                ringGradient: null,
-                                                fillColor: Colors.orange,
-                                                fillGradient: null,
-                                                backgroundColor: null,
-                                                backgroundGradient: null,
-                                                strokeWidth: 3.0,
-                                                strokeCap: StrokeCap.round,
-                                                textStyle: TextStyle(
-                                                    fontSize: MediaQuery.of(context).size.height / 60,
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold),
-                                                textFormat: CountdownTextFormat.MM_SS,
-                                                isReverse: true,
-                                                isReverseAnimation: true,
-                                                isTimerTextShown: true,
-                                                autoStart: true,
-                                                onStart: () {
-                                                  print('Quiz Started');
-                                                },
-                                                onComplete: () {
-                                                  if (widget.isTimed) {
+                                              child: Opacity(
+                                                opacity: widget.opacity,
+                                                child: CircularCountDownTimer(
+                                                  duration: Duration(minutes: 10000, seconds: 1).inSeconds,
+                                                  initialDuration: 0,
+                                                  controller: _timerController,
+                                                  width: MediaQuery.of(context).size.width / 10,
+                                                  height: MediaQuery.of(context).size.height / 10,
+                                                  ringColor: Colors.transparent,
+                                                  ringGradient: null,
+                                                  fillColor: Colors.orange,
+                                                  fillGradient: null,
+                                                  backgroundColor: null,
+                                                  backgroundGradient: null,
+                                                  strokeWidth: 3.0,
+                                                  strokeCap: StrokeCap.round,
+                                                  textStyle: TextStyle(
+                                                      fontSize: MediaQuery.of(context).size.height / 60,
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.bold),
+                                                  textFormat: CountdownTextFormat.MM_SS,
+                                                  isReverse: true,
+                                                  isReverseAnimation: true,
+                                                  isTimerTextShown: true,
+                                                  autoStart: true,
+                                                  onStart: () {
+                                                    print('Quiz Started');
+                                                  },
+                                                  onComplete: () {
                                                     _answerQuestion();
                                                     _questionIndex = widget._questions.length + 1;
                                                     TimerEndedDialog.showMyDialog(context);
-                                                  }
-                                                },
+                                                  },
+                                                ),
                                               ),
                                             ),
                                             Align(
