@@ -2,6 +2,7 @@ import 'package:demo3/model/question.dart';
 import 'package:demo3/model/question_attempt.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class MultipleChoiceExplanation extends StatelessWidget {
   final Question question;
@@ -42,9 +43,8 @@ class MultipleChoiceExplanation extends StatelessWidget {
                 padding: EdgeInsets.all(30),
                 child: Align(
                   alignment: Alignment.center,
-                  child: Text(
-                    question.content,
-                    textAlign: TextAlign.center,
+                  child: Html(
+                    data: question.content,
                   ),
                 )),
           ),
@@ -80,11 +80,9 @@ class MultipleChoiceExplanation extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Text(
-                                this.question.multipleAnswers![index].answer,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                ),
+                              Html(
+                                shrinkWrap: true,
+                                data: this.question.multipleAnswers![index].answer,
                               ),
                             ],
                           ),
@@ -102,9 +100,9 @@ class MultipleChoiceExplanation extends StatelessWidget {
               decoration: BoxDecoration(border: Border.all(color: Colors.black)),
               child: Align(
                   alignment: Alignment.center,
-                  child: Text(
-                    question.explanation,
-                    textAlign: TextAlign.justify,
+                  child: Html(
+                    shrinkWrap: true,
+                    data: question.explanation,
                   )),
             ),
           )

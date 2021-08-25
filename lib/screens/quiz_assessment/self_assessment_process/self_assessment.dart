@@ -199,8 +199,8 @@ class _SelfAssessmentState extends State<SelfAssessmentPage> {
                                         .inSeconds,
                                     initialDuration: 0,
                                     controller: _timerController,
-                                    width: MediaQuery.of(context).size.width / 7,
-                                    height: MediaQuery.of(context).size.height / 7,
+                                    width: MediaQuery.of(context).size.width / 10,
+                                    height: MediaQuery.of(context).size.height / 10,
                                     ringColor: Colors.transparent,
                                     ringGradient: null,
                                     fillColor: Colors.orange,
@@ -209,8 +209,10 @@ class _SelfAssessmentState extends State<SelfAssessmentPage> {
                                     backgroundGradient: null,
                                     strokeWidth: 3.0,
                                     strokeCap: StrokeCap.round,
-                                    textStyle:
-                                        TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
+                                    textStyle: TextStyle(
+                                        fontSize: MediaQuery.of(context).size.height / 60,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
                                     textFormat: CountdownTextFormat.MM_SS,
                                     isReverse: true,
                                     isReverseAnimation: true,
