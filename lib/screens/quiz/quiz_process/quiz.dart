@@ -29,12 +29,17 @@ class QuizPage extends StatefulWidget {
   //Quiz en cours
   final Quiz quiz;
   final bool isAlreadyStarted;
-  QuizAttempt? quizAttempt; //Peut etre null, utilisé si le quiz attempt est deja commencer
+  QuizAttempt? quizAttempt;
+  late final isTimed; //Peut etre null, utilisé si le quiz attempt est deja commencer
 
   //Liste des questions du quiz en cours
   List<Question> _questions = [];
 
-  QuizPage({Key? key, required this.quiz, required this.isAlreadyStarted, this.quizAttempt}) : super(key: key);
+  QuizPage({Key? key, required this.quiz, required this.isAlreadyStarted, this.quizAttempt}) : super(key: key) {
+    if (quiz.timelimit == 0) {
+      this.isTimed = false;
+    }
+  }
 
   @override
   _QuizState createState() {
@@ -261,9 +266,11 @@ class _QuizState extends State<QuizPage> {
                                                   print('Quiz Started');
                                                 },
                                                 onComplete: () {
-                                                  _answerQuestion();
-                                                  _questionIndex = widget._questions.length + 1;
-                                                  TimerEndedDialog.showMyDialog(context);
+                                                  if (widget.isTimed) {
+                                                    _answerQuestion();
+                                                    _questionIndex = widget._questions.length + 1;
+                                                    TimerEndedDialog.showMyDialog(context);
+                                                  }
                                                 },
                                               ),
                                             ),

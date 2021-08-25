@@ -15,33 +15,33 @@ class LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: Ink(
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-            stops: [0.1, 0.8, 0.9],
-            colors: [Color(0xffff5050), Colors.orange, Colors.orangeAccent],
-            begin: Alignment.bottomLeft,
-            end: Alignment.topRight,
+      child: Material(
+        child: InkWell(
+          customBorder: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
           ),
-          borderRadius: BorderRadius.circular(30.0)),
-      child: InkWell(
-        customBorder: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
-        splashColor: Colors.deepOrangeAccent,
-        highlightColor: Colors.transparent,
-        onTap: _callback,
-        child: Container(
-          constraints: BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
-          alignment: Alignment.center,
-          child: Text(
-            _text,
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          splashColor: Colors.deepOrangeAccent,
+          onTap: _callback,
+          child: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  stops: [0.1, 0.8, 0.9],
+                  colors: [Color(0xffff5050), Colors.orange, Colors.orangeAccent],
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                ),
+                borderRadius: BorderRadius.circular(30.0)),
+            constraints: BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
+            alignment: Alignment.center,
+            child: Text(
+              _text,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
           ),
         ),
       ),
-    ));
+    );
   }
 }
 
