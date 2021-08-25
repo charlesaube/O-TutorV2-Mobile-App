@@ -3,6 +3,7 @@ import 'package:demo3/model/question.dart';
 import 'package:demo3/model/question_attempt.dart';
 import 'package:demo3/model/quiz_attempt.dart';
 import 'package:demo3/network/api_response.dart';
+import 'package:demo3/screens/navigation/navbar.dart';
 import 'package:demo3/screens/quiz/quiz_process/blocs/quiz_attempt_bloc.dart';
 import 'package:demo3/screens/quiz/question_explanation/question_explanation.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,8 +14,9 @@ class ScoreDetails extends StatefulWidget {
   late final List<QuestionAttempt> _questionAttempts;
   late final List<Question> _questions;
   final QuizAttempt _quizAttempt;
+  final VoidCallback callback;
 
-  ScoreDetails({required QuizAttempt quizAttempt}) : this._quizAttempt = quizAttempt {
+  ScoreDetails({required QuizAttempt quizAttempt, required this.callback}) : this._quizAttempt = quizAttempt {
     this._questionAttempts = quizAttempt.questionAttempts;
     this._questions = quizAttempt.questions;
     this._quizAttempt.isOver = true;
@@ -278,13 +280,7 @@ class _ScoreDetailsState extends State<ScoreDetails> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: TextButton(
-                          onPressed: () {
-                            if (widget._quizAttempt.quizId != 0) {
-                              _bloc!.saveQuizAttempt(widget._quizAttempt);
-                            } else {
-                              Navigator.pop(context);
-                            }
-                          },
+                          onPressed: widget.callback,
                           child: Text(
                             "Submit",
                             style: TextStyle(color: Color(0xff03C3FF), fontSize: 15, fontWeight: FontWeight.bold),

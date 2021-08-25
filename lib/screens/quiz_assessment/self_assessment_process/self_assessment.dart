@@ -159,6 +159,15 @@ class _SelfAssessmentState extends State<SelfAssessmentPage> {
     _bloc!.saveSelfAssessments(widget.selfAssessment);
   }
 
+  void submitCallBack() {
+    QuizAttemptBloc bloc = QuizAttemptBloc();
+    QuizAttempt qa = widget.selfAssessment.convertToQuizAttempt();
+    if (qa.quizId != 0) {
+      bloc.saveQuizAttempt(qa);
+    }
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -288,6 +297,7 @@ class _SelfAssessmentState extends State<SelfAssessmentPage> {
                     if (_questionIndex >= widget._questions.length)
                       ScoreDetails(
                         quizAttempt: widget.selfAssessment.convertToQuizAttempt(),
+                        callback: submitCallBack,
                       ),
                   ],
                 ),

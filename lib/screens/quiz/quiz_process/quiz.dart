@@ -7,6 +7,7 @@ import 'package:demo3/model/quiz.dart';
 import 'package:demo3/model/quiz_attempt.dart';
 import 'package:demo3/model/shortAnswer.dart';
 import 'package:demo3/network/api_response.dart';
+import 'package:demo3/screens/navigation/navbar.dart';
 import 'package:demo3/screens/quiz/quiz_process/blocs/question_bloc.dart';
 import 'package:demo3/screens/quiz/quiz_process/widgets/answer_details.dart';
 import 'package:demo3/screens/quiz/quiz_process/widgets/exit_quiz_dialog.dart';
@@ -184,6 +185,13 @@ class _QuizState extends State<QuizPage> {
     _bloc!.saveQuizAttempt(_quizAttempt);
   }
 
+  void submitCallBack() {
+    if (_quizAttempt.quizId != 0) {
+      _bloc!.saveQuizAttempt(_quizAttempt);
+    }
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -333,6 +341,7 @@ class _QuizState extends State<QuizPage> {
                                 if (_questionIndex >= widget._questions.length)
                                   ScoreDetails(
                                     quizAttempt: _quizAttempt,
+                                    callback: submitCallBack,
                                   ),
                               ],
                             );
