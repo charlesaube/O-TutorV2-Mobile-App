@@ -36,7 +36,9 @@ class QuestionExplanation extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Container(
-          decoration: BoxDecoration(border: Border.all(color: borderColor, width: 3)),
+          decoration: BoxDecoration(
+            border: Border.all(color: borderColor, width: 3),
+          ),
           child: Column(
             children: <Widget>[
               Align(

@@ -1,3 +1,4 @@
+import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/model/question.dart';
 import 'package:demo3/model/question_attempt.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,46 +8,55 @@ import 'package:flutter_html/flutter_html.dart';
 class MultipleChoiceExplanation extends StatelessWidget {
   final Question question;
   Color _colorContainer = Colors.blue;
+  Color _answerColor = Colors.red;
   final QuestionAttempt questionAttempt;
   int _clicked = -1;
   late final String titleText;
 
   MultipleChoiceExplanation({Key? key, required this.question, required this.questionAttempt}) : super(key: key) {
     if (questionAttempt.goodAnswer) {
-      this.titleText = "You've answered right!";
+      this.titleText = "Answer Right";
+      this._answerColor = Colors.green;
     } else {
-      this.titleText = "You've answered wrong";
+      this.titleText = "Answer Wrong";
+      this._answerColor = Colors.red;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 330,
+      width: MediaQuery.of(context).size.width / 1.1,
       height: MediaQuery.of(context).size.height / 1.1,
       child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 20.0),
             child: Text(
-              titleText,
-              style: TextStyle(fontSize: 20, color: Colors.green),
+              AppLocalizations.of(context)!.translate(titleText).toString(),
+              style: TextStyle(fontSize: 20, color: this._answerColor),
             ),
+          ),
+          Text(
+            "Énoncé",
+            style: TextStyle(fontSize: 15, color: Colors.orange),
+            textAlign: TextAlign.start,
           ),
           Card(
             elevation: 10,
-            margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+            margin: EdgeInsets.only(left: 10, right: 10, bottom: 5),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(13))),
             child: Container(
-                width: MediaQuery.of(context).size.width / 1.1,
-                height: MediaQuery.of(context).size.width / 3,
-                padding: EdgeInsets.all(30),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Html(
-                    data: question.content,
-                  ),
-                )),
+              width: MediaQuery.of(context).size.width / 1.1,
+              height: MediaQuery.of(context).size.height / 4,
+              padding: EdgeInsets.all(30),
+              child: SingleChildScrollView(
+                child: Html(
+                  shrinkWrap: true,
+                  data: question.content,
+                ),
+              ),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),
@@ -66,8 +76,9 @@ class MultipleChoiceExplanation extends StatelessWidget {
                       _colorContainer = Colors.grey.shade200;
                       if (question.multipleAnswers![index].isTrue) {
                         _colorContainer = Colors.green;
+                      } else if (question.multipleAnswers![index].answer == this.questionAttempt.answer) {
+                        _colorContainer = Colors.red;
                       }
-
                       return Container(
                         height: 50,
                         margin: EdgeInsets.all(15),
@@ -80,10 +91,12 @@ class MultipleChoiceExplanation extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Html(
-                                shrinkWrap: true,
-                                data: this.question.multipleAnswers![index].answer,
-                              ),
+                              Expanded(
+                                child: Html(
+                                  shrinkWrap: true,
+                                  data: this.question.multipleAnswers![index].answer,
+                                ),
+                              )
                             ],
                           ),
                         ),
@@ -94,16 +107,20 @@ class MultipleChoiceExplanation extends StatelessWidget {
               ),
             ),
           ),
+          Text(
+            "Explications",
+            style: TextStyle(fontSize: 15, color: Colors.orange),
+            textAlign: TextAlign.start,
+          ),
           Expanded(
             child: Container(
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-              child: Align(
-                  alignment: Alignment.center,
+              child: SingleChildScrollView(
                   child: Html(
-                    shrinkWrap: true,
-                    data: question.explanation,
-                  )),
+                shrinkWrap: true,
+                data: question.explanation,
+              )),
             ),
           )
         ],

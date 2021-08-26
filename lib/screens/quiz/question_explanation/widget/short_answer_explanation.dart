@@ -3,6 +3,7 @@ import 'package:demo3/model/question_attempt.dart';
 import 'package:demo3/model/quiz_attempt.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class ShortAnswerExplanation extends StatelessWidget {
   final QuizAttempt _quizAttempt;
@@ -49,9 +50,14 @@ class ShortAnswerExplanation extends StatelessWidget {
                       ),
                     ),
                     elevation: 10,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text(_question.content),
+                    child: SingleChildScrollView(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Html(
+                          data: _question.content,
+                          shrinkWrap: true,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -81,14 +87,12 @@ class ShortAnswerExplanation extends StatelessWidget {
               padding: const EdgeInsets.all(10.0),
               child: Align(
                 alignment: Alignment.center,
-                child: Text(
-                  _question.explanation,
-                  textAlign: TextAlign.justify,
-                  style: TextStyle(fontSize: 15),
+                child: Html(
+                  data: _question.explanation,
                 ),
               ),
             ),
-          ),
+          )
         ],
       ),
     );
