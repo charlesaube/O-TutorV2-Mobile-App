@@ -1,3 +1,4 @@
+import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/model/group.dart';
 import 'package:demo3/model/quiz.dart';
 import 'package:demo3/model/quiz_attempt.dart';
@@ -62,48 +63,57 @@ class _DashboardQuizListState extends State<DashboardQuizList> {
                     );
                   case Status.COMPLETED:
                     _quizAttempts = filterQuizAttempt(snapshot.data!.data);
-                    return ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      itemCount: _quizAttempts.length,
-                      itemBuilder: (
-                        BuildContext context,
-                        int index,
-                      ) {
-                        return Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            splashColor: Colors.amber.shade800,
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => QuizDetailsPage(
-                                            quiz: Quiz(2, "Quiz 2", "", "", "", "", "", "", "12:00", "", "",
-                                                "Complete this quiz as fast as possible", "", "", "", ""),
-                                          )));
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(left: 15, right: 15),
-                              height: 30,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text(
-                                    _quizAttempts[index].id.toString() + " (" + ")",
-                                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black),
-                                  ),
-                                  Icon(
-                                    Icons.navigate_next,
-                                    color: Colors.black,
-                                  ),
-                                ],
+                    if (!_quizAttempts.isNotEmpty) {
+                      return ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        itemCount: _quizAttempts.length,
+                        itemBuilder: (
+                          BuildContext context,
+                          int index,
+                        ) {
+                          return Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              splashColor: Colors.amber.shade800,
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => QuizDetailsPage(
+                                              quiz: Quiz(2, "Quiz 2", "", "", "", "", "", "", "12:00", "", "",
+                                                  "Complete this quiz as fast as possible", "", "", "", ""),
+                                            )));
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(left: 15, right: 15),
+                                height: 30,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      _quizAttempts[index].id.toString() + " (" + ")",
+                                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black),
+                                    ),
+                                    Icon(
+                                      Icons.navigate_next,
+                                      color: Colors.black,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      },
-                    );
-
+                          );
+                        },
+                      );
+                    } else {
+                      return Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          AppLocalizations.of(context)!.translate('No on going quizzes').toString(),
+                          style: TextStyle(fontSize: 18, color: Colors.grey.shade500, fontWeight: FontWeight.bold),
+                        ),
+                      );
+                    }
                     break;
 
                   case Status.ERROR:

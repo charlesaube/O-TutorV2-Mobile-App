@@ -30,8 +30,9 @@ class QuizPage extends StatefulWidget {
   //Quiz en cours
   final Quiz quiz;
   final bool isAlreadyStarted;
-  QuizAttempt? quizAttempt;
-  late double opacity = 100; //Peut etre null, utilisé si le quiz attempt est deja commencer
+  QuizAttempt? quizAttempt; //Peut etre null, utilisé si le quiz attempt est deja commencer
+  late double opacity = 1;
+  late bool isTimed = true;
 
   //Liste des questions du quiz en cours
   List<Question> _questions = [];
@@ -39,6 +40,7 @@ class QuizPage extends StatefulWidget {
   QuizPage({Key? key, required this.quiz, required this.isAlreadyStarted, this.quizAttempt}) : super(key: key) {
     print("TimeLimite: " + quiz.timelimit);
     if (quiz.timelimit == 10.toString()) {
+      isTimed = false;
       this.opacity = 0;
     }
   }
@@ -56,6 +58,8 @@ class _QuizState extends State<QuizPage> {
   CountDownController _timerController = CountDownController();
   //Quiz attempt
   late QuizAttempt _quizAttempt;
+  late int min = 1000000;
+  late int sec = 0;
 
   @override
   QuizPage get widget => super.widget;
@@ -192,6 +196,13 @@ class _QuizState extends State<QuizPage> {
     Navigator.pop(context);
   }
 
+  getDuration() {
+    if (widget.isTimed) {
+      min = int.parse(widget.quizAttempt!.duration.substring(0, 2));
+      sec = int.parse(widget.quizAttempt!.duration.substring(3, 5));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -223,6 +234,7 @@ class _QuizState extends State<QuizPage> {
                           case Status.COMPLETED:
                             _quizAttempt = snapshot.data!.data;
                             widget._questions = snapshot.data!.data.questions;
+                            getDuration();
                             /*if (widget._quizAttempt.currentQuestionId != 0) {
                             //Cherche le bon index de la question si le quiz avait deja commencer.
 
@@ -248,7 +260,7 @@ class _QuizState extends State<QuizPage> {
                                               child: Opacity(
                                                 opacity: widget.opacity,
                                                 child: CircularCountDownTimer(
-                                                  duration: Duration(minutes: 10000, seconds: 1).inSeconds,
+                                                  duration: Duration(minutes: min, seconds: sec).inSeconds,
                                                   initialDuration: 0,
                                                   controller: _timerController,
                                                   width: MediaQuery.of(context).size.width / 10,
