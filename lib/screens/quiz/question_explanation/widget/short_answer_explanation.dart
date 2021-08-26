@@ -1,3 +1,4 @@
+import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/model/question.dart';
 import 'package:demo3/model/question_attempt.dart';
 import 'package:demo3/model/quiz_attempt.dart';
@@ -23,74 +24,93 @@ class ShortAnswerExplanation extends StatelessWidget {
     return "";
   }
 
+  String fetchIconPath() {
+    if (_index != -1) {
+      if (_quizAttempt.questionAttempts[_index].goodAnswer) {
+        return 'assets/checkMark.png';
+      }
+    }
+
+    return 'assets/xIcon.jpg';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height / 1.1,
+      padding: EdgeInsets.all(20),
+      height: MediaQuery.of(context).size.height / 2,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Container(
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.white, width: 3),
+                borderRadius: BorderRadius.all(Radius.circular(20))),
             child: Column(
               children: [
                 Text(
-                  "You have answered Wrong",
-                  style: TextStyle(fontSize: 25, color: Colors.red),
+                  AppLocalizations.of(context)!.translate("Your Answer").toString(),
+                  style: TextStyle(fontSize: 25, color: Colors.orange),
                 ),
-                Container(
-                  height: MediaQuery.of(context).size.height / 5,
-                  width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.only(left: 40, right: 40, top: 20),
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16.0),
-                      side: BorderSide(
-                        color: Colors.lightBlue,
-                        width: 2.0,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      fetchUserAnswer(),
+                      style: TextStyle(
+                        fontSize: 25,
                       ),
                     ),
-                    elevation: 10,
-                    child: SingleChildScrollView(
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Html(
-                          data: _question.content,
-                          shrinkWrap: true,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                    Image.asset(fetchIconPath(), height: 15, width: 15),
+                  ],
+                )
               ],
             ),
           ),
           Spacer(),
-          Text(
-            "Your answer: " + fetchUserAnswer(),
-            style: TextStyle(fontSize: 17),
-          ),
           Container(
-            margin: EdgeInsets.only(left: 15, right: 15),
-            child: Text(
-              "The good answer is " + _question.shortAnswers!.first.answerText.toString(),
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 17),
-            ),
-          ),
-          Spacer(),
-          Container(
-            height: MediaQuery.of(context).size.height / 3,
-            margin: EdgeInsets.only(left: 15, right: 15, bottom: 15),
+            width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-                border: Border.all(color: Colors.orange, width: 2.5), borderRadius: BorderRadius.circular(10)),
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Align(
-                alignment: Alignment.center,
-                child: Html(
-                  data: _question.explanation,
+                color: Colors.white,
+                border: Border.all(color: Colors.white, width: 3),
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            child: Column(
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.translate("Accepted Answer").toString(),
+                  style: TextStyle(fontSize: 25, color: Colors.orange),
                 ),
-              ),
+                Container(
+                  margin: EdgeInsets.only(left: 15, right: 15, top: 15),
+                  height: MediaQuery.of(context).size.height / 4,
+                  child: ListView.builder(
+                      itemCount: _question.shortAnswers!.length,
+                      itemBuilder: (
+                        BuildContext context,
+                        int index,
+                      ) {
+                        /*if (_question.shortAnswers![index].answer.toString() == fetchUserAnswer()) {*/
+                        return SingleChildScrollView(
+                          controller: ScrollController(),
+                          child: Container(
+                            child: Text.rich(
+                              TextSpan(children: [
+                                TextSpan(
+                                    text: "Answer " + (index + 1).toString() + " : ", style: TextStyle(fontSize: 15)),
+                                TextSpan(
+                                    text: _question.shortAnswers![index].answerText.toString(),
+                                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black)),
+                              ]),
+                            ),
+                          ),
+                        );
+                        /*}
+                      return Container();*/
+                      }),
+                ),
+              ],
             ),
           )
         ],

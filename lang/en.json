@@ -61,7 +61,11 @@
   "Question Left":"Question(s) left",
   "Times left":"left",
   "Completion Rate":"Completion rate",
-  "No ongoing quizzes":"No ongoing quizzes"
+  "No ongoing quizzes":"No ongoing quizzes",
+  "Statement":"Statement",
+  "Explanation":"Explanation",
+  "Your Answer":"Your Answer",
+  "Accepted Answer":"Accepted Answer"
 
 
 

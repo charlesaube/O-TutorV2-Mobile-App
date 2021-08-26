@@ -27,37 +27,9 @@ class MultipleChoiceExplanation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width / 1.1,
-      height: MediaQuery.of(context).size.height / 1.1,
+      height: MediaQuery.of(context).size.height / 2,
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 20.0),
-            child: Text(
-              AppLocalizations.of(context)!.translate(titleText).toString(),
-              style: TextStyle(fontSize: 20, color: this._answerColor),
-            ),
-          ),
-          Text(
-            "Énoncé",
-            style: TextStyle(fontSize: 15, color: Colors.orange),
-            textAlign: TextAlign.start,
-          ),
-          Card(
-            elevation: 10,
-            margin: EdgeInsets.only(left: 10, right: 10, bottom: 5),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(13))),
-            child: Container(
-              width: MediaQuery.of(context).size.width / 1.1,
-              height: MediaQuery.of(context).size.height / 4,
-              padding: EdgeInsets.all(30),
-              child: SingleChildScrollView(
-                child: Html(
-                  shrinkWrap: true,
-                  data: question.content,
-                ),
-              ),
-            ),
-          ),
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: MediaQuery.removePadding(
@@ -65,64 +37,46 @@ class MultipleChoiceExplanation extends StatelessWidget {
               removeTop: true,
               child: Container(
                 height: MediaQuery.of(context).size.height / 3,
-                child: Expanded(
-                  child: ListView.builder(
-                    itemCount: question.multipleAnswers!.length,
-                    itemBuilder: (
-                      BuildContext context,
-                      int index,
-                    ) {
-                      //Change la couleur du container ClickÃ© ------------------------
-                      _colorContainer = Colors.grey.shade200;
-                      if (question.multipleAnswers![index].isTrue) {
-                        _colorContainer = Colors.green;
-                      } else if (question.multipleAnswers![index].answer == this.questionAttempt.answer) {
-                        _colorContainer = Colors.red;
-                      }
-                      return Container(
-                        height: 50,
-                        margin: EdgeInsets.all(15),
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(color: _colorContainer, width: 2),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          elevation: 6,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Expanded(
-                                child: Html(
-                                  shrinkWrap: true,
-                                  data: this.question.multipleAnswers![index].answer,
-                                ),
-                              )
-                            ],
-                          ),
+                child: ListView.builder(
+                  itemCount: question.multipleAnswers!.length,
+                  itemBuilder: (
+                    BuildContext context,
+                    int index,
+                  ) {
+                    //Change la couleur du container ClickÃ© ------------------------
+                    _colorContainer = Colors.grey.shade200;
+                    if (question.multipleAnswers![index].isTrue) {
+                      _colorContainer = Colors.greenAccent.shade400;
+                    } else if (question.multipleAnswers![index].answer == this.questionAttempt.answer) {
+                      _colorContainer = Colors.red;
+                    }
+                    return Container(
+                      height: 50,
+                      margin: EdgeInsets.all(15),
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(color: _colorContainer, width: 2),
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                      );
-                    },
-                  ),
+                        elevation: 6,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Expanded(
+                              child: Html(
+                                shrinkWrap: true,
+                                data: this.question.multipleAnswers![index].answer,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
           ),
-          Text(
-            "Explications",
-            style: TextStyle(fontSize: 15, color: Colors.orange),
-            textAlign: TextAlign.start,
-          ),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-              child: SingleChildScrollView(
-                  child: Html(
-                shrinkWrap: true,
-                data: question.explanation,
-              )),
-            ),
-          )
         ],
       ),
     );

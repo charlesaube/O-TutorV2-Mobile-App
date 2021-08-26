@@ -61,8 +61,11 @@
   "Question Left":"Question restante",
   "Times Left":"restant",
   "Completion Rate":"Complété à",
-  "No on going quizzes":"Aucun quiz en cours"
-
+  "No on going quizzes":"Aucun quiz en cours",
+  "Statement":"Énoncé",
+  "Explanation":"Explication",
+  "Your Answer":"Votre Réponse",
+  "Accepted Answer":"Réponse Acceptée"
 
 
 

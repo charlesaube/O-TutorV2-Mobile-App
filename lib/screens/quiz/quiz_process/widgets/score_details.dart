@@ -69,7 +69,9 @@ class _ScoreDetailsState extends State<ScoreDetails> {
 
   //Permet de varier la couleur selon le score obtenu
   Color getColor() {
-    if (calculateScore() >= 0.6) {
+    if (calculateScore() >= 0.75) {
+      return Colors.greenAccent.shade400;
+    } else if (calculateScore() >= 0.6) {
       return Colors.orange.shade400;
     }
     return Color(0xFFFA2424);
