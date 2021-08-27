@@ -130,12 +130,15 @@ class IncorrectAnswerDialog extends StatelessWidget {
             margin: EdgeInsets.all(25),
             child: Image.asset('assets/xIcon.jpg', height: 60, width: 60),
           ),
-          Text(AppLocalizations.of(context)!.translate('Incorrect').toString(), style: TextStyle(fontSize: 25)),
+          Text(
+            AppLocalizations.of(context)!.translate('Incorrect').toString(),
+            style: TextStyle(fontSize: 25),
+          ),
           Spacer(),
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
             child: Text(_answer + ' ' + AppLocalizations.of(context)!.translate('Incorrect Answer').toString(),
-                style: TextStyle(fontSize: 17)),
+                maxLines: 3, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 17)),
           ),
         ],
       ),
