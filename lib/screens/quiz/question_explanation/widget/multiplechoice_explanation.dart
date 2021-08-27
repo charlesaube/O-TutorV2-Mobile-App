@@ -12,6 +12,7 @@ class MultipleChoiceExplanation extends StatelessWidget {
   final QuestionAttempt questionAttempt;
   int _clicked = -1;
   late final String titleText;
+  final ScrollController _scrollController = ScrollController();
 
   MultipleChoiceExplanation({Key? key, required this.question, required this.questionAttempt}) : super(key: key) {
     if (questionAttempt.goodAnswer) {
@@ -37,42 +38,61 @@ class MultipleChoiceExplanation extends StatelessWidget {
               removeTop: true,
               child: Container(
                 height: MediaQuery.of(context).size.height / 3,
-                child: ListView.builder(
-                  itemCount: question.multipleAnswers!.length,
-                  itemBuilder: (
-                    BuildContext context,
-                    int index,
-                  ) {
-                    //Change la couleur du container ClickÃ© ------------------------
-                    _colorContainer = Colors.grey.shade200;
-                    if (question.multipleAnswers![index].isTrue) {
-                      _colorContainer = Colors.greenAccent.shade400;
-                    } else if (question.multipleAnswers![index].answer == this.questionAttempt.answer) {
-                      _colorContainer = Colors.red;
-                    }
-                    return Container(
-                      height: 50,
-                      margin: EdgeInsets.all(15),
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(color: _colorContainer, width: 2),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        elevation: 6,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Expanded(
-                              child: Html(
-                                shrinkWrap: true,
-                                data: this.question.multipleAnswers![index].answer,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  },
+                child: RawScrollbar(
+                  controller: _scrollController,
+                  isAlwaysShown: true,
+                  radius: Radius.circular(20),
+                  thumbColor: Colors.orange,
+                  thickness: 4,
+                  child: ShaderMask(
+                    shaderCallback: (Rect rect) {
+                      return LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Colors.purple, Colors.transparent, Colors.transparent, Colors.purple],
+                        stops: [0.0, 0.1, 0.95, 1.0], // 10% purple, 80% transparent, 10% purple
+                      ).createShader(rect);
+                    },
+                    blendMode: BlendMode.dstOut,
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: question.multipleAnswers!.length,
+                      itemBuilder: (
+                        BuildContext context,
+                        int index,
+                      ) {
+                        //Change la couleur du container ClickÃ© ------------------------
+                        _colorContainer = Colors.grey.shade200;
+                        if (question.multipleAnswers![index].isTrue) {
+                          _colorContainer = Colors.greenAccent.shade400;
+                        } else if (question.multipleAnswers![index].answer == this.questionAttempt.answer) {
+                          _colorContainer = Colors.red;
+                        }
+                        return Container(
+                          height: 50,
+                          margin: EdgeInsets.all(15),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(color: _colorContainer, width: 2),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            elevation: 6,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Expanded(
+                                  child: Html(
+                                    shrinkWrap: true,
+                                    data: this.question.multipleAnswers![index].answer,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 ),
               ),
             ),

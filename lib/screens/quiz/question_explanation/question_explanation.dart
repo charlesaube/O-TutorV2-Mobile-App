@@ -71,9 +71,28 @@ class QuestionExplanation extends StatelessWidget {
                     ),
                   ),
                 ),
-                Text(
-                  AppLocalizations.of(context)!.translate(titleText).toString(),
-                  style: TextStyle(fontSize: 30, color: this._answerColor, fontWeight: FontWeight.bold),
+                Stack(
+                  children: [
+                    Text(
+                      AppLocalizations.of(context)!.translate(titleText).toString(),
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        foreground: Paint()
+                          ..style = PaintingStyle.stroke
+                          ..strokeWidth = 2
+                          ..color = Colors.white,
+                      ),
+                    ),
+                    Text(
+                      AppLocalizations.of(context)!.translate(titleText).toString(),
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: this._answerColor,
+                      ),
+                    ),
+                  ],
                 ),
                 Card(
                   elevation: 10,
