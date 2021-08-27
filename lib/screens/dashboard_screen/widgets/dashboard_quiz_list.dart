@@ -63,7 +63,7 @@ class _DashboardQuizListState extends State<DashboardQuizList> {
                     );
                   case Status.COMPLETED:
                     _quizAttempts = filterQuizAttempt(snapshot.data!.data);
-                    if (!_quizAttempts.isNotEmpty) {
+                    if (_quizAttempts.isNotEmpty) {
                       return ListView.builder(
                         physics: BouncingScrollPhysics(),
                         itemCount: _quizAttempts.length,

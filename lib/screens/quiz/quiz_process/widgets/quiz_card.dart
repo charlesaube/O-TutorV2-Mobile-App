@@ -39,10 +39,21 @@ class QuizCard extends StatelessWidget {
               ],
             ),
             Expanded(
-              child: SingleChildScrollView(
-                child: Html(
-                  shrinkWrap: true,
-                  data: questions[questionIndex].content,
+              child: ShaderMask(
+                shaderCallback: (Rect rect) {
+                  return LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.purple, Colors.transparent, Colors.transparent, Colors.purple],
+                    stops: [0.0, 0.1, 0.85, 1.0], // 10% purple, 80% transparent, 10% purple
+                  ).createShader(rect);
+                },
+                blendMode: BlendMode.dstOut,
+                child: SingleChildScrollView(
+                  child: Html(
+                    shrinkWrap: true,
+                    data: questions[questionIndex].content,
+                  ),
                 ),
               ),
             )

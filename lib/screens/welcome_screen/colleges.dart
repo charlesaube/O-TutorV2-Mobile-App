@@ -5,6 +5,7 @@ import 'package:demo3/model/college.dart';
 import 'package:demo3/network/api_response.dart';
 import 'package:demo3/network/services/ICollege_repository.dart';
 import 'package:demo3/network/services/service_providers/service_provider.dart';
+import 'package:demo3/screens/util/error_widget.dart';
 import 'package:demo3/screens/welcome_screen/welcome.dart';
 import 'package:demo3/screens/welcome_screen/widgets/buttons.dart';
 import 'package:demo3/secure_storage.dart';
@@ -29,6 +30,12 @@ class _CollegesState extends State<Colleges> {
   void initState() {
     super.initState();
     _bloc = CollegeBloc();
+  }
+
+  void refresh() {
+    setState(() {
+      _bloc!.fetchColleges();
+    });
   }
 
   //trouve le id d'un college par nom car on ne peux pas stocker d'objet dans un buttondropdown
@@ -134,7 +141,7 @@ class _CollegesState extends State<Colleges> {
                             ],
                           );
                         case Status.ERROR:
-                          return Text(snapshot.data!.message);
+                          return ErrorPopUp(snapshot, refresh);
                       }
                     }
                     return Container(child: Text("No Data Error"));
