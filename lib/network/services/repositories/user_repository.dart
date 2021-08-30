@@ -2,7 +2,7 @@ import 'package:demo3/network/api_client.dart';
 
 import '../IUser_repository.dart';
 
-class UserRepository extends IUserRepository {
+class UserRepository implements IUserRepository {
   ApiClient _helper = ApiClient();
 
   fetchWeeklyGoal() {

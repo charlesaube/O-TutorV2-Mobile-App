@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 
 import '../../api_exceptions.dart';
 
-class QuizRepository extends IQuizRepository {
+class QuizRepository implements IQuizRepository {
   ApiClient _helper = new ApiClient();
 
   @override

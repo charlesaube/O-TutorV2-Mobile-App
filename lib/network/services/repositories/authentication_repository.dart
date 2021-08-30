@@ -3,7 +3,7 @@ import 'package:demo3/secure_storage.dart';
 import '../../api_client.dart';
 import '../IAuthentication_repository.dart';
 
-class AuthenticationRepository extends IAuthenticationRepository {
+class AuthenticationRepository implements IAuthenticationRepository {
   ApiClient _helper = ApiClient();
 
   @override

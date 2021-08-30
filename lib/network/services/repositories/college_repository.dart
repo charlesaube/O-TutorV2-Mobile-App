@@ -6,15 +6,13 @@ import 'package:demo3/network/services/ICollege_repository.dart';
 
 import '../../../secure_storage.dart';
 
-class CollegeRepository extends ICollegeRepository{
-
+class CollegeRepository implements ICollegeRepository {
   ApiClient _helper = new ApiClient();
 
   @override
-  Future<List<College>>fetchColleges() async {
+  Future<List<College>> fetchColleges() async {
     final response = await _helper.get("/colleges/", "College");
     print(response);
     return CollegeResponse.fromJson(response).results;
   }
-
 }

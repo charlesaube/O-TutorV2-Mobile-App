@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 
 import '../../api_exceptions.dart';
 
-class QuestionRepository extends IQuestionRepository {
+class QuestionRepository implements IQuestionRepository {
   ApiClient _helper = new ApiClient();
 
   @override
@@ -24,7 +24,7 @@ class QuestionRepository extends IQuestionRepository {
       throw FetchDataException('No internet');
     }
     print(responseJson);
-    var quizObjJson = responseJson  as List;
+    var quizObjJson = responseJson as List;
     //final response = await _helper.get("quizzes/" + id.toString() + "/questions");
     List<Question> questions = quizObjJson.map((groupJson) => Question.fromJson(groupJson)).toList();
 

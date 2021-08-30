@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import '../../api_client.dart';
 import '../../api_exceptions.dart';
 
-class SelfAssessmentRepository extends ISelfAssessmentsRepository {
+class SelfAssessmentRepository implements ISelfAssessmentsRepository {
   ApiClient _helper = new ApiClient();
 
   @override

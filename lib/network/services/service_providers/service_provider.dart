@@ -5,6 +5,7 @@ import 'package:demo3/network/services/repositories/question_repository.dart';
 import 'package:demo3/network/services/repositories/quiz_repository.dart';
 import 'package:demo3/network/services/repositories/self_assessement_repository.dart';
 import 'package:demo3/network/services/repositories/startup_repository.dart';
+import 'package:demo3/network/services/repositories/topic_repository.dart';
 import 'package:demo3/network/services/repositories/user_repository.dart';
 import 'package:demo3/screens/welcome_screen/colleges.dart';
 
@@ -35,5 +36,9 @@ class ServiceProvider {
 
   SelfAssessmentRepository fetchSelfAssessmentsRepository() {
     return SelfAssessmentRepository();
+  }
+
+  TopicRepository fetchTopicRepository() {
+    return TopicRepository();
   }
 }
