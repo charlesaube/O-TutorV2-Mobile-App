@@ -351,9 +351,11 @@ class _QuizState extends State<QuizPage> {
                                     ),
                                   ),
                                 if (_questionIndex >= widget._questions.length)
-                                  ScoreDetails(
-                                    quizAttempt: _quizAttempt,
-                                    callback: submitCallBack,
+                                  Expanded(
+                                    child: ScoreDetails(
+                                      quizAttempt: _quizAttempt,
+                                      callback: submitCallBack,
+                                    ),
                                   ),
                               ],
                             );

@@ -19,6 +19,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import 'quiz_process/widgets/score_details.dart';
+
 class BrowseQuizPage extends StatefulWidget {
   late Group group;
 
@@ -216,14 +218,28 @@ class _BrowseQuizPageState extends State<BrowseQuizPage> {
                                             ) {
                                               return GestureDetector(
                                                   onTap: () {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) => QuizAttemptDetailsPage(
-                                                          quizAttempt: _quizAttempts[index],
+                                                    if (_quizAttempts[index].isOver) {
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) => ScoreDetails(
+                                                            quizAttempt: _quizAttempts[index],
+                                                            callback: () {
+                                                              Navigator.pop(context);
+                                                            },
+                                                          ),
                                                         ),
-                                                      ),
-                                                    );
+                                                      );
+                                                    } else {
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) => QuizAttemptDetailsPage(
+                                                            quizAttempt: _quizAttempts[index],
+                                                          ),
+                                                        ),
+                                                      );
+                                                    }
                                                   },
                                                   child: QuizAttemptListContainer(_quizAttempts[index]));
                                             },

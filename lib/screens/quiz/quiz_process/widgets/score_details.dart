@@ -89,224 +89,213 @@ class _ScoreDetailsState extends State<ScoreDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      color: Colors.white,
-      child: Container(
-        child: Column(
-          children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  stops: [0.6, 1],
-                  colors: [
-                    Color(0xff03C3FF),
-                    Colors.blue.shade700,
-                  ],
-                ),
-              ),
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 30, right: 25),
-                        child: Icon(
-                          Icons.close,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 20, bottom: 20),
-                    child: Text(
-                      AppLocalizations.of(context)!.translate("Quiz Over").toString(),
-                      style: TextStyle(color: Colors.white, fontSize: 35, fontWeight: FontWeight.bold),
+    return Scaffold(
+      body: Center(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          color: Colors.white,
+          child: Container(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      stops: [0.6, 1],
+                      colors: [
+                        Color(0xff03C3FF),
+                        Colors.blue.shade700,
+                      ],
                     ),
                   ),
-                  CircularPercentIndicator(
-                    radius: 120.0,
-                    lineWidth: 13.0,
-                    animation: true,
-                    backgroundColor: Colors.white,
-                    percent: calculateScore(),
-                    center: Text(
-                      (calculateScore() * 100).floor().toString() + "%",
-                      style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0, color: Colors.white),
-                    ),
-                    circularStrokeCap: CircularStrokeCap.round,
-                    progressColor: getColor(),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(30),
-                    child: IntrinsicHeight(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Container(
-                              margin: EdgeInsets.fromLTRB(90, 0, 0, 0),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.star,
-                                    color: Colors.yellow,
-                                    size: 20,
-                                  ),
-                                  Text(
-                                    numOfGoodAnswer.toString() + " / " + widget._questions.length.toString(),
-                                    style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
-                                  )
-                                ],
-                              )),
-                          const VerticalDivider(
-                            color: Colors.white,
-                            thickness: 1.5,
-                            width: 20,
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: 30, right: 25),
                           ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(0, 0, 60, 0),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.timer,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                                Text(
-                                  widget._quizAttempt.getEllapsedTime(),
-                                  style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            ),
-                          )
                         ],
                       ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            //Boutons
-            Expanded(
-              child: ListView.builder(
-                physics: BouncingScrollPhysics(),
-                itemCount: widget._questions.length,
-                itemBuilder: (
-                  BuildContext context,
-                  int index,
-                ) {
-                  return Container(
-                    margin: EdgeInsets.only(left: 30, right: 30),
-                    height: 30,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => QuestionExplanation(
-                                  quizAttempt: widget._quizAttempt, question: widget._questions[index])),
-                        );
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text.rich(
-                            TextSpan(children: [
-                              TextSpan(text: "Q" + (index + 1).toString() + " : ", style: TextStyle(fontSize: 15)),
-                              TextSpan(
-                                  text: widget._questions[index].title,
-                                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black))
-                            ]),
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                fetchScoredPointOfQuestion(index).toString() +
-                                    "/" +
-                                    widget._questions[index].weight.toString(),
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 20, bottom: 20),
+                        child: Text(
+                          AppLocalizations.of(context)!.translate("Quiz Over").toString(),
+                          style: TextStyle(color: Colors.white, fontSize: 35, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      CircularPercentIndicator(
+                        radius: 120.0,
+                        lineWidth: 13.0,
+                        animation: true,
+                        backgroundColor: Colors.white,
+                        percent: calculateScore(),
+                        center: Text(
+                          (calculateScore() * 100).floor().toString() + "%",
+                          style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0, color: Colors.white),
+                        ),
+                        circularStrokeCap: CircularStrokeCap.round,
+                        progressColor: getColor(),
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(30),
+                        child: IntrinsicHeight(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Container(
+                                  margin: EdgeInsets.fromLTRB(90, 0, 0, 0),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.star,
+                                        color: Colors.yellow,
+                                        size: 20,
+                                      ),
+                                      Text(
+                                        numOfGoodAnswer.toString() + " / " + widget._questions.length.toString(),
+                                        style:
+                                            TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
+                                      )
+                                    ],
+                                  )),
+                              const VerticalDivider(
+                                color: Colors.white,
+                                thickness: 1.5,
+                                width: 20,
                               ),
-                              Image.asset(fetchIconPath(index), height: 15, width: 15),
-                              Icon(
-                                Icons.navigate_next,
-                                color: Colors.black,
+                              Container(
+                                margin: EdgeInsets.fromLTRB(0, 0, 60, 0),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.timer,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                    Text(
+                                      widget._quizAttempt.getEllapsedTime(),
+                                      style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                //Boutons
+                Expanded(
+                  child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    itemCount: widget._questions.length,
+                    itemBuilder: (
+                      BuildContext context,
+                      int index,
+                    ) {
+                      return Container(
+                        margin: EdgeInsets.only(left: 30, right: 30),
+                        height: 30,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => QuestionExplanation(
+                                      quizAttempt: widget._quizAttempt, question: widget._questions[index])),
+                            );
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text.rich(
+                                TextSpan(children: [
+                                  TextSpan(text: "Q" + (index + 1).toString() + " : ", style: TextStyle(fontSize: 15)),
+                                  TextSpan(
+                                      text: widget._questions[index].title,
+                                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black))
+                                ]),
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    fetchScoredPointOfQuestion(index).toString() +
+                                        "/" +
+                                        widget._questions[index].weight.toString(),
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Image.asset(fetchIconPath(index), height: 15, width: 15),
+                                  Icon(
+                                    Icons.navigate_next,
+                                    color: Colors.black,
+                                  ),
+                                ],
                               ),
                             ],
                           ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                //Bouton
+                Expanded(
+                  child: Container(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: 0.0,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Color(0xff03C3FF), width: 2),
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: Expanded(
+                                child: TextButton(
+                                  onPressed: widget.callback,
+                                  child: Text(
+                                    AppLocalizations.of(context)!.translate("Close").toString(),
+                                    style:
+                                        TextStyle(color: Color(0xff03C3FF), fontSize: 15, fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                  );
-                },
-              ),
-            ),
-            //Bouton
-            Expanded(
-              child: Container(
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    bottom: 0.0,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        width: MediaQuery.of(context).size.width / 2.5,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xff03C3FF), width: 2),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              "Try Again",
-                              style: TextStyle(color: Color(0xff03C3FF), fontSize: 15, fontWeight: FontWeight.bold),
-                            )),
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width / 2.5,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xff03C3FF), width: 2),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: TextButton(
-                          onPressed: widget.callback,
-                          child: Text(
-                            "Submit",
-                            style: TextStyle(color: Color(0xff03C3FF), fontSize: 15, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                    ],
                   ),
                 ),
-              ),
+                StreamBuilder<ApiResponse<QuizAttempt>>(
+                    stream: _bloc!.quizAttemptStream,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        switch (snapshot.data!.status) {
+                          case Status.COMPLETED:
+                            Navigator.pop(context);
+                            break;
+                        }
+                      }
+                      return Container();
+                    }),
+              ],
             ),
-            StreamBuilder<ApiResponse<QuizAttempt>>(
-                stream: _bloc!.quizAttemptStream,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    switch (snapshot.data!.status) {
-                      case Status.COMPLETED:
-                        Navigator.pop(context);
-                        break;
-                    }
-                  }
-                  return Container();
-                }),
-          ],
+          ),
         ),
       ),
     );
