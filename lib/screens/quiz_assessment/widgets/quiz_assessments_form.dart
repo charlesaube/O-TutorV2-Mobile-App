@@ -100,14 +100,14 @@ class _QuizAssessmentsState extends State<QuizAssessmentsForm> {
                   ),
                   OrangeSliderContainer(
                     currentSliderValue: _currentSliderValue,
-                    min: 0,
+                    min: 1,
                     max: 100,
-                    division: 100,
+                    division: 2,
                     text: AppLocalizations.of(context)!.translate('Time').toString(),
                   ),
                   OrangeSliderContainer(
                       currentSliderValue: _currentSliderValue,
-                      min: 0,
+                      min: 1,
                       max: 100,
                       division: 100,
                       text: AppLocalizations.of(context)!.translate('Number of Questions').toString()),
