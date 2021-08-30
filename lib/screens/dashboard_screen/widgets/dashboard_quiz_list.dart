@@ -29,16 +29,20 @@ class _DashboardQuizListState extends State<DashboardQuizList> {
 
   //enleve les quiz attempts terminés de la liste
   List<QuizAttempt> filterQuizAttempt(List<QuizAttempt> qa) {
-    List<QuizAttempt> temp = qa;
+    List<QuizAttempt> temp = [];
+
+    for (int i = 0; i < qa.length; i++) {
+      temp.add(qa[i].clone());
+    }
 
     // qa.forEach((element) {
     //   if (element.isOver) {
     //     temp.remove(element);
     //   }
     // });
-    for (int i = 0; i < qa.length; i++) {
+    for (int i = 0; i < temp.length; i++) {
       if (qa[i].isOver) {
-        temp.remove(qa[i]);
+        temp.remove(temp[i]);
       }
     }
     return temp;

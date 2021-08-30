@@ -17,6 +17,7 @@ class LoginButton extends StatelessWidget {
     return Container(
       child: Material(
         child: InkWell(
+          key: Key("loginButton"),
           customBorder: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
           ),
