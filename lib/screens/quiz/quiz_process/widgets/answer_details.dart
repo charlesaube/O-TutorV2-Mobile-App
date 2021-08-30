@@ -108,6 +108,9 @@ class CorrectAnswerDialog extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
             child: Text(AppLocalizations.of(context)!.translate('Correct Answer').toString() + ' ' + _answer,
+                textAlign: TextAlign.center,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontSize: 17)),
           ),
         ],
@@ -138,7 +141,10 @@ class IncorrectAnswerDialog extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
             child: Text(_answer + ' ' + AppLocalizations.of(context)!.translate('Incorrect Answer').toString(),
-                maxLines: 3, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 17)),
+                textAlign: TextAlign.center,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 17)),
           ),
         ],
       ),
