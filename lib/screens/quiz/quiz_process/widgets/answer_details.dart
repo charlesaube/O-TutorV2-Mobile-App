@@ -41,7 +41,7 @@ class AnswerDetailsButton extends StatelessWidget {
         onPressed: () {
           if (answerText != "")
             showDialog<String>(
-              //barrierDismissible: false,
+              barrierDismissible: false,
               context: context,
               builder: (BuildContext context) => AlertDialog(
                   insetPadding: EdgeInsets.zero,
