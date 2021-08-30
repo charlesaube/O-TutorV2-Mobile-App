@@ -2,8 +2,8 @@ import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/model/Category.dart';
 import 'package:demo3/network/api_response.dart';
 import 'package:demo3/screens/navigation/navbar.dart';
-import 'package:demo3/screens/quiz/browse_courses.dart';
-import 'package:demo3/screens/quiz/browse_quiz.dart';
+import 'package:demo3/screens/quiz/quiz_browsing/browse_courses.dart';
+import 'package:demo3/screens/quiz/quiz_browsing/browse_quiz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -33,13 +33,8 @@ class ErrorPopUp extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 fontSize: 35,
               )),
-          if (AppLocalizations.of(context)!
-                  .translate(_snapshot.data!.message)
-                  .toString() !=
-              "null")
-            ErrorText(AppLocalizations.of(context)!
-                .translate(_snapshot.data!.message)
-                .toString())
+          if (AppLocalizations.of(context)!.translate(_snapshot.data!.message).toString() != "null")
+            ErrorText(AppLocalizations.of(context)!.translate(_snapshot.data!.message).toString())
           else
             ErrorText(_snapshot.data!.message),
           Spacer(
@@ -47,7 +42,7 @@ class ErrorPopUp extends StatelessWidget {
           ),
           ElevatedButton(
               onPressed: () {
-            _refresh();
+                _refresh();
               },
               child: Text(AppLocalizations.of(context)!.translate("Try Again").toString())),
           Spacer(),

@@ -1,7 +1,7 @@
 import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/screens/dashboard_screen/dashboard.dart';
 import 'package:demo3/screens/forum/forum.dart';
-import 'package:demo3/screens/quiz/browse_courses.dart';
+import 'package:demo3/screens/quiz/quiz_browsing/browse_courses.dart';
 import 'package:demo3/screens/quiz/quiz_process/quiz.dart';
 import 'package:demo3/screens/quiz_assessment/create_self_assessments.dart';
 import 'package:demo3/screens/settings/settings.dart';
