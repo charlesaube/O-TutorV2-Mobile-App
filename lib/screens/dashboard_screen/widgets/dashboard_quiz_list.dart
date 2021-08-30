@@ -4,6 +4,7 @@ import 'package:demo3/model/quiz.dart';
 import 'package:demo3/model/quiz_attempt.dart';
 import 'package:demo3/network/api_response.dart';
 import 'package:demo3/screens/quiz/blocs/browse_quiz_bloc.dart';
+import 'package:demo3/screens/quiz/quiz_attempt_details.dart';
 import 'package:demo3/screens/quiz/quiz_details.dart';
 import 'package:demo3/screens/quiz/quiz_process/blocs/quiz_attempt_bloc.dart';
 import 'package:demo3/screens/util/error_widget.dart';
@@ -83,10 +84,8 @@ class _DashboardQuizListState extends State<DashboardQuizList> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => QuizDetailsPage(
-                                              quiz: Quiz(2, "Quiz 2", "", "", "", "", "", "", "12:00", "", "",
-                                                  "Complete this quiz as fast as possible", "", "", "", ""),
-                                            )));
+                                        builder: (context) =>
+                                            QuizAttemptDetailsPage(quizAttempt: _quizAttempts[index])));
                               },
                               child: Container(
                                 margin: EdgeInsets.only(left: 15, right: 15),
