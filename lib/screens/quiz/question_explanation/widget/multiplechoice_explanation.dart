@@ -69,7 +69,9 @@ class MultipleChoiceExplanation extends StatelessWidget {
                           _colorContainer = Colors.red;
                         }
                         return Container(
-                          height: 50,
+                          height: question.multipleAnswers![index].answer.length <= 40
+                              ? 50
+                              : question.multipleAnswers![index].answer.length * 0.7,
                           margin: EdgeInsets.all(15),
                           child: Card(
                             shape: RoundedRectangleBorder(
