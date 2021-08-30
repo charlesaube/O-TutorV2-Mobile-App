@@ -36,6 +36,15 @@ class QuestionExplanation extends StatelessWidget {
       }
     }
   }
+  String fetchIconPath() {
+    if (_index != -1) {
+      if (_quizAttempt.questionAttempts[_index].goodAnswer) {
+        return 'assets/checkMark.png';
+      }
+    }
+
+    return 'assets/xIcon.jpg';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,38 +67,38 @@ class QuestionExplanation extends StatelessWidget {
               ),
             ),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Icon(
-                      Icons.close,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
                 Stack(
+                  alignment: AlignmentDirectional.center,
                   children: [
-                    Text(
-                      AppLocalizations.of(context)!.translate(titleText).toString(),
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        foreground: Paint()
-                          ..style = PaintingStyle.stroke
-                          ..strokeWidth = 2
-                          ..color = Colors.white,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(right: 10),
+                          child: Image.asset(fetchIconPath(), height: 30, width: 30),
+                        ),
+                        Text(
+                          AppLocalizations.of(context)!.translate(titleText).toString(),
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      AppLocalizations.of(context)!.translate(titleText).toString(),
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: this._answerColor,
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(
+                          Icons.close,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ],
