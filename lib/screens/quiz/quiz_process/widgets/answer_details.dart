@@ -2,6 +2,7 @@ import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/model/answer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class AnswerDetailsButton extends StatelessWidget {
   final VoidCallback _callback;
@@ -107,12 +108,9 @@ class CorrectAnswerDialog extends StatelessWidget {
           Spacer(),
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
-            child: Text(AppLocalizations.of(context)!.translate('Correct Answer').toString() + ' ' + _answer,
-                textAlign: TextAlign.center,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 17)),
-          ),
+            child: Text(AppLocalizations.of(context)!.translate('Correct Answer').toString(),
+                textAlign: TextAlign.center, style: TextStyle(fontSize: 17)),
+          )
         ],
       ),
     );
