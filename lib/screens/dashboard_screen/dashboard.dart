@@ -100,9 +100,25 @@ class DashboardSate extends State<DashboardPage> with TickerProviderStateMixin {
                                                 ),
                                               ),
                                               CustomContainer(
-                                                DashboardTitle(AppLocalizations.of(context)!
-                                                    .translate('Dashboard Statistics')
-                                                    .toString()),
+                                                Stack(
+                                                  children: [
+                                                    DashboardTitle(AppLocalizations.of(context)!
+                                                        .translate('Dashboard Statistics')
+                                                        .toString()),
+                                                    Align(
+                                                      alignment: Alignment.center,
+                                                      child: Text(
+                                                        AppLocalizations.of(context)!
+                                                            .translate('Statistic curently unavailable')
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            fontSize: 18,
+                                                            color: Colors.grey.shade500,
+                                                            fontWeight: FontWeight.bold),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                               WeaklyGoal(user),
                                             ],

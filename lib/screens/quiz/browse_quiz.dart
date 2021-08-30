@@ -121,9 +121,6 @@ class _BrowseQuizPageState extends State<BrowseQuizPage> {
                                   );
                                 case Status.COMPLETED:
                                   _quizzes = snapshot.data!.data;
-                                  _quizzes.add(Quiz(2, "Quiz 2", "", "", "", "", "", "", "12:00", "", "",
-                                      "Complete this quiz as fast as possible", "", "", "", ""));
-
                                   return Container(
                                     child: Column(
                                       children: <Widget>[
