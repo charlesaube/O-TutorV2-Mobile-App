@@ -11,7 +11,7 @@ class QuizAssessmentsForm extends StatefulWidget {
 
 class _QuizAssessmentsState extends State<QuizAssessmentsForm> {
   String dropdownValue = 'One';
-  double _currentSliderValue = 100;
+  double _currentSliderValue = 1;
   Map<String, bool> List = {
     'Enum': false,
     'Variable': false,
@@ -101,8 +101,8 @@ class _QuizAssessmentsState extends State<QuizAssessmentsForm> {
                   OrangeSliderContainer(
                     currentSliderValue: _currentSliderValue,
                     min: 1,
-                    max: 100,
-                    division: 2,
+                    max: 60,
+                    division: 60,
                     text: AppLocalizations.of(context)!.translate('Time').toString(),
                   ),
                   OrangeSliderContainer(
