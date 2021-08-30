@@ -3,8 +3,8 @@ import 'package:demo3/model/group.dart';
 import 'package:demo3/model/quiz.dart';
 import 'package:demo3/model/quiz_attempt.dart';
 import 'package:demo3/network/api_response.dart';
-import 'package:demo3/screens/quiz/blocs/browse_quiz_bloc.dart';
-import 'package:demo3/screens/quiz/quiz_attempt_details.dart';
+import 'package:demo3/screens/quiz/quiz_browsing/blocs/browse_quiz_bloc.dart';
+import 'package:demo3/screens/quiz/quiz_browsing/quiz_attempt_details.dart';
 import 'package:demo3/screens/quiz/quiz_details.dart';
 import 'package:demo3/screens/quiz/quiz_process/blocs/quiz_attempt_bloc.dart';
 import 'package:demo3/screens/util/error_widget.dart';
@@ -36,11 +36,6 @@ class _DashboardQuizListState extends State<DashboardQuizList> {
       temp.add(qa[i].clone());
     }
 
-    // qa.forEach((element) {
-    //   if (element.isOver) {
-    //     temp.remove(element);
-    //   }
-    // });
     for (int i = 0; i < temp.length; i++) {
       if (qa[i].isOver) {
         temp.remove(temp[i]);
