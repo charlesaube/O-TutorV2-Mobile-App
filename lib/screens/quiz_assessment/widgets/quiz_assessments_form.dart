@@ -7,10 +7,10 @@ import 'orange_slider_container.dart';
 
 class QuizAssessmentsForm extends StatefulWidget {
   List<Topic> topics;
-  late Map<String, bool> topicsMap;
+  late Map<Topic, bool> topicsMap;
 
   QuizAssessmentsForm({required List<Topic> topics}) : this.topics = topics {
-    this.topicsMap = {for (var item in topics) item.title: false};
+    this.topicsMap = {for (var item in topics) item: false};
   }
 
   @override
@@ -100,9 +100,9 @@ class _QuizAssessmentsState extends State<QuizAssessmentsForm> {
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2, crossAxisSpacing: 1, mainAxisSpacing: 1, childAspectRatio: 10 / 3),
                       physics: BouncingScrollPhysics(),
-                      children: widget.topicsMap.keys.map((String key) {
+                      children: widget.topicsMap.keys.map((Topic key) {
                         return new CheckboxListTile(
-                          title: new Text(key),
+                          title: new Text(key.title),
                           value: widget.topicsMap[key],
                           activeColor: Colors.orange,
                           checkColor: Colors.white,
