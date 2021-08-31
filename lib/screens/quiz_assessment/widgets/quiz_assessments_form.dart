@@ -1,15 +1,26 @@
 import 'package:demo3/localization/app_localizations.dart';
+import 'package:demo3/model/topic.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'orange_slider_container.dart';
 
 class QuizAssessmentsForm extends StatefulWidget {
+  List<Topic> topics;
+  late Map<String, bool> topicsMap;
+
+  QuizAssessmentsForm({required List<Topic> topics}) : this.topics = topics {
+    this.topicsMap = {for (var item in topics) item.title: false};
+  }
+
   @override
   _QuizAssessmentsState createState() => _QuizAssessmentsState();
 }
 
 class _QuizAssessmentsState extends State<QuizAssessmentsForm> {
+  @override
+  QuizAssessmentsForm get widget => super.widget;
+
   String dropdownValue = 'One';
   double _currentSliderValue = 1;
   Map<String, bool> List = {
@@ -19,6 +30,12 @@ class _QuizAssessmentsState extends State<QuizAssessmentsForm> {
     'Polymophisme': false,
     'Test unitaire': false,
   };
+
+  @override
+  void initState() {
+    super.initState();
+    print(widget.topicsMap);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,10 +100,10 @@ class _QuizAssessmentsState extends State<QuizAssessmentsForm> {
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2, crossAxisSpacing: 1, mainAxisSpacing: 1, childAspectRatio: 10 / 3),
                       physics: BouncingScrollPhysics(),
-                      children: List.keys.map((String key) {
+                      children: widget.topicsMap.keys.map((String key) {
                         return new CheckboxListTile(
                           title: new Text(key),
-                          value: List[key],
+                          value: widget.topicsMap[key],
                           activeColor: Colors.orange,
                           checkColor: Colors.white,
                           onChanged: (bool? value) {

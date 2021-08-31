@@ -29,4 +29,8 @@ class SelfAssessmentFormBloc {
     }
     return topics;
   }
+
+  dispose() {
+    _topicsController.close();
+  }
 }

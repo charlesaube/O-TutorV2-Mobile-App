@@ -1,11 +1,16 @@
 import 'package:demo3/custom_painter/bg_circles.dart';
 import 'package:demo3/localization/app_localizations.dart';
 import 'package:demo3/model/self_assessment.dart';
+import 'package:demo3/model/topic.dart';
+import 'package:demo3/network/api_response.dart';
 import 'package:demo3/screens/dashboard_screen/widgets/header.dart';
 import 'package:demo3/screens/quiz/widget/header.dart';
+import 'package:demo3/screens/quiz_assessment/bloc/self_assessment_form_bloc.dart';
+import 'package:demo3/screens/util/error_widget.dart';
 import 'package:demo3/screens/welcome_screen/widgets/buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'bloc/self_assessments_bloc.dart';
 import 'self_assessment_process/self_assessment.dart';
@@ -21,19 +26,30 @@ class CreateSelfAssessmentsPage extends StatefulWidget {
 class _CreateSelfAssessmentsState extends State<CreateSelfAssessmentsPage> {
   double _currentSliderValue = 0;
 
-  SelfAssessmentBloc? _bloc;
+  SelfAssessmentBloc? _selfAssessmentBloc;
+  SelfAssessmentFormBloc? _topicBloc;
+
   bool loading = true;
 
   @override
   void initState() {
     super.initState();
-    _bloc = SelfAssessmentBloc();
+    _selfAssessmentBloc = SelfAssessmentBloc();
+    _topicBloc = SelfAssessmentFormBloc();
+    _topicBloc!.getTopicsByGroupId(23);
   }
 
   @override
   void dispose() {
     super.dispose();
-    _bloc!.dispose();
+    _selfAssessmentBloc!.dispose();
+    _topicBloc!.dispose();
+  }
+
+  void refresh() {
+    setState(() {
+      _topicBloc!.getTopicsByGroupId(1);
+    });
   }
 
   @override
@@ -50,51 +66,68 @@ class _CreateSelfAssessmentsState extends State<CreateSelfAssessmentsPage> {
           backgroundColor: Colors.orange[700],
         ),
         body: Center(
-          child: Stack(
-            children: <Widget>[
-              Positioned(
-                bottom: -600,
-                right: -350,
-                child: CustomPaint(
-                  size: Size(370, (360 * 1.6666666666666667).toDouble()),
-                  painter: RPSCustomPainter180(),
-                ),
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  children: [
-                    Container(
-                      child: Column(
+          child: StreamBuilder<ApiResponse<List<Topic>>>(
+              stream: _topicBloc!.topicsStream,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  switch (snapshot.data!.status) {
+                    case Status.LOADING:
+                      return SpinKitDoubleBounce(color: Colors.lightBlue.shade100);
+                      break;
+                    case Status.COMPLETED:
+                      return Stack(
                         children: <Widget>[
-                          //HeaderCategory("Exercise", "Exercise"),
-                          SizedBox(height: 20),
-                          QuizAssessmentsForm(),
-                        ],
-                      ),
-                    ),
-                    Spacer(),
-                    LoginButton(
-                        onPressed: () async {
-                          _bloc = SelfAssessmentBloc();
-                          var result = await _bloc!.createSelfAssessments(1, [3, 54, 6], "10:00", 3);
+                          Positioned(
+                            bottom: -600,
+                            right: -350,
+                            child: CustomPaint(
+                              size: Size(370, (360 * 1.6666666666666667).toDouble()),
+                              painter: RPSCustomPainter180(),
+                            ),
+                          ),
+                          Container(
+                            height: MediaQuery.of(context).size.height,
+                            width: MediaQuery.of(context).size.width,
+                            child: Column(
+                              children: [
+                                Container(
+                                  child: Column(
+                                    children: <Widget>[
+                                      //HeaderCategory("Exercise", "Exercise"),
+                                      SizedBox(height: 20),
+                                      QuizAssessmentsForm(topics: snapshot.data!.data),
+                                    ],
+                                  ),
+                                ),
+                                Spacer(),
+                                LoginButton(
+                                    onPressed: () async {
+                                      _selfAssessmentBloc = SelfAssessmentBloc();
+                                      var result =
+                                          await _selfAssessmentBloc!.createSelfAssessments(1, [3, 54, 6], "10:00", 3);
 
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SelfAssessmentPage(
-                                      selfAssessment: result,
-                                    )),
-                          );
-                        },
-                        text: AppLocalizations.of(context)!.translate("Start").toString()),
-                    Spacer(),
-                  ],
-                ),
-              ),
-            ],
-          ),
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => SelfAssessmentPage(
+                                                  selfAssessment: result,
+                                                )),
+                                      );
+                                    },
+                                    text: AppLocalizations.of(context)!.translate("Start").toString()),
+                                Spacer(),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+
+                    case Status.ERROR:
+                      return ErrorPopUp(snapshot, refresh);
+                  }
+                }
+                return Container(child: Text("No data"));
+              }),
         ),
       ),
     );
