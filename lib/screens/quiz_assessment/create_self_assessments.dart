@@ -28,6 +28,7 @@ class _CreateSelfAssessmentsState extends State<CreateSelfAssessmentsPage> {
 
   SelfAssessmentBloc? _selfAssessmentBloc;
   SelfAssessmentFormBloc? _topicBloc;
+  late Map<Topic, bool> _selectedTopics;
 
   bool loading = true;
 
@@ -50,6 +51,18 @@ class _CreateSelfAssessmentsState extends State<CreateSelfAssessmentsPage> {
     setState(() {
       _topicBloc!.getTopicsByGroupId(1);
     });
+  }
+
+  void _setSelectedTopics(Map<Topic, bool> map) {
+    _selectedTopics = map;
+  }
+
+  List<int> fetchTopicsId(Map<Topic, bool> topicsMap) {
+    List<int> topicsId = [];
+
+    topicsMap.removeWhere((key, value) => !value);
+    topicsMap.forEach((k, v) => topicsId.add(k.id));
+    return topicsId;
   }
 
   @override
@@ -95,7 +108,8 @@ class _CreateSelfAssessmentsState extends State<CreateSelfAssessmentsPage> {
                                     children: <Widget>[
                                       //HeaderCategory("Exercise", "Exercise"),
                                       SizedBox(height: 20),
-                                      QuizAssessmentsForm(topics: snapshot.data!.data),
+                                      QuizAssessmentsForm(
+                                          topics: snapshot.data!.data, selectedTopicsCallback: _setSelectedTopics),
                                     ],
                                   ),
                                 ),
@@ -103,9 +117,8 @@ class _CreateSelfAssessmentsState extends State<CreateSelfAssessmentsPage> {
                                 LoginButton(
                                     onPressed: () async {
                                       _selfAssessmentBloc = SelfAssessmentBloc();
-                                      var result =
-                                          await _selfAssessmentBloc!.createSelfAssessments(1, [3, 54, 6], "10:00", 3);
-
+                                      var result = await _selfAssessmentBloc!
+                                          .createSelfAssessments(1, fetchTopicsId(_selectedTopics), "10:00", 3);
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(

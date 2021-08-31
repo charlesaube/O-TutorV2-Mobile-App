@@ -5,11 +5,14 @@ import 'package:flutter/material.dart';
 
 import 'orange_slider_container.dart';
 
+typedef void VoidCallback(Map<Topic, bool> map);
+
 class QuizAssessmentsForm extends StatefulWidget {
   List<Topic> topics;
   late Map<Topic, bool> topicsMap;
+  final VoidCallback selectedTopicsCallback;
 
-  QuizAssessmentsForm({required List<Topic> topics}) : this.topics = topics {
+  QuizAssessmentsForm({Key? key, required this.topics, required this.selectedTopicsCallback}) : super(key: key) {
     this.topicsMap = {for (var item in topics) item: false};
   }
 
@@ -109,6 +112,7 @@ class _QuizAssessmentsState extends State<QuizAssessmentsForm> {
                           onChanged: (bool? value) {
                             setState(() {
                               widget.topicsMap[key] = value!;
+                              widget.selectedTopicsCallback(widget.topicsMap);
                             });
                           },
                         );
