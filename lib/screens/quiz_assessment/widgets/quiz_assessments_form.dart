@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'orange_slider_container.dart';
 
-typedef void VoidCallback(Map<Topic, bool> map);
+typedef void VoidCallback(Map<Topic, bool> map, int time, int nbQuestion);
 
 class QuizAssessmentsForm extends StatefulWidget {
   List<Topic> topics;
@@ -25,7 +25,9 @@ class _QuizAssessmentsState extends State<QuizAssessmentsForm> {
   QuizAssessmentsForm get widget => super.widget;
 
   String dropdownValue = 'One';
-  double _currentSliderValue = 1;
+  double _currentTimeSliderValue = 1;
+  double _currentNbQuestionSliderValue = 1;
+
   Map<String, bool> List = {
     'Enum': false,
     'Variable': false,
@@ -112,7 +114,8 @@ class _QuizAssessmentsState extends State<QuizAssessmentsForm> {
                           onChanged: (bool? value) {
                             setState(() {
                               widget.topicsMap[key] = value!;
-                              widget.selectedTopicsCallback(widget.topicsMap);
+                              widget.selectedTopicsCallback(widget.topicsMap, _currentTimeSliderValue.floor(),
+                                  _currentNbQuestionSliderValue.floor());
                             });
                           },
                         );
@@ -120,18 +123,33 @@ class _QuizAssessmentsState extends State<QuizAssessmentsForm> {
                     ),
                   ),
                   OrangeSliderContainer(
-                    currentSliderValue: _currentSliderValue,
+                    currentSliderValue: _currentTimeSliderValue,
                     min: 1,
                     max: 60,
                     division: 60,
                     text: AppLocalizations.of(context)!.translate('Time').toString(),
+                    onChangedCallback: (double value) {
+                      setState(() {
+                        _currentTimeSliderValue = value;
+                        widget.selectedTopicsCallback(
+                            widget.topicsMap, _currentTimeSliderValue.floor(), _currentNbQuestionSliderValue.floor());
+                      });
+                    },
                   ),
                   OrangeSliderContainer(
-                      currentSliderValue: _currentSliderValue,
-                      min: 1,
-                      max: 100,
-                      division: 100,
-                      text: AppLocalizations.of(context)!.translate('Number of Questions').toString()),
+                    currentSliderValue: _currentNbQuestionSliderValue,
+                    min: 1,
+                    max: 100,
+                    division: 100,
+                    text: AppLocalizations.of(context)!.translate('Number of Questions').toString(),
+                    onChangedCallback: (double value) {
+                      setState(() {
+                        _currentNbQuestionSliderValue = value;
+                        widget.selectedTopicsCallback(
+                            widget.topicsMap, _currentTimeSliderValue.floor(), _currentNbQuestionSliderValue.floor());
+                      });
+                    },
+                  ),
                 ],
               ),
             ),

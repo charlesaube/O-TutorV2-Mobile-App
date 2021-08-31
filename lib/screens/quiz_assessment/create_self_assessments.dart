@@ -29,6 +29,9 @@ class _CreateSelfAssessmentsState extends State<CreateSelfAssessmentsPage> {
   SelfAssessmentBloc? _selfAssessmentBloc;
   SelfAssessmentFormBloc? _topicBloc;
   late Map<Topic, bool> _selectedTopics;
+  late List<int> topicsId = [];
+  late String time;
+  late int nbQuestion;
 
   bool loading = true;
 
@@ -53,13 +56,15 @@ class _CreateSelfAssessmentsState extends State<CreateSelfAssessmentsPage> {
     });
   }
 
-  void _setSelectedTopics(Map<Topic, bool> map) {
+  void _setFormValue(Map<Topic, bool> map, int time, int nbQuestion) {
+    this.time = "$time:00";
     _selectedTopics = map;
+    this.nbQuestion = nbQuestion;
+    print("time");
+    print(nbQuestion);
   }
 
   List<int> fetchTopicsId(Map<Topic, bool> topicsMap) {
-    List<int> topicsId = [];
-
     topicsMap.removeWhere((key, value) => !value);
     topicsMap.forEach((k, v) => topicsId.add(k.id));
     return topicsId;
@@ -109,7 +114,7 @@ class _CreateSelfAssessmentsState extends State<CreateSelfAssessmentsPage> {
                                       //HeaderCategory("Exercise", "Exercise"),
                                       SizedBox(height: 20),
                                       QuizAssessmentsForm(
-                                          topics: snapshot.data!.data, selectedTopicsCallback: _setSelectedTopics),
+                                          topics: snapshot.data!.data, selectedTopicsCallback: _setFormValue),
                                     ],
                                   ),
                                 ),
@@ -118,7 +123,7 @@ class _CreateSelfAssessmentsState extends State<CreateSelfAssessmentsPage> {
                                     onPressed: () async {
                                       _selfAssessmentBloc = SelfAssessmentBloc();
                                       var result = await _selfAssessmentBloc!
-                                          .createSelfAssessments(1, fetchTopicsId(_selectedTopics), "10:00", 3);
+                                          .createSelfAssessments(1, fetchTopicsId(_selectedTopics), time, nbQuestion);
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
