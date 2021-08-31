@@ -1,13 +1,12 @@
 import 'package:demo3/custom_painter/bg_circles.dart';
 import 'package:demo3/localization/app_localizations.dart';
-import 'package:demo3/model/self_assessment.dart';
+import 'package:demo3/model/group.dart';
 import 'package:demo3/model/topic.dart';
 import 'package:demo3/network/api_response.dart';
-import 'package:demo3/screens/dashboard_screen/widgets/header.dart';
-import 'package:demo3/screens/quiz/widget/header.dart';
 import 'package:demo3/screens/quiz_assessment/bloc/self_assessment_form_bloc.dart';
 import 'package:demo3/screens/util/error_widget.dart';
 import 'package:demo3/screens/welcome_screen/widgets/buttons.dart';
+import 'package:demo3/secure_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -52,7 +51,14 @@ class _CreateSelfAssessmentsState extends State<CreateSelfAssessmentsPage> {
 
   void refresh() {
     setState(() {
-      _topicBloc!.getTopicsByGroupId(1);
+      _topicBloc!.getTopicsByGroupId(23);
+    });
+  }
+
+  //Méthode callback utiliser dans le form pour mettre a jour la liste de topics selon le cours choisi
+  void updateTopicsList(int groupId) {
+    setState(() {
+      _topicBloc!.getTopicsByGroupId(groupId);
     });
   }
 
@@ -114,7 +120,10 @@ class _CreateSelfAssessmentsState extends State<CreateSelfAssessmentsPage> {
                                       //HeaderCategory("Exercise", "Exercise"),
                                       SizedBox(height: 20),
                                       QuizAssessmentsForm(
-                                          topics: snapshot.data!.data, selectedTopicsCallback: _setFormValue),
+                                          groupList: SecureStorage.getUserGroupsList(),
+                                          topics: snapshot.data!.data,
+                                          selectedCourseChangedCallback: updateTopicsList,
+                                          selectedTopicsCallback: _setFormValue),
                                     ],
                                   ),
                                 ),

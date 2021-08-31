@@ -75,7 +75,7 @@ class _BrowseCoursesState extends State<BrowseCoursesPage> {
                           return SpinKitDoubleBounce(color: Colors.lightBlue.shade100);
                           break;
                         case Status.COMPLETED:
-                          _groups = snapshot.data!.data.groups;
+                          _groups = snapshot.data!.data.groups.map((e) => e.clone()).toList();
 
                           return SingleChildScrollView(
                             child: Column(

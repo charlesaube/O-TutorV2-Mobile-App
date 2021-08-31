@@ -1,3 +1,4 @@
+import 'package:demo3/model/group.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SecureStorage {
@@ -8,6 +9,12 @@ class SecureStorage {
   static const _keyCollegeId = 'collegeId';
   //static String apiUrl = "http://8g9dz.mocklab.io";
   static String apiUrl = "https://o-tutor.com/webservices/";
+
+  static List<Group>? userGroupsList;
+
+  static setUserGroupsList(List<Group> groups) => userGroupsList = groups.map((e) => e.clone()).toList();
+
+  static List<Group> getUserGroupsList() => userGroupsList!.map((e) => e.clone()).toList();
 
   static Future setUsername(String username) async => await _storage.write(key: _keyUsername, value: username);
 

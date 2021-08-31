@@ -23,7 +23,8 @@ class Group {
   int forumUnreadDiscussionsCount;
   List<dynamic>? assignedQuizzes;
 
-  Group(this.id,
+  Group(
+      this.id,
       this.name,
       this.tutorId,
       this.tutorName,
@@ -69,8 +70,7 @@ class Group {
     dynamic topicsLevel2Count = json["topics_level2_count"];
     dynamic topicsLevel3Count = json["topics_level3_count"];
     dynamic forumTotalDiscussionsCount = json["forum_total_discussions_count"];
-    dynamic forumUnreadDiscussionsCount =
-    json["forum_unread_discussions_count"];
+    dynamic forumUnreadDiscussionsCount = json["forum_unread_discussions_count"];
     dynamic assignedQuizzes = [];
     if (json["assigned_quizzes"] != null) {
       dynamic assignedQuizzes = [];
@@ -104,5 +104,35 @@ class Group {
         assignedQuizzes);
   }
 
+  @override
+  String toString() {
+    return "GroupId: ${this.id} description: ${this.description} ";
+  }
 
+  Group clone() {
+    return Group(
+        this.id,
+        this.name,
+        this.tutorId,
+        this.tutorName,
+        this.semesterId,
+        this.description,
+        this.status,
+        this.addedBy,
+        this.isAdmin,
+        this.created,
+        this.modified,
+        this.image,
+        this.courseName,
+        this.openFormativeQuizzesCount,
+        this.totalFormativeQuizzesCount,
+        this.topicsTotalCount,
+        this.topicsLevel0Count,
+        this.topicsLevel1Count,
+        this.topicsLevel2Count,
+        this.topicsLevel3Count,
+        this.forumTotalDiscussionsCount,
+        this.forumUnreadDiscussionsCount,
+        this.assignedQuizzes);
+  }
 }

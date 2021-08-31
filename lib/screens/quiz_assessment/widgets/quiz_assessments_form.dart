@@ -1,4 +1,5 @@
 import 'package:demo3/localization/app_localizations.dart';
+import 'package:demo3/model/group.dart';
 import 'package:demo3/model/topic.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,14 +7,28 @@ import 'package:flutter/material.dart';
 import 'orange_slider_container.dart';
 
 typedef void VoidCallback(Map<Topic, bool> map, int time, int nbQuestion);
+typedef ChangedGroupCallback = Function(int groupId);
 
 class QuizAssessmentsForm extends StatefulWidget {
+  List<Group> groupList;
   List<Topic> topics;
   late Map<Topic, bool> topicsMap;
+  final ChangedGroupCallback selectedCourseChangedCallback;
   final VoidCallback selectedTopicsCallback;
 
-  QuizAssessmentsForm({Key? key, required this.topics, required this.selectedTopicsCallback}) : super(key: key) {
+  QuizAssessmentsForm(
+      {Key? key,
+      required this.groupList,
+      required this.topics,
+      required this.selectedCourseChangedCallback,
+      required this.selectedTopicsCallback})
+      : super(key: key) {
     this.topicsMap = {for (var item in topics) item: false};
+    if (this.groupList.length <= 1) {
+      //Group hardcoder pour tester
+      this.groupList.add(Group(23, "Group 2", "21", "Bobi Joh", "23124", "Programmation orientée object 1", "status",
+          "addedBy", "isAdmin", "created", "modified", "image", "courseName", 1, 1, 3, 1, 1, 1, 0, 0, 0));
+    }
   }
 
   @override
@@ -24,22 +39,14 @@ class _QuizAssessmentsState extends State<QuizAssessmentsForm> {
   @override
   QuizAssessmentsForm get widget => super.widget;
 
-  String dropdownValue = 'One';
+  late int dropdownValue;
   double _currentTimeSliderValue = 1;
   double _currentNbQuestionSliderValue = 1;
-
-  Map<String, bool> List = {
-    'Enum': false,
-    'Variable': false,
-    'Class': false,
-    'Polymophisme': false,
-    'Test unitaire': false,
-  };
 
   @override
   void initState() {
     super.initState();
-    print(widget.topicsMap);
+    dropdownValue = widget.groupList.first.id;
   }
 
   @override
@@ -65,27 +72,33 @@ class _QuizAssessmentsState extends State<QuizAssessmentsForm> {
                     children: <Widget>[
                       Text(AppLocalizations.of(context)!.translate('Choose your course').toString() + ": ",
                           style: TextStyle(fontSize: 15)),
-                      DropdownButton<String>(
-                        value: dropdownValue,
-                        iconSize: 24,
-                        elevation: 16,
-                        style: const TextStyle(color: Colors.deepOrange),
-                        underline: Container(
-                          height: 2,
-                          color: Colors.orangeAccent,
+                      Expanded(
+                        child: DropdownButton<int>(
+                          value: dropdownValue,
+                          isExpanded: true,
+                          iconSize: 24,
+                          elevation: 16,
+                          style: const TextStyle(color: Colors.deepOrange),
+                          underline: Container(
+                            height: 2,
+                            color: Colors.orangeAccent,
+                          ),
+                          onChanged: (int? newValue) {
+                            setState(() {
+                              dropdownValue = newValue!;
+                              widget.selectedCourseChangedCallback(dropdownValue);
+                            });
+                          },
+                          items: widget.groupList.map<DropdownMenuItem<int>>((Group group) {
+                            return DropdownMenuItem<int>(
+                              value: group.id,
+                              child: Text(
+                                group.description,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            );
+                          }).toList(),
                         ),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            dropdownValue = newValue!;
-                          });
-                        },
-                        items:
-                            <String>['One', 'Two', 'Free', 'Algorithme'].map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
                       ),
                     ],
                   ),

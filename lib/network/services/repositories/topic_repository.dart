@@ -16,7 +16,7 @@ class TopicRepository implements ITopicRepository {
     var responseJson;
     try {
       response = await http.get(
-        Uri.parse("http://8g9dz.mocklab.io/group/" + groupId.toString() + "/topics"),
+        Uri.parse("http://8g9dz.mocklab.io/group/23/topics"),
       );
       responseJson = _helper.returnResponse(response);
     } on SocketException catch (e) {

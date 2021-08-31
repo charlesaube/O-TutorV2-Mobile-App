@@ -12,6 +12,7 @@ import 'package:demo3/screens/dashboard_screen/widgets/header.dart';
 import 'package:demo3/custom_painter/bg_circles.dart';
 import 'package:demo3/screens/dashboard_screen/widgets/weekly_goal.dart';
 import 'package:demo3/screens/util/error_widget.dart';
+import 'package:demo3/secure_storage.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -72,6 +73,7 @@ class DashboardSate extends State<DashboardPage> with TickerProviderStateMixin {
                               break;
                             case Status.COMPLETED:
                               user = snapshot.data!.data.user;
+                              SecureStorage.setUserGroupsList(snapshot.data!.data.groups);
                               return SingleChildScrollView(
                                 child: Column(
                                   children: [
