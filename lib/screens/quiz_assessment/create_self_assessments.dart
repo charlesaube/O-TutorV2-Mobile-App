@@ -72,7 +72,7 @@ class _CreateSelfAssessmentsState extends State<CreateSelfAssessmentsPage> {
                 if (snapshot.hasData) {
                   switch (snapshot.data!.status) {
                     case Status.LOADING:
-                      return SpinKitDoubleBounce(color: Colors.lightBlue.shade100);
+                      return SpinKitDoubleBounce(color: Colors.amber);
                       break;
                     case Status.COMPLETED:
                       return Stack(

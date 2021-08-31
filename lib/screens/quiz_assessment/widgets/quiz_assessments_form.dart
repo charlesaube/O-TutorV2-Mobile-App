@@ -108,7 +108,7 @@ class _QuizAssessmentsState extends State<QuizAssessmentsForm> {
                           checkColor: Colors.white,
                           onChanged: (bool? value) {
                             setState(() {
-                              List[key] = value!;
+                              widget.topicsMap[key] = value!;
                             });
                           },
                         );
