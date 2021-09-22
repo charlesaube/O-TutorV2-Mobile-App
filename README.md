@@ -1,6 +1,6 @@
-# demo3
+# O-TutorV2-Mobile-App
 
-A new Flutter project.
+Projet Synthèse. Refonte de l'application mobile pour la plateforme O-Tutor (plateforme de quiz en ligne pour les étudiants de certains cegep). Application Flutter
 
 ## Getting Started
 
